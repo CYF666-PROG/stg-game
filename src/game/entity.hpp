@@ -1,0 +1,52 @@
+#pragma once
+
+#include "../input/keyboard.hpp"
+
+#include <godot_cpp/classes/area2d.hpp>
+#include <godot_cpp/classes/sprite2d.hpp>
+#include <godot_cpp/classes/collision_shape2d.hpp>
+
+#include <string>
+
+
+namespace game
+{
+/// @brief 实体
+class Entity : public godot::Area2D {
+  GDCLASS(Entity, godot::Area2D)
+private:
+protected:
+  /// @brief 已存活帧数
+  double live_frame = 0;
+  input::KeyBoard* keyboard = nullptr;
+  godot::Vector2 spead = godot::Vector2(0, 0);
+public:
+  double hp = 0;
+  virtual void entity_physics_process(double delta);
+  /// @param path 贴图路径
+  /// @param d 碰撞圆半径
+  /// @param scale 缩放
+  void set_texture_coll(
+    const godot::String path, 
+    double d,
+    godot::Vector2 scale = godot::Vector2(1,1)
+  );
+  /// @param tex 贴图
+  /// @param d 碰撞圆半径
+  /// @param scale 缩放
+  void set_texture_coll(
+    const godot::Ref<godot::Texture2D> tex, 
+    double d, 
+    godot::Vector2 scale = godot::Vector2(1,1)
+  );
+
+  void _physics_process(double delta);
+  virtual void _ready() override ;
+  static void _bind_methods();
+  Entity();
+  virtual ~Entity();
+public:
+  virtual void dead();
+};
+
+} // namespace game::entity
