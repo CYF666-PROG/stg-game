@@ -1,6 +1,7 @@
 #pragma once
 
 #include "minion.hpp"
+#include "../../utility/trigger.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
 
@@ -11,6 +12,8 @@ class Imp : public Minion{
 private:
 
 public:
+  void touch_trigger(utility::Trigger* trigger);
+
   static void _bind_methods(){}
   virtual void _on_area_entered(godot::Area2D *other_area) override;
   void entity_physics_process(double delta) override ;

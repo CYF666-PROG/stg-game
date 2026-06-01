@@ -48,10 +48,14 @@ animations = [{
 radius = 6.3927
 
 [sub_resource type="Curve2D" id="Curve2D_462ap"]
+bake_interval = 0.01
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 167.5568, -481.27316, -7.810429, -46.759277, 7.810429, 46.759277, 139.10545, 57.096924, -15.236963, 2.266342, 15.236963, -2.266342, 211.65639, 38.847107, -19.211823, -1.6997564, 19.211823, 1.6997564, 275.67188, 88.12164, -24.511637, -18.69732, 24.511637, 18.69732, 363.87103, 35.197113, 0, 0, 0, 0, 411.52704, 292.5198, 0, 0, 0, 0, 415.79474, 748.7656)
+"points": PackedVector2Array(0, 0, 0, 0, 167.5568, -481.27316, -7.810429, -46.759277, 7.810429, 46.759277, 139.10545, 57.096924, -15.236963, 2.266342, 15.236963, -2.266342, 211.65639, 38.847107, -19.211823, -1.6997564, 19.211823, 1.6997564, 275.67188, 88.12164, -24.511637, -18.69732, 24.511637, 18.69732, 363.87103, 35.197113, 0, 0, 0, 0, 411.52704, 292.5198, 0, 0, 0, 0, 437.4394, 857.7422)
 }
 point_count = 7
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5qbti"]
+radius = 42.294563
 
 [node name="Node2D" type="Node2D" unique_id=1385972863]
 script = SubResource("GDScript_drhme")
@@ -108,7 +112,27 @@ shape = SubResource("CircleShape2D_462ap")
 
 [node name="move" type="Node" parent="." unique_id=1797647836]
 
-[node name="Path2D" type="Path2D" parent="move" unique_id=1866350514]
+[node name="level1" type="Node" parent="move" unique_id=601526389]
+
+[node name="LiftUp" type="Path2D" parent="move/level1" unique_id=1866350514]
 position = Vector2(86, 130)
 scale = Vector2(1.405909, 0.54795015)
 curve = SubResource("Curve2D_462ap")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1089030392]
+position = Vector2(427.98325, 651.4767)
+rotation = 1.6444241
+progress = 1446.6981
+rotates = false
+
+[node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=611677611]
+rotation = -1.6444241
+scale = Vector2(0.71128356, 1.8249835)
+shape = SubResource("CircleShape2D_5qbti")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=822150124]
+count = 10
+direction_count = 20
+process_mode = 4

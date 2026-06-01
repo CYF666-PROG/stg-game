@@ -8,8 +8,8 @@
 
 
 using namespace game::bullet_settings;
+using namespace godot;
 
-void game::bullet_settings::FlowerBullet::_bind_methods(){}
 
 void FlowerBullet::shoot(){
   double base_angle = get_rotation(); // 获取当前花弹的初始角度
@@ -43,7 +43,7 @@ void FlowerBullet::shoot(){
       // 计算当前子弹的均匀速度
       double current_speed = min + (i * speed_step);
       if (count == 1) {
-          current_speed = max;
+        current_speed = max;
       }
       // 将方向乘以速度，得到最终的物理速度向量
       godot::Vector2 velocity_vector = direction * current_speed;
@@ -70,11 +70,79 @@ void game::bullet_settings::FlowerBullet::frame_do(double delta){
   frame += 1;
 }
 
-void game::bullet_settings::FlowerBullet::_ready() {}
 
 FlowerBullet::FlowerBullet(double rad, int direction_count,int count, double max, double min) : rad(rad), direction_count(direction_count),count(count), max(max), min(min) {}
-game::bullet_settings::FlowerBullet::FlowerBullet()
-{
+game::bullet_settings::FlowerBullet::FlowerBullet(){}
+FlowerBullet::~FlowerBullet(){}
+
+void game::bullet_settings::FlowerBullet::_ready() {}
+
+void game::bullet_settings::FlowerBullet::_bind_methods(){
+// ---- [1. Rad (弧度/半径) 绑定] ----
+  // 绑定 Getter 和 Setter 方法
+  godot::ClassDB::bind_method(godot::D_METHOD("get_rad"), &FlowerBullet::get_rad);
+  godot::ClassDB::bind_method(godot::D_METHOD("set_rad", "rad"), &FlowerBullet::set_rad);
+  // 注册为编辑器属性 (C++ double 对应 Variant::FLOAT)
+  godot::ClassDB::add_property("FlowerBullet", godot::PropertyInfo(godot::Variant::FLOAT, "rad"), "set_rad", "get_rad");
+  
+
+  // ---- [2. Count (子弹数量) 绑定] ----
+  godot::ClassDB::bind_method(godot::D_METHOD("get_count"), &FlowerBullet::get_count);
+  godot::ClassDB::bind_method(godot::D_METHOD("set_count", "count"), &FlowerBullet::set_count);
+  // 注册为编辑器属性
+  godot::ClassDB::add_property("FlowerBullet", godot::PropertyInfo(godot::Variant::INT, "count"), "set_count", "get_count");
+
+  // ---- [3. Max (最大值) 绑定] ----
+  godot::ClassDB::bind_method(godot::D_METHOD("get_max"), &FlowerBullet::get_max);
+  godot::ClassDB::bind_method(godot::D_METHOD("set_max", "max"), &FlowerBullet::set_max);
+  // 注册为编辑器属性
+  godot::ClassDB::add_property("FlowerBullet", godot::PropertyInfo(godot::Variant::FLOAT, "max"), "set_max", "get_max");
+
+  // ---- [4. Min (最小值) 绑定] ----
+  godot::ClassDB::bind_method(godot::D_METHOD("get_min"), &FlowerBullet::get_min);
+  godot::ClassDB::bind_method(godot::D_METHOD("set_min", "min"), &FlowerBullet::set_min);
+  // 注册为编辑器属性
+  godot::ClassDB::add_property("FlowerBullet", godot::PropertyInfo(godot::Variant::FLOAT, "min"), "set_min", "get_min");
+
+  // ---- [5. Direction Count (方向总数) 绑定] ----
+  godot::ClassDB::bind_method(godot::D_METHOD("get_direction_count"), &FlowerBullet::get_direction_count);
+  godot::ClassDB::bind_method(godot::D_METHOD("set_direction_count", "direction_count"), &FlowerBullet::set_direction_count);
+  // 注册为编辑器属性
+  godot::ClassDB::add_property("FlowerBullet", godot::PropertyInfo(godot::Variant::INT, "direction_count"), "set_direction_count", "get_direction_count");
 }
-FlowerBullet::~FlowerBullet()
-{}
+double FlowerBullet::get_rad() const {
+  return rad;
+}
+void FlowerBullet::set_rad(double p_rad) {
+  this->rad = p_rad;
+}
+// 2. Count
+int FlowerBullet::get_count() const {
+  return count;
+}
+void FlowerBullet::set_count(int p_count) {
+  this->count = p_count;
+}
+// 3. Max
+double FlowerBullet::get_max() const {
+    return max;
+}
+void FlowerBullet::set_max(double p_max) {
+    this->max = p_max;
+}
+// 4. Min
+double FlowerBullet::get_min() const {
+    return min;
+}
+void FlowerBullet::set_min(double p_min) {
+    this->min = p_min;
+}
+// 5. Direction Count
+int FlowerBullet::get_direction_count() const {
+    return direction_count;
+}
+
+void FlowerBullet::set_direction_count(int p_direction_count)
+{
+  this->direction_count = p_direction_count;
+}
