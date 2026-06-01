@@ -47,6 +47,12 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_462ap"]
 radius = 6.3927
 
+[sub_resource type="Curve2D" id="Curve2D_462ap"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 167.5568, -481.27316, -7.810429, -46.759277, 7.810429, 46.759277, 139.10545, 57.096924, -15.236963, 2.266342, 15.236963, -2.266342, 211.65639, 38.847107, -19.211823, -1.6997564, 19.211823, 1.6997564, 275.67188, 88.12164, -24.511637, -18.69732, 24.511637, 18.69732, 363.87103, 35.197113, 0, 0, 0, 0, 411.52704, 292.5198, 0, 0, 0, 0, 415.79474, 748.7656)
+}
+point_count = 7
+
 [node name="Node2D" type="Node2D" unique_id=1385972863]
 script = SubResource("GDScript_drhme")
 metadata/_edit_vertical_guides_ = [72.0]
@@ -99,3 +105,10 @@ shape = SubResource("CircleShape2D_462ap")
 [node name="LevelManager" type="LevelManager" parent="." unique_id=954268379]
 
 [node name="BulletPool" type="BulletPool" parent="." unique_id=1037854336]
+
+[node name="move" type="Node" parent="." unique_id=1797647836]
+
+[node name="Path2D" type="Path2D" parent="move" unique_id=1866350514]
+position = Vector2(86, 130)
+scale = Vector2(1.405909, 0.54795015)
+curve = SubResource("Curve2D_462ap")

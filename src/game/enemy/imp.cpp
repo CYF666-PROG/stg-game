@@ -43,11 +43,12 @@ void Imp::entity_physics_process(double delta){
 
 void Imp::_ready(){
   game::Enemy::_ready();
+
   set_position(start_position);
   set_texture_coll("res://material/enemy/enemy1-0.png", 15, godot::Vector2(2.1,2.1));
-  game::bullet_settings::FlowerBullet* flower_bullet = memnew(game::bullet_settings::FlowerBullet(0.25, 12, 10, 6, 2));
-  flower_bullet->fire_interval = 0.5;
-  flower_bullet->fire_count = 60 ;
+  game::bullet_settings::FlowerBullet* flower_bullet = memnew(game::bullet_settings::FlowerBullet(0.5, 12, 10, 6, 2));
+  flower_bullet->fire_interval = 0.2;
+  flower_bullet->fire_count = 100 ;
   add_child(flower_bullet);
 }
 

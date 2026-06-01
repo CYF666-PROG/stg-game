@@ -19,7 +19,7 @@ bool game::Bullet::hit_wall(){
   if (
     start_position.x > 1000 ||
     start_position.x < 0 ||
-    start_position.y > 1200 ||
+    start_position.y > 1100 ||
     start_position.y < 0
   ){
     return true;

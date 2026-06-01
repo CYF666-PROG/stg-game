@@ -12,7 +12,7 @@ class BulletPool : public godot::Node2D{
 private:
   std::vector<bullet::RoundBullet*> bullets;
   int _current_size = 0;
-  const int INITIAL_POOL_SIZE = 5000; // 初始预载入数量
+  const int INITIAL_POOL_SIZE = 500; // 初始预载入数量
   inline static BulletPool* bullet_pool = nullptr;
 protected:
   static void _bind_methods();

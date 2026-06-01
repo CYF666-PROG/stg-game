@@ -5,19 +5,24 @@ using namespace game;
 
 bullet::RoundBullet *game::BulletPool::get_bullet(){
   // 1. 寻找池中目前处于闲置状态的子弹
-  for (bullet::RoundBullet* bullet : bullets) {
-    if (!bullet->is_visible) { // 判断是否闲置
-      bullet->is_visible = true; // 标记为正在使用
-      godot::UtilityFunctions::print("get_bullet");
-      return bullet;
+  for (int i = 0 ; i < bullets.size() ; ++i) {
+    if (!bullets[i]->is_visible) { // 判断是否闲置
+      bullets[i]->is_visible = true; // 标记为正在使用
+      return bullets[i];
     }
   }
   // 2. 如果池子满了，动态扩容
+  bullet::RoundBullet* new_bullet2;
+  for (int i = 0; i < 100; i++){
+    bullet::RoundBullet* new_bullet = memnew(bullet::RoundBullet);
+    // 先添加会优化很多
+    add_child(new_bullet);
+    new_bullet->deactivate();
+    bullets.push_back(new_bullet);
+    new_bullet2 = new_bullet;
+  }
   godot::UtilityFunctions::print("Bullet pool exhausted! Expanding...");
-  bullet::RoundBullet* new_bullet = memnew(bullet::RoundBullet);
-  new_bullet->deactivate();
-  bullets.push_back(new_bullet);
-  return new_bullet;
+  return new_bullet2;
 }
 void game::BulletPool::_bind_methods(){}
 
@@ -42,6 +47,8 @@ void game::BulletPool::_ready(){
   // 预先实例化一定数量的子弹
   for (int i = 0; i < INITIAL_POOL_SIZE; ++i) {
     auto* bullet = memnew(bullet::RoundBullet);
+    // 先添加会优化很多
+    add_child(bullet);
     bullet->deactivate(); // 默认关闭
     bullets.push_back(bullet);
   }
