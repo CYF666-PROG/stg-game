@@ -44,3 +44,13 @@ void utility::Trigger::_bind_methods(){
   // 打包注册为 Godot 属性
   ClassDB::add_property("Trigger", PropertyInfo(Variant::FLOAT, "fire_rate"), "set_fire_rate", "get_fire_rate");
 }
+
+void Trigger::_ready() {
+  // 清除所有碰撞层
+  set_collision_layer(0);
+  set_collision_mask(0);
+  // 设置自身为第5层
+  set_collision_layer_value(5, true);
+  // 检测第3层
+  set_collision_mask_value(3, true);
+}

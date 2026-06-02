@@ -8,6 +8,7 @@
 #include <map>
 
 namespace utility{
+  // 变速箱
 class Gearbox : public godot::Area2D{
   GDCLASS(Gearbox, godot::Area2D)
 private:

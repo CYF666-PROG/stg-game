@@ -69,7 +69,16 @@ void game::Player::_bind_methods(){
   ADD_PROPERTY(godot::PropertyInfo(godot::Variant::OBJECT, "bullet_texture", godot::PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_bullet_texture", "get_bullet_texture");
 }
 
-void game::Player::_ready(){}
+void game::Player::_ready(){
+  // 清除所有碰撞层
+  set_collision_layer(0);
+  set_collision_mask(0);
+  // 设置自身为第一层
+  set_collision_layer_value(1, true);
+  // 检测第四层
+  set_collision_mask_value(1, true);
+  set_collision_mask_value(6, true);
+}
 
 game::Player::Player(){
   godot::UtilityFunctions::print("Player::Player()",keyboard);

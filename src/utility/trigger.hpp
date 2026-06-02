@@ -5,6 +5,7 @@
 
 
 namespace utility{
+  // 弹幕触发器
 class Trigger : public godot::Area2D{
   GDCLASS(Trigger, godot::Area2D)
 private:
@@ -26,6 +27,7 @@ public:
   void set_fire_rate(double fire_rate);
   void set_emitter_typ(EmitterTYP emitter_typ);
   static void _bind_methods();
+  void _ready() override ;
   Trigger();
   ~Trigger();
 };

@@ -126,6 +126,13 @@ void Gearbox::set_time_taken(const double p_distance) { time_taken = p_distance;
 double Gearbox::get_time_taken() const { return time_taken; }
 
 void utility::Gearbox::_ready(){
+  // 清除所有碰撞层
+  set_collision_layer(0);
+  set_collision_mask(0);
+  // 设置自身为第5层
+  set_collision_layer_value(5, true);
+  // 检测第3层
+  set_collision_mask_value(3, true);
   // 连接内置信号 "area_entered" 到本对象的指定函数
   connect("area_entered", godot::Callable(this, "_on_area_entered"));
 }

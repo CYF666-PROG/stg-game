@@ -7,6 +7,13 @@ void game::bullet::PlayerBullet::_bind_methods(){
 }
 
 void game::bullet::PlayerBullet::_ready(){
+  // 清除所有碰撞层
+  set_collision_layer(0);
+  set_collision_mask(0);
+  // 设置自身为第四层
+  set_collision_layer_value(2, true);
+  // 检测第一层
+  set_collision_mask_value(3, true);
   godot::UtilityFunctions::print("PlayerBullet::_ready()");
   set_texture_coll("res://material/player/p1/rm-hb-0.png", 6);
 }

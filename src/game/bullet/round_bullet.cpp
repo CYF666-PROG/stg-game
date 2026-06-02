@@ -55,7 +55,15 @@ void game::bullet::RoundBullet::dead(){
 }
 
 void game::bullet::RoundBullet::_ready(){
-  set_texture_coll("res://material/bullet/bul1-0.png", 2);
+  // 清除所有碰撞层
+  set_collision_layer(0);
+  set_collision_mask(0);
+  // 设置自身为第四层
+  set_collision_layer_value(4, true);
+  // 检测第一层
+  set_collision_mask_value(1, true);
+
+  set_texture_coll("res://material/bullet/bul1-0.png", 8);
 }
 
 game::bullet::RoundBullet::RoundBullet(){

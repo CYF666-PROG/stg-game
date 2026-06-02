@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://b35bipt1yp8rc"]
 
-[ext_resource type="Texture2D" uid="uid://eg1nsimkx1u5" path="res://material/player/p1/rm-hb-0.png" id="1_462ap"]
 [ext_resource type="Shader" uid="uid://cunb1p48nf1tc" path="res://material/player/p1/node_2d.gdshader" id="2_462ap"]
 [ext_resource type="Texture2D" uid="uid://c6sf8unhju7u6" path="res://material/player/p1/rm1-0.png" id="2_guiot"]
 [ext_resource type="Texture2D" uid="uid://dxw3ewtcjm4ty" path="res://material/player/p1/rm2-0.png" id="3_tytcy"]
@@ -71,33 +70,41 @@ metadata/_edit_horizontal_guides_ = [36.0, 1044.0, 1024.0, 919.0]
 [node name="Wall" type="Node2D" parent="." unique_id=1728563001]
 
 [node name="Wall_left" type="StaticBody2D" parent="Wall" unique_id=1341216460]
+collision_layer = 32
+collision_mask = 0
 
 [node name="Wall_left" type="CollisionShape2D" parent="Wall/Wall_left" unique_id=31628354]
 position = Vector2(63.125, 540)
 shape = SubResource("RectangleShape2D_462ap")
 
 [node name="Wall_right" type="StaticBody2D" parent="Wall" unique_id=610517460]
+collision_layer = 32
+collision_mask = 0
 
 [node name="Wall_right" type="CollisionShape2D" parent="Wall/Wall_right" unique_id=1537857604]
 position = Vector2(944.75, 540)
 shape = SubResource("RectangleShape2D_5qbti")
 
 [node name="Wall_up" type="StaticBody2D" parent="Wall" unique_id=1135039448]
+collision_layer = 32
+collision_mask = 0
 
 [node name="Wall_up" type="CollisionShape2D" parent="Wall/Wall_up" unique_id=413685184]
 position = Vector2(504, 1052.5)
 shape = SubResource("RectangleShape2D_gvr3l")
 
 [node name="Wall_dow" type="StaticBody2D" parent="Wall" unique_id=1113499453]
+collision_layer = 32
+collision_mask = 0
 
 [node name="Wall_dow" type="CollisionShape2D" parent="Wall/Wall_dow" unique_id=1455672413]
 position = Vector2(504, 18)
 shape = SubResource("RectangleShape2D_k01lb")
 
 [node name="Player" type="Player" parent="." unique_id=1500520606]
-bullet_texture = ExtResource("1_462ap")
 position = Vector2(504, 984)
 scale = Vector2(1.095, 1.095)
+collision_mask = 33
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=990967266]
 material = SubResource("ShaderMaterial_5qbti")
@@ -112,9 +119,13 @@ frame_progress = 0.9715704
 position = Vector2(0, -9.536743e-07)
 shape = SubResource("CircleShape2D_462ap")
 
-[node name="BulletPool" type="BulletPool" parent="." unique_id=1037854336]
+[node name="BulletPool" type="Node2D" parent="." unique_id=1037854336]
 
 [node name="LevelManager" type="LevelManager" parent="." unique_id=954268379]
+
+[node name="NewBulletPool" type="Node2D" parent="." unique_id=1569809395]
+
+[node name="BulletPool2" type="BulletPool" parent="." unique_id=817223954]
 
 [node name="move" type="Node" parent="." unique_id=1797647836]
 
@@ -131,7 +142,9 @@ rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D5" unique_id=2111494106]
 target_speed = 200.0
-time_taken = 2.0
+time_taken = 1.0
+collision_layer = 16
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D5/Gearbox" unique_id=306005960]
 shape = SubResource("CircleShape2D_5qbti")
@@ -144,6 +157,8 @@ rotates = false
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D2" unique_id=1300554624]
 target_speed = 30.0
 time_taken = 2.0
+collision_layer = 16
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D2/Gearbox" unique_id=426645120]
 shape = SubResource("CircleShape2D_5qbti")
@@ -154,14 +169,17 @@ progress = 621.4522
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
-count = 20
-fire_rate = 0.05
+count = 50
+fire_rate = 0.02
+collision_layer = 16
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=611677611]
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=822150124]
 count = 1
+direction_count = 18
 process_mode = 4
 
 [node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=2066262182]
@@ -172,6 +190,8 @@ rotates = false
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D3" unique_id=1247720010]
 target_speed = 400.0
 time_taken = 1.0
+collision_layer = 16
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D3/Gearbox" unique_id=56358417]
 shape = SubResource("CircleShape2D_5qbti")
@@ -182,7 +202,8 @@ progress = 1086.8566
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D4" unique_id=1914827745]
-time_taken = 1.0
+collision_layer = 16
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D4/Gearbox" unique_id=1866062999]
 shape = SubResource("CircleShape2D_5qbti")
@@ -197,7 +218,8 @@ progress = 295.3277
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/RightUp/PathFollow2D2" unique_id=585733213]
-target_speed = 30.0
+collision_layer = 16
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D2/Gearbox" unique_id=1974596587]
 shape = SubResource("CircleShape2D_5qbti")
@@ -209,13 +231,16 @@ rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/RightUp/PathFollow2D" unique_id=1369274462]
 count = 10
-fire_rate = 0.1
+fire_rate = 0.2
+collision_layer = 16
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1555069584]
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1680482171]
-count = 1
+count = 10
+direction_count = 16
 process_mode = 4
 
 [node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/RightUp" unique_id=791346286]
@@ -224,7 +249,8 @@ progress = 387.47382
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/RightUp/PathFollow2D3" unique_id=1526009931]
-target_speed = 200.0
+collision_layer = 16
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D3/Gearbox" unique_id=1692556614]
 shape = SubResource("CircleShape2D_5qbti")

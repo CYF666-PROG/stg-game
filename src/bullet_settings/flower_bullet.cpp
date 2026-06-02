@@ -5,10 +5,12 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
 #include <godot_cpp/classes/circle_shape2d.hpp>
+#include <godot_cpp/classes/resource_loader.hpp>
 
 
 using namespace game::bullet_settings;
 using namespace godot;
+using namespace game ;
 
 
 void FlowerBullet::shoot(){
@@ -47,15 +49,46 @@ void FlowerBullet::shoot(){
       }
       // 将方向乘以速度，得到最终的物理速度向量
       godot::Vector2 velocity_vector = direction * current_speed;
-      auto* pool = game::BulletPool::get_pool();
-      if (!pool) return;
-      auto* sub_bullet = pool->get_bullet();
-      if (!sub_bullet) return;
-      auto move = std::make_unique<utility::Move>(velocity_vector);
-      move->start_time = 0;
-      move->end_time = 1000;
-      sub_bullet->moves.push_back(std::move(move));
-      sub_bullet->init(get_global_position());
+      // auto* pool = game::BulletPool::get_pool();
+      // if (!pool) return;
+      // auto* sub_bullet = pool->get_bullet();
+      // if (!sub_bullet) return;
+      // auto move = std::make_unique<utility::Move>(velocity_vector);
+      // move->start_time = 0;
+      // move->end_time = 1000;
+      // sub_bullet->moves.push_back(std::move(move));
+      // sub_bullet->init(get_global_position());
+      auto *new_pool = BulletPool::get_pool();
+      if (!new_pool) {
+        return;
+      }
+      Vector2 spawn_pos = get_global_position(); // 玩家当前位置
+      Vector2 direction(0, -1);                  // 向上发射
+      float speed = 100;                      // 子弹速度
+      auto linear_behavior = [velocity_vector, speed](const BulletPool::Bullet& b, float delta) -> Vector2 {
+        return velocity_vector * speed; 
+      };
+
+      // 1. 获取资源加载器的单例
+      godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
+      // 2. 直接加载资源并进行安全强转
+      godot::Ref<godot::Texture2D> texture = loader->load("res://material/bullet/bul1-0.png");
+      // 3. 检查是否加载成功
+      if (!texture.is_valid()) {
+        godot::UtilityFunctions::print("res://material/bullet/bul1-0.png", " load erro");
+        return;
+      }
+
+      // 压入弹幕池
+      new_pool->spawn(
+        spawn_pos,       // 发射起点
+        linear_behavior, // 传入你的函数指针（轨迹算法）
+        0.0f,            // 初始旋转角
+        texture,  // 贴图
+        1, 1,            // 动画切帧 (1x1 代表静态单图)
+        6.0f,            // 碰撞半径 (pixel)
+        0.0f             // 动画播放速度
+      );
     }
   }
 }

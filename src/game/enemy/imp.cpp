@@ -14,7 +14,6 @@ using namespace game::enemy;
 void Imp::touch_trigger(utility::Trigger* trigger){
   ///确保是自己轨迹上的触发器
   if (get_parent()->get_parent() != trigger->get_parent()->get_parent()) return;
-  
   if (!trigger) return;
   game::BulletManager* target_shape = nullptr;
   // 1. 获取所有的子节点列表
