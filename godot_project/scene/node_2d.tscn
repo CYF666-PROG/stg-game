@@ -55,11 +55,11 @@ _data = {
 point_count = 6
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qbti"]
-radius = 16.944704
+radius = 6.442975
 
 [sub_resource type="Curve2D" id="Curve2D_5qbti"]
 _data = {
-"points": PackedVector2Array(-121.45454, -98.181816, 121.45454, 98.181816, 778, -164, 52.42483, -2.562666, -52.42483, 2.562666, 748, 152, 38.795162, 1.6392322, -38.795162, -1.6392322, 632, 147, 46.444912, -8.196161, -46.444912, 8.196161, 526, 161, 55.311146, -5.374959, -55.311146, 5.374959, 384, 158, 23.875988, -18.966202, -23.875988, 18.966202, 304, 186, 0, 0, 0, 0, 116, 532)
+"points": PackedVector2Array(-121.45454, -98.181816, 121.45454, 98.181816, 778, -164, 52.42483, -2.562666, -52.42483, 2.562666, 748, 152, 38.795162, 1.6392322, -38.795162, -1.6392322, 632, 147, 46.444912, -8.196161, -46.444912, 8.196161, 526, 161, 55.311146, -5.374959, -55.311146, 5.374959, 384, 158, 23.875988, -18.966202, -23.875988, 18.966202, 262, 240, 0, 0, 0, 0, 116, 532)
 }
 point_count = 7
 
@@ -130,7 +130,8 @@ progress = 696.53827
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
-count = 1
+count = 2
+fire_rate = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=611677611]
 shape = SubResource("CircleShape2D_5qbti")
@@ -150,6 +151,7 @@ rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/RightUp/PathFollow2D" unique_id=1369274462]
 count = 1
+fire_rate = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1555069584]
 shape = SubResource("CircleShape2D_5qbti")

@@ -9,9 +9,7 @@ void game::Enemy::_bind_methods(){
   godot::ClassDB::bind_method(godot::D_METHOD("_on_area_entered", "other_area"), &game::Enemy::_on_area_entered);
 }
 
-void game::Enemy::_on_area_entered(godot::Area2D *other_area)
-{
-}
+void game::Enemy::_on_area_entered(godot::Area2D *other_area){}
 
 void game::Enemy::_ready(){
   // 连接内置信号 "area_entered" 到本对象的指定函数
