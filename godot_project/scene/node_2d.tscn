@@ -50,12 +50,18 @@ radius = 6.3927
 [sub_resource type="Curve2D" id="Curve2D_462ap"]
 bake_interval = 0.01
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 167.5568, -481.27316, -7.810429, -46.759277, 7.810429, 46.759277, 139.10545, 57.096924, -15.236963, 2.266342, 15.236963, -2.266342, 211.65639, 38.847107, -19.211823, -1.6997564, 19.211823, 1.6997564, 275.67188, 88.12164, -24.511637, -18.69732, 24.511637, 18.69732, 363.87103, 35.197113, 0, 0, 0, 0, 411.52704, 292.5198, 0, 0, 0, 0, 437.4394, 857.7422)
+"points": PackedVector2Array(0, 0, 0, 0, 148.65826, -394.1964, -52.55134, -27.407883, 52.55134, 27.407883, 107.53259, 107.67267, -90.463554, 2.9861271, 90.463554, -2.9861271, 241, 95, -60.176453, 1.6853559, 60.176453, -1.6853559, 374.70013, 111.40141, -84.74095, -2.7948084, 84.74095, 2.7948084, 491, 95, 0, 0, 0, 0, 647, 434)
 }
-point_count = 7
+point_count = 6
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qbti"]
-radius = 42.294563
+radius = 16.944704
+
+[sub_resource type="Curve2D" id="Curve2D_5qbti"]
+_data = {
+"points": PackedVector2Array(-121.45454, -98.181816, 121.45454, 98.181816, 778, -164, 52.42483, -2.562666, -52.42483, 2.562666, 748, 152, 38.795162, 1.6392322, -38.795162, -1.6392322, 632, 147, 46.444912, -8.196161, -46.444912, 8.196161, 526, 161, 55.311146, -5.374959, -55.311146, 5.374959, 384, 158, 23.875988, -18.966202, -23.875988, 18.966202, 304, 186, 0, 0, 0, 0, 116, 532)
+}
+point_count = 7
 
 [node name="Node2D" type="Node2D" unique_id=1385972863]
 script = SubResource("GDScript_drhme")
@@ -106,33 +112,48 @@ frame_progress = 0.9715704
 position = Vector2(0, -9.536743e-07)
 shape = SubResource("CircleShape2D_462ap")
 
-[node name="LevelManager" type="LevelManager" parent="." unique_id=954268379]
-
 [node name="BulletPool" type="BulletPool" parent="." unique_id=1037854336]
+
+[node name="LevelManager" type="LevelManager" parent="." unique_id=954268379]
 
 [node name="move" type="Node" parent="." unique_id=1797647836]
 
 [node name="level1" type="Node" parent="move" unique_id=601526389]
 
 [node name="LiftUp" type="Path2D" parent="move/level1" unique_id=1866350514]
-position = Vector2(86, 130)
-scale = Vector2(1.405909, 0.54795015)
+position = Vector2(99, 120)
 curve = SubResource("Curve2D_462ap")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1089030392]
-position = Vector2(427.98325, 651.4767)
-rotation = 1.6444241
-progress = 1446.6981
+position = Vector2(288.81088, 96.20926)
+progress = 696.53827
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
+count = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=611677611]
-rotation = -1.6444241
-scale = Vector2(0.71128356, 1.8249835)
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=822150124]
 count = 10
-direction_count = 20
+process_mode = 4
+
+[node name="RightUp" type="Path2D" parent="move/level1" unique_id=1479456596]
+position = Vector2(0, -3)
+curve = SubResource("Curve2D_5qbti")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="move/level1/RightUp" unique_id=596701853]
+position = Vector2(724.8669, 152.63037)
+progress = 387.15225
+rotates = false
+
+[node name="Trigger" type="Trigger" parent="move/level1/RightUp/PathFollow2D" unique_id=1369274462]
+count = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1555069584]
+shape = SubResource("CircleShape2D_5qbti")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1680482171]
+count = 10
 process_mode = 4

@@ -55,7 +55,6 @@ void FlowerBullet::shoot(){
       move->start_time = 0;
       move->end_time = 1000;
       sub_bullet->moves.push_back(std::move(move));
-      sub_bullet->start_position = get_global_position();
       sub_bullet->init(get_global_position());
     }
   }

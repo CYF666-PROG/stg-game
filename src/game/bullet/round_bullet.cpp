@@ -8,6 +8,7 @@ void game::bullet::RoundBullet::_bind_methods()
 
 void game::bullet::RoundBullet::init(godot::Vector2 p_start_pos){
   this->start_position = p_start_pos;
+  set_position(start_position);
   // 2. 激活节点底层处理
   this->set_process(true);
   this->set_physics_process(true);
@@ -60,6 +61,5 @@ void game::bullet::RoundBullet::_ready(){
 game::bullet::RoundBullet::RoundBullet(){
 }
 
-game::bullet::RoundBullet::~RoundBullet()
-{
+game::bullet::RoundBullet::~RoundBullet(){
 }

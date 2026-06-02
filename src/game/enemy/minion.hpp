@@ -5,6 +5,7 @@
 
 #include <godot_cpp/variant/vector2.hpp>
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/classes/path_follow2d.hpp>
 
 #include <vector>
 #include <memory>
@@ -17,6 +18,9 @@ private:
 protected:
   static void _bind_methods(){}
 public:
+  godot::PathFollow2D* path_follow = nullptr;
+  /// @brief 每秒多少像素
+  double speed = 200;
   /// @brief 出生坐标 之后会动态修改作为当前坐标
   godot::Vector2 start_position{20,20};
   /// @brief 轨迹对象数组

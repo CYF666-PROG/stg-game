@@ -33,6 +33,9 @@ void Imp::touch_trigger(utility::Trigger* trigger){
   if (!target_shape) return ;
   game::BulletManager* new_bull_emitter = godot::Object::cast_to<game::BulletManager>(target_shape->duplicate());
   if(!new_bull_emitter) return;
+  // 设置发射次数和间隔
+  new_bull_emitter->fire_count = trigger->count;
+  new_bull_emitter->fire_interval = trigger->fire_rate;
   //开启发射器
   new_bull_emitter->set_process_mode(godot::Node::PROCESS_MODE_INHERIT);
   new_bull_emitter->set_process(true);
@@ -62,7 +65,6 @@ void Imp::_on_area_entered(godot::Area2D *other_area){
 
 void Imp::entity_physics_process(double delta){
   set_position(start_position);
-  bool to_dead = true; // 大于所有end则dead;
   for (int i = 0; i < moves.size(); i++){
     if (
       moves[i] &&
@@ -71,12 +73,13 @@ void Imp::entity_physics_process(double delta){
     ){
       moves[i]->move(start_position, delta);
     }
-    if (live_frame < moves[i]->end_time*60){
-      to_dead = false;
-    }
   }
-  if (to_dead) dead();
-  
+  // 获取当前的像素进度
+  double current_progress = path_follow->get_progress();
+  // 加上这一帧应该移动的距离（速度 * 时间）
+  current_progress += speed/60;
+  // 重新赋值给 PathFollow2D，它会自动计算并更新子节点的位置
+  path_follow->set_progress(current_progress);
   live_frame += 1 ;
 }
 
