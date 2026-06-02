@@ -12,6 +12,7 @@
 #include "game/bullet/round_bullet.hpp"
 #include "game/bullet_pool.hpp"
 #include "utility/trigger.hpp"
+#include "utility/gearbox.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -36,6 +37,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::bullet::RoundBullet);
   GDREGISTER_CLASS(game::BulletPool);
   GDREGISTER_CLASS(utility::Trigger);
+  GDREGISTER_CLASS(utility::Gearbox);
 
   memnew(input::KeyBoard);
   Engine::get_singleton()->register_singleton(

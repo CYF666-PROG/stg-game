@@ -50,18 +50,18 @@ radius = 6.3927
 [sub_resource type="Curve2D" id="Curve2D_462ap"]
 bake_interval = 0.01
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 148.65826, -394.1964, -52.55134, -27.407883, 52.55134, 27.407883, 107.53259, 107.67267, -90.463554, 2.9861271, 90.463554, -2.9861271, 241, 95, -60.176453, 1.6853559, 60.176453, -1.6853559, 374.70013, 111.40141, -84.74095, -2.7948084, 84.74095, 2.7948084, 491, 95, 0, 0, 0, 0, 647, 434)
+"points": PackedVector2Array(0, 0, 0, 0, 148.65826, -394.1964, -52.55134, -27.407883, 52.55134, 27.407883, 107.53259, 107.67267, -90.463554, 2.9861271, 90.463554, -2.9861271, 241, 95, 0, 0, 0, 0, 664, 99, -61.599995, -58.399998, 61.599995, 58.399998, 876, 153)
 }
-point_count = 6
+point_count = 5
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qbti"]
-radius = 6.442975
+radius = 12.583495
 
 [sub_resource type="Curve2D" id="Curve2D_5qbti"]
 _data = {
-"points": PackedVector2Array(-121.45454, -98.181816, 121.45454, 98.181816, 778, -164, 52.42483, -2.562666, -52.42483, 2.562666, 748, 152, 38.795162, 1.6392322, -38.795162, -1.6392322, 632, 147, 46.444912, -8.196161, -46.444912, 8.196161, 526, 161, 55.311146, -5.374959, -55.311146, 5.374959, 384, 158, 23.875988, -18.966202, -23.875988, 18.966202, 262, 240, 0, 0, 0, 0, 116, 532)
+"points": PackedVector2Array(-121.45454, -98.181816, 121.45454, 98.181816, 778, -164, 52.42483, -2.562666, -52.42483, 2.562666, 748, 152, 38.795162, 1.6392322, -38.795162, -1.6392322, 632, 147, 46.444912, -8.196161, -46.444912, 8.196161, 526, 161, 55.311146, -5.374959, -55.311146, 5.374959, 384, 158, 19.7034, -61.983627, -19.7034, 61.983627, 252, 239, 75.28, -122.880005, -75.28, 122.880005, 198, 464, 0, 0, 0, 0, -4, 587)
 }
-point_count = 7
+point_count = 8
 
 [node name="Node2D" type="Node2D" unique_id=1385972863]
 script = SubResource("GDScript_drhme")
@@ -124,38 +124,107 @@ shape = SubResource("CircleShape2D_462ap")
 position = Vector2(99, 120)
 curve = SubResource("Curve2D_462ap")
 
+[node name="PathFollow2D5" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1502221927]
+position = Vector2(133.8048, -313.7616)
+progress = 81.795876
+rotates = false
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D5" unique_id=2111494106]
+target_speed = 200.0
+time_taken = 2.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D5/Gearbox" unique_id=306005960]
+shape = SubResource("CircleShape2D_5qbti")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1558169163]
+position = Vector2(91.9795, 55.0055)
+progress = 453.4643
+rotates = false
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D2" unique_id=1300554624]
+target_speed = 30.0
+time_taken = 2.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D2/Gearbox" unique_id=426645120]
+shape = SubResource("CircleShape2D_5qbti")
+
 [node name="PathFollow2D" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1089030392]
-position = Vector2(288.81088, 96.20926)
-progress = 696.53827
+position = Vector2(213.87929, 97.18346)
+progress = 621.4522
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
-count = 2
-fire_rate = 2
+count = 20
+fire_rate = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=611677611]
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=822150124]
-count = 10
+count = 1
 process_mode = 4
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=2066262182]
+position = Vector2(209.41759, 97.83382)
+progress = 616.9433
+rotates = false
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D3" unique_id=1247720010]
+target_speed = 400.0
+time_taken = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D3/Gearbox" unique_id=56358417]
+shape = SubResource("CircleShape2D_5qbti")
+
+[node name="PathFollow2D4" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1186781578]
+position = Vector2(679.13605, 98.99221)
+progress = 1086.8566
+rotates = false
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D4" unique_id=1914827745]
+time_taken = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D4/Gearbox" unique_id=1866062999]
+shape = SubResource("CircleShape2D_5qbti")
 
 [node name="RightUp" type="Path2D" parent="move/level1" unique_id=1479456596]
 position = Vector2(0, -3)
 curve = SubResource("Curve2D_5qbti")
 
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level1/RightUp" unique_id=1282914495]
+position = Vector2(797.1312, 107.06766)
+progress = 295.3277
+rotates = false
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/RightUp/PathFollow2D2" unique_id=585733213]
+target_speed = 30.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D2/Gearbox" unique_id=1974596587]
+shape = SubResource("CircleShape2D_5qbti")
+
 [node name="PathFollow2D" type="PathFollow2D" parent="move/level1/RightUp" unique_id=596701853]
-position = Vector2(724.8669, 152.63037)
-progress = 387.15225
+position = Vector2(724.54193, 152.63159)
+progress = 387.47382
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/RightUp/PathFollow2D" unique_id=1369274462]
-count = 1
-fire_rate = 1
+count = 10
+fire_rate = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1555069584]
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1680482171]
-count = 10
+count = 1
 process_mode = 4
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/RightUp" unique_id=791346286]
+position = Vector2(724.54193, 152.63159)
+progress = 387.47382
+rotates = false
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/RightUp/PathFollow2D3" unique_id=1526009931]
+target_speed = 200.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D3/Gearbox" unique_id=1692556614]
+shape = SubResource("CircleShape2D_5qbti")
