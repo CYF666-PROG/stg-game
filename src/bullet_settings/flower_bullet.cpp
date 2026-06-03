@@ -7,6 +7,7 @@
 #include <godot_cpp/classes/circle_shape2d.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/atlas_texture.hpp>
+#include <godot_cpp/classes/sprite2d.hpp>
 
 
 using namespace game::bullet_settings;
@@ -75,7 +76,7 @@ void FlowerBullet::shoot(){
       // 1. 获取资源加载器的单例
       godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
       // 2. 直接加载资源并进行安全强转
-      godot::Ref<AtlasTexture> texture = loader->load("res://material/bullet/ellipse/pink.tres");
+      godot::Ref<SpriteFrames> texture = loader->load("res://material/bullet/fire/1.tres");
       // 3. 检查是否加载成功
       if (!texture.is_valid()) {
         godot::UtilityFunctions::print("res://material/bullet/ellipse/pink.tres", " load erro");
@@ -84,13 +85,12 @@ void FlowerBullet::shoot(){
 
       // 压入弹幕池
       new_pool->spawn(
-        spawn_pos,       // 发射起点
-        linear_behavior, // 传入你的函数指针（轨迹算法）
-        1.5707,            // 初始旋转角
-        texture,  // 贴图
-        1, 1,            // 动画切帧 (1x1 代表静态单图)
-        6.0f,            // 碰撞半径 (pixel)
-        0.0f             // 动画播放速度
+        spawn_pos,     
+        linear_behavior, 
+        1.5707,         
+        texture,
+        "normal",     
+        6.0f             
       );
     }
   }

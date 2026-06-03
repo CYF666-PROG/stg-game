@@ -2,74 +2,75 @@
 
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/classes/texture2d.hpp>
+#include <godot_cpp/classes/sprite_frames.hpp> // 引入 SpriteFrames
 #include <godot_cpp/variant/rid.hpp>
 #include <godot_cpp/variant/rect2.hpp>
-
+#include <godot_cpp/variant/string_name.hpp>
 
 #include <vector>
-#include <functional> // 引入现代 C++ 标准函数库
+#include <functional>
 
-namespace game{
+namespace game {
 
 struct BulletConfig {
-  godot::Ref<godot::Texture2D> texture;
-  int h_frames = 1;
-  int v_frames = 1;
-  float radius = 4.0f;
-  float anim_speed = 10.0f;
-  bool is_atlas = false;
-  /// @brief 矩形 包含左上角坐标，长宽
-  godot::Rect2 atlas_region = godot::Rect2();
+    godot::Ref<godot::SpriteFrames> sprite_frames;
+    godot::StringName anim_name = "default";
+    float radius = 4.0f;
+    
+    // 以下缓存字段用于避免每帧去重构的 SpriteFrames 里查找，提升性能
+    int total_frames = 1;
+    float anim_speed = 10.0f;
+    bool loop = true;
 };
 
 class BulletPool : public godot::Node2D {
-  GDCLASS(BulletPool, Node2D)
+    GDCLASS(BulletPool, Node2D)
 public:
-  struct Bullet {
-    godot::RID area_rid;
-    godot::RID shape_rid;
-    godot::RID canvas_item_rid;
-    
-    godot::Vector2 position;
-    /// @brief 速度
-    godot::Vector2 velocity;
-    /// @brief 初始速度
-    godot::Vector2 base_velocity; // 保存初始速度，方便曲线运动计算
-    /// @brief 旋转角
-    float rotation = 0.0f;
-    /// @brief 子弹已存活的帧数
-    int lifetime = 0.0f; 
-    bool active = false;
+    struct Bullet {
+        godot::RID shape_rid;
+        godot::RID canvas_item_rid;
+        
+        godot::Vector2 position;
+        godot::Vector2 velocity;
+        godot::Vector2 base_velocity; 
+        float rotation = 0.0f;
+        float lifetime = 0.0f; 
+        bool active = false;
 
-    BulletConfig config;
-    float anim_timer = 0.0f;
-    int current_frame = 0;
+        BulletConfig config;
+        float anim_timer = 0.0f;
+        int current_frame = -1; // 默认 -1，用于脏检查（帧改变时才清空重绘）
 
-    // 【核心修改】现代 C++ 函数指针：接收当前子弹引用和 delta，返回新速度
-    std::function<void(Bullet&)> behavior_fn;
-  };
+        std::function<void(Bullet&)> behavior_fn;
+    };
+
 private:
-  static BulletPool* new_bullet_pool;
+    static BulletPool* new_bullet_pool;
+    std::vector<Bullet> pool;
+    size_t pool_size = 5000;
   
-  std::vector<Bullet> pool;
-  size_t pool_size = 5000;
-  
-  protected:
-  static void _bind_methods();
+protected:
+    static void _bind_methods();
   
 public:
-  BulletPool();
-  ~BulletPool();
-  static BulletPool* get_pool();
-  void _ready();
-  void _physics_process(double delta);
+    BulletPool();
+    ~BulletPool();
+    static BulletPool* get_pool();
+    void _ready();
+    void _physics_process(double delta);
   
-  // 【核心修改】spawn 接口中的 p_vel 改为传入 std::function
+    // 修改后的 spawn 接口
     void spawn(godot::Vector2 p_pos, 
                std::function<void(Bullet&)> p_behavior, 
                float p_rot, 
-               godot::Ref<godot::Texture2D> p_tex, int p_h_frames, int p_v_frames, 
-               float p_radius, float p_anim_speed);
+               godot::Ref<godot::SpriteFrames> p_sprite_frames, 
+               godot::StringName p_anim_name,
+               float p_radius);
+    void spawn_static(godot::Vector2 p_pos, 
+                      std::function<void(Bullet&)> p_behavior, 
+                      float p_rot, 
+                      godot::Ref<godot::Texture2D> p_texture, // 直接接收图片
+                      float p_radius);
     
     void recycle_bullet(Bullet &bullet);
 };

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b35bipt1yp8rc"]
 
 [ext_resource type="Texture2D" uid="uid://bfou2gkp40yng" path="res://material/player/p1/playerImage.png" id="2_guiot"]
+[ext_resource type="SpriteFrames" uid="uid://biariitn77hms" path="res://material/bullet/fire/1.tres" id="2_ppd22"]
 
 [sub_resource type="GDScript" id="GDScript_drhme"]
 
@@ -355,7 +356,7 @@ rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
 count = 50
-fire_rate = 0.5
+fire_rate = 0.02
 collision_layer = 16
 collision_mask = 4
 
@@ -364,6 +365,7 @@ shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=822150124]
 count = 1
+max = 4.0
 direction_count = 18
 process_mode = 4
 
@@ -415,6 +417,7 @@ progress = 387.47382
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/RightUp/PathFollow2D" unique_id=1369274462]
+count = 10
 fire_rate = 0.2
 collision_layer = 16
 collision_mask = 4
@@ -423,9 +426,9 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1680482171]
-count = 10
-max = 1.0
-min = 0.2
+count = 30
+max = 0.2
+min = 0.1
 direction_count = 16
 process_mode = 4
 
@@ -442,5 +445,8 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=710366030]
-position = Vector2(35, -23)
-autoplay = "default"
+position = Vector2(385, 113)
+sprite_frames = ExtResource("2_ppd22")
+animation = &"normal"
+autoplay = "normal"
+frame_progress = 0.18105939

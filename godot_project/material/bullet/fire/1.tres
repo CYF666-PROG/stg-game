@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://biariitn77hms"]
+
+[ext_resource type="Texture2D" uid="uid://bukiiykc2h2pb" path="res://material/bullet/bullet_all_2.png" id="1_uepjl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qpi0"]
+atlas = ExtResource("1_uepjl")
+region = Rect2(0, 389, 32, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dym63"]
+atlas = ExtResource("1_uepjl")
+region = Rect2(64, 389, 32, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x25e0"]
+atlas = ExtResource("1_uepjl")
+region = Rect2(32, 389, 32, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3juj3"]
+atlas = ExtResource("1_uepjl")
+region = Rect2(96, 389, 32, 35)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qpi0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dym63")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x25e0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3juj3")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 8.0
+}]
