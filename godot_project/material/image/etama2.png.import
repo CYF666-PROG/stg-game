@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d7kka0b4d0q"
-path="res://.godot/imported/rm3-0.png-bdea4fd6b030be0737b8da73911fb6be.ctex"
+uid="uid://bbxkxsq81w3vj"
+path="res://.godot/imported/etama2.png-986e687e7263a9e43058dd0875035941.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://material/player/p1/rm3-0.png"
-dest_files=["res://.godot/imported/rm3-0.png-bdea4fd6b030be0737b8da73911fb6be.ctex"]
+source_file="res://material/image/etama2.png"
+dest_files=["res://.godot/imported/etama2.png-986e687e7263a9e43058dd0875035941.ctex"]
 
 [params]
 

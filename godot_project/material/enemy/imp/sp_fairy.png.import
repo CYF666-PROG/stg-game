@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxw3ewtcjm4ty"
-path="res://.godot/imported/rm2-0.png-5b202b5ef48bcc5a1243e90d64547c12.ctex"
+uid="uid://dddaurdgfoxw2"
+path="res://.godot/imported/sp_fairy.png-c7cdc623d1dec10a77eee56ba6bdc9e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://material/player/p1/rm2-0.png"
-dest_files=["res://.godot/imported/rm2-0.png-5b202b5ef48bcc5a1243e90d64547c12.ctex"]
+source_file="res://material/enemy/imp/sp_fairy.png"
+dest_files=["res://.godot/imported/sp_fairy.png-c7cdc623d1dec10a77eee56ba6bdc9e4.ctex"]
 
 [params]
 
