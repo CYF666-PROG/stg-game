@@ -68,8 +68,8 @@ void FlowerBullet::shoot(){
       Vector2 direction(0, -1);                  // 向上发射
       float speed = 100;                      // 子弹速度
       float pian = 1.5 ;// 子弹贴图旋转偏移
-      auto linear_behavior = [velocity_vector, speed](BulletPool::Bullet& b){
-        b.rotation = 1.5;
+      auto linear_behavior = [velocity_vector, speed, pian](BulletPool::Bullet& b){
+        b.rotation = pian + b.velocity.angle();
         b.velocity = velocity_vector * speed;
       };
 
@@ -79,7 +79,7 @@ void FlowerBullet::shoot(){
       godot::Ref<SpriteFrames> texture = loader->load("res://material/bullet/fire/1.tres");
       // 3. 检查是否加载成功
       if (!texture.is_valid()) {
-        godot::UtilityFunctions::print("res://material/bullet/ellipse/pink.tres", " load erro");
+        godot::UtilityFunctions::print("res://material/bullet/fire/1.tres", " load erro");
         return;
       }
 
@@ -88,9 +88,10 @@ void FlowerBullet::shoot(){
         spawn_pos,     
         linear_behavior, 
         1.5707,         
-        texture,
-        "normal",     
-        6.0f             
+        texture,  
+        "normal",
+        6.0f,
+        godot::Vector2(1.5,1.5)
       );
     }
   }

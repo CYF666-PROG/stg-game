@@ -2,10 +2,11 @@
 
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/classes/texture2d.hpp>
-#include <godot_cpp/classes/sprite_frames.hpp> // 引入 SpriteFrames
+#include <godot_cpp/classes/sprite_frames.hpp> 
 #include <godot_cpp/variant/rid.hpp>
 #include <godot_cpp/variant/rect2.hpp>
 #include <godot_cpp/variant/string_name.hpp>
+#include <godot_cpp/classes/atlas_texture.hpp>
 
 #include <vector>
 #include <functional>
@@ -17,7 +18,12 @@ struct BulletConfig {
     godot::StringName anim_name = "default";
     float radius = 4.0f;
     
-    // 以下缓存字段用于避免每帧去重构的 SpriteFrames 里查找，提升性能
+    // ==================== 【新增参数】 ====================
+    godot::Vector2 scale = godot::Vector2(1.0f, 1.0f);  // 贴图缩放
+    godot::Vector2 anchor = godot::Vector2(0.5f, 0.5f); // 锚点 (0.0=左/上, 0.5=中心, 1.0=右/下)
+    // ====================================================
+
+    // 缓存字段，避免每帧查询 SpriteFrames 提升性能
     int total_frames = 1;
     float anim_speed = 10.0f;
     bool loop = true;
@@ -39,7 +45,7 @@ public:
 
         BulletConfig config;
         float anim_timer = 0.0f;
-        int current_frame = -1; // 默认 -1，用于脏检查（帧改变时才清空重绘）
+        int current_frame = -1; 
 
         std::function<void(Bullet&)> behavior_fn;
     };
@@ -59,18 +65,16 @@ public:
     void _ready();
     void _physics_process(double delta);
   
-    // 修改后的 spawn 接口
+    // 修改后的 spawn 接口，追加了 p_scale 和 p_anchor
+    /// 初始坐标 运动函数 初始角度rad 贴图 动画名称 判定点半径 缩放 锚点
     void spawn(godot::Vector2 p_pos, 
                std::function<void(Bullet&)> p_behavior, 
                float p_rot, 
                godot::Ref<godot::SpriteFrames> p_sprite_frames, 
                godot::StringName p_anim_name,
-               float p_radius);
-    void spawn_static(godot::Vector2 p_pos, 
-                      std::function<void(Bullet&)> p_behavior, 
-                      float p_rot, 
-                      godot::Ref<godot::Texture2D> p_texture, // 直接接收图片
-                      float p_radius);
+               float p_radius,
+               godot::Vector2 p_scale = godot::Vector2(1.0f, 1.0f),
+               godot::Vector2 p_anchor = godot::Vector2(0.5f, 0.5f));
     
     void recycle_bullet(Bullet &bullet);
 };

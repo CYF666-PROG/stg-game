@@ -6,6 +6,7 @@
 #include <godot_cpp/classes/physics_direct_space_state2d.hpp>
 #include <godot_cpp/classes/physics_shape_query_parameters2d.hpp>
 #include <godot_cpp/classes/atlas_texture.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace game;
 using namespace godot;
@@ -42,6 +43,8 @@ void BulletPool::_ready() {
         pool[i].shape_rid = ps->circle_shape_create();
         pool[i].canvas_item_rid = rs->canvas_item_create();
         rs->canvas_item_set_parent(pool[i].canvas_item_rid, canvas_rid);
+        // 强制将子弹的渲染层级设为 400 (数值越大越靠前，常规游戏元素多在 0 左右)
+        rs->canvas_item_set_z_index(pool[i].canvas_item_rid, 7000);
         rs->canvas_item_set_visible(pool[i].canvas_item_rid, false);
         pool[i].active = false;
     }
@@ -52,7 +55,9 @@ void BulletPool::spawn(Vector2 p_pos,
                        float p_rot, 
                        Ref<SpriteFrames> p_sprite_frames, 
                        StringName p_anim_name,
-                       float p_radius) {
+                       float p_radius,
+                       Vector2 p_scale,
+                       Vector2 p_anchor) {
     if (p_sprite_frames.is_null() || !p_sprite_frames->has_animation(p_anim_name)) return;
 
     PhysicsServer2D *ps = PhysicsServer2D::get_singleton();
@@ -72,6 +77,10 @@ void BulletPool::spawn(Vector2 p_pos,
                 b.velocity = b.base_velocity;
             }
 
+            // 缓存新增的缩放和锚点
+            b.config.scale = p_scale;
+            b.config.anchor = p_anchor;
+
             // 缓存动画基础数据，避免每帧去查询字典
             b.config.sprite_frames = p_sprite_frames;
             b.config.anim_name = p_anim_name;
@@ -79,66 +88,15 @@ void BulletPool::spawn(Vector2 p_pos,
             b.config.total_frames = p_sprite_frames->get_frame_count(p_anim_name);
             b.config.anim_speed = p_sprite_frames->get_animation_speed(p_anim_name);
             b.config.loop = p_sprite_frames->get_animation_loop(p_anim_name);
+            // 设置子弹绘制层级 防止子弹重叠时抽搐
+            size_t index = &b - &pool[0]; 
+            rs->canvas_item_set_draw_index(b.canvas_item_rid, index);
 
             b.anim_timer = 0.0f;
             b.current_frame = -1; // 设为 -1 强制触发第一帧的渲染绘制
 
             ps->shape_set_data(b.shape_rid, p_radius);
             
-            Transform2D xform(b.rotation, b.position);
-            rs->canvas_item_set_transform(b.canvas_item_rid, xform);
-            rs->canvas_item_set_visible(b.canvas_item_rid, true);
-            break;
-        }
-    }
-}
-
-void BulletPool::spawn_static(Vector2 p_pos, 
-                             std::function<void(Bullet&)> p_behavior, 
-                             float p_rot, 
-                             Ref<Texture2D> p_texture, 
-                             float p_radius) {
-    if (p_texture.is_null()) return;
-
-    PhysicsServer2D *ps = PhysicsServer2D::get_singleton();
-    RenderingServer *rs = RenderingServer::get_singleton();
-
-    for (auto &b : pool) {
-        if (!b.active) {
-            b.position = p_pos;
-            b.rotation = p_rot;
-            b.lifetime = 0.0f;
-            b.active = true;
-
-            b.behavior_fn = p_behavior;
-            if (b.behavior_fn) {
-                b.behavior_fn(b);
-                b.velocity = b.base_velocity;
-            }
-
-            // 清空动画相关缓存
-            b.config.sprite_frames.unref(); 
-            b.config.total_frames = 1;
-            b.config.anim_speed = 0.0f;
-            b.current_frame = 0; // 固定在第 0 帧
-
-            ps->shape_set_data(b.shape_rid, p_radius);
-            
-            // 【核心绘制】因为是静态的，直接在这里 clear 并 add 一次，_physics_process 里就不用再动了！
-            rs->canvas_item_clear(b.canvas_item_rid);
-            
-            Ref<AtlasTexture> atlas_tex = p_texture;
-            if (atlas_tex.is_valid()) {
-                Ref<Texture2D> main_texture = atlas_tex->get_atlas();
-                Rect2 src_rect = atlas_tex->get_region();
-                Rect2 dest_rect(-src_rect.size / 2.0f, src_rect.size);
-                rs->canvas_item_add_texture_rect_region(b.canvas_item_rid, dest_rect, main_texture->get_rid(), src_rect);
-            } else {
-                Size2 tex_size = p_texture->get_size();
-                Rect2 dest_rect(-tex_size / 2.0f, tex_size);
-                rs->canvas_item_add_texture_rect(b.canvas_item_rid, dest_rect, p_texture->get_rid());
-            }
-
             Transform2D xform(b.rotation, b.position);
             rs->canvas_item_set_transform(b.canvas_item_rid, xform);
             rs->canvas_item_set_visible(b.canvas_item_rid, true);
@@ -208,11 +166,20 @@ void BulletPool::_physics_process(double delta){
                 if (frame_tex.is_valid()) {
                     Ref<AtlasTexture> atlas_tex = frame_tex;
                     
+                    // 提取缩放和锚点到局部变量，方便计算
+                    Vector2 scale = b.config.scale;
+                    Vector2 anchor = b.config.anchor;
+
                     if (atlas_tex.is_valid()) {
-                        // 如果 SpriteFrames 里塞的是 AtlasTexture (即大图切片)
+                        // 【1. AtlasTexture 逻辑】
                         Ref<Texture2D> main_texture = atlas_tex->get_atlas();
                         Rect2 src_rect = atlas_tex->get_region();
-                        Rect2 dest_rect(-src_rect.size / 2.0f, src_rect.size);
+                        
+                        // 根据缩放计算实际渲染大小
+                        Size2 custom_size = src_rect.size * scale;
+                        // 根据锚点计算左上角偏移（例如 anchor 是 (0.5, 0.5) 时就是 -custom_size / 2）
+                        Vector2 offset = -custom_size * anchor;
+                        Rect2 dest_rect(offset, custom_size);
 
                         rs->canvas_item_add_texture_rect_region(
                             b.canvas_item_rid, 
@@ -221,9 +188,14 @@ void BulletPool::_physics_process(double delta){
                             src_rect
                         );
                     } else {
-                        // 如果 SpriteFrames 里塞的是独立的普通 Texture
+                        // 【2. 独立普通 Texture 逻辑】
                         Size2 tex_size = frame_tex->get_size();
-                        Rect2 dest_rect(-tex_size / 2.0f, tex_size);
+                        
+                        // 根据缩放计算实际渲染大小
+                        Size2 custom_size = tex_size * scale;
+                        // 根据锚点计算左上角偏移
+                        Vector2 offset = -custom_size * anchor;
+                        Rect2 dest_rect(offset, custom_size);
 
                         rs->canvas_item_add_texture_rect(
                             b.canvas_item_rid, 
@@ -233,7 +205,17 @@ void BulletPool::_physics_process(double delta){
                     }
                 }
             }
+        }else {
+            // -------------- 静态单图子弹逻辑 --------------
+            // 如果是第一次生成（current_frame 在 recycle 时被设为了 -1，或者刚初始化）
+            // 强制触发一次绘制，确保 RenderingServer 登记了该指令
+            if (b.current_frame == -1) {
+                // 理论上我们在 spawn_static 已经画过了，
+                // 将 current_frame 设为 0 挡住多余的 clear 即可
+                b.current_frame = 0; 
+            }
         }
+                
         // =============================================================
 
         // 4. 物理碰撞
