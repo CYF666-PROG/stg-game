@@ -355,7 +355,7 @@ rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
 count = 50
-fire_rate = 0.02
+fire_rate = 0.5
 collision_layer = 16
 collision_mask = 4
 
@@ -415,7 +415,6 @@ progress = 387.47382
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/RightUp/PathFollow2D" unique_id=1369274462]
-count = 10
 fire_rate = 0.2
 collision_layer = 16
 collision_mask = 4
@@ -425,6 +424,8 @@ shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1680482171]
 count = 10
+max = 1.0
+min = 0.2
 direction_count = 16
 process_mode = 4
 
@@ -439,3 +440,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D3/Gearbox" unique_id=1692556614]
 shape = SubResource("CircleShape2D_5qbti")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=710366030]
+position = Vector2(35, -23)
+autoplay = "default"
