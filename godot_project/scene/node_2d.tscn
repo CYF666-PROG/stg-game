@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b35bipt1yp8rc"]
 
 [ext_resource type="Texture2D" uid="uid://bfou2gkp40yng" path="res://material/player/p1/playerImage.png" id="2_guiot"]
-[ext_resource type="SpriteFrames" uid="uid://biariitn77hms" path="res://material/bullet/fire/1.tres" id="2_ppd22"]
+[ext_resource type="SpriteFrames" uid="uid://dh5fan1s1mlor" path="res://material/enemy/imp/1_blue.tres" id="2_ppd22"]
 
 [sub_resource type="GDScript" id="GDScript_drhme"]
 
@@ -34,6 +34,18 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5qbti"]
 shader = SubResource("Shader_drhme")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_guiot"]
+atlas = ExtResource("2_guiot")
+region = Rect2(160, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_42d7r"]
+atlas = ExtResource("2_guiot")
+region = Rect2(192, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sypnp"]
+atlas = ExtResource("2_guiot")
+region = Rect2(224, 48, 32, 48)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ppd22"]
 atlas = ExtResource("2_guiot")
 region = Rect2(0, 0, 32, 48)
@@ -65,18 +77,6 @@ region = Rect2(192, 0, 32, 48)
 [sub_resource type="AtlasTexture" id="AtlasTexture_cb6ix"]
 atlas = ExtResource("2_guiot")
 region = Rect2(224, 0, 32, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_guiot"]
-atlas = ExtResource("2_guiot")
-region = Rect2(160, 48, 32, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_42d7r"]
-atlas = ExtResource("2_guiot")
-region = Rect2(192, 48, 32, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sypnp"]
-atlas = ExtResource("2_guiot")
-region = Rect2(224, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0g8r3"]
 atlas = ExtResource("2_guiot")
@@ -134,6 +134,20 @@ region = Rect2(128, 96, 32, 48)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_guiot")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_42d7r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sypnp")
+}],
+"loop": true,
+"name": &"left",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ppd22")
 }, {
 "duration": 1.0,
@@ -158,21 +172,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_cb6ix")
 }],
 "loop": true,
-"name": &"default",
-"speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_guiot")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_42d7r")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sypnp")
-}],
-"loop": true,
-"name": &"left",
+"name": &"normal",
 "speed": 8.0
 }, {
 "frames": [{
@@ -205,9 +205,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mpuhk")
 }],
-"loop": true,
+"loop": false,
 "name": &"to_left",
-"speed": 20.0
+"speed": 40.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -225,9 +225,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bapa2")
 }],
-"loop": true,
+"loop": false,
 "name": &"to_right",
-"speed": 20.0
+"speed": 40.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_462ap"]
@@ -239,6 +239,9 @@ _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 148.65826, -394.1964, -52.55134, -27.407883, 52.55134, 27.407883, 107.53259, 107.67267, -90.463554, 2.9861271, 90.463554, -2.9861271, 241, 95, 0, 0, 0, 0, 664, 99, -61.599995, -58.399998, 61.599995, 58.399998, 876, 153)
 }
 point_count = 5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_guiot"]
+radius = 12.583495
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qbti"]
 radius = 12.583495
@@ -293,13 +296,13 @@ position = Vector2(504, 984)
 scale = Vector2(1.095, 1.095)
 collision_mask = 33
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=990967266]
+[node name="animation" type="AnimatedSprite2D" parent="Player" unique_id=990967266]
 material = SubResource("ShaderMaterial_5qbti")
 position = Vector2(4.7683716e-07, 0)
 scale = Vector2(1.75, 1.75)
 sprite_frames = SubResource("SpriteFrames_42d7r")
-autoplay = "default"
-frame_progress = 0.86538965
+animation = &"to_right"
+autoplay = "normal"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1946849589]
 position = Vector2(0, -9.536743e-07)
@@ -322,18 +325,16 @@ position = Vector2(99, 120)
 curve = SubResource("Curve2D_462ap")
 
 [node name="PathFollow2D5" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1502221927]
-position = Vector2(133.8048, -313.7616)
-progress = 81.795876
+position = Vector2(121.24882, -239.27086)
+progress = 157.33813
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D5" unique_id=2111494106]
-target_speed = 200.0
-time_taken = 1.0
 collision_layer = 16
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D5/Gearbox" unique_id=306005960]
-shape = SubResource("CircleShape2D_5qbti")
+shape = SubResource("CircleShape2D_guiot")
 
 [node name="PathFollow2D2" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1558169163]
 position = Vector2(91.9795, 55.0055)
@@ -341,8 +342,6 @@ progress = 453.4643
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D2" unique_id=1300554624]
-target_speed = 30.0
-time_taken = 2.0
 collision_layer = 16
 collision_mask = 4
 
@@ -355,8 +354,8 @@ progress = 621.4522
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
-count = 1
-fire_rate = 0.02
+count = 12
+fire_rate = 0.2
 collision_layer = 16
 collision_mask = 4
 
@@ -364,10 +363,6 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=822150124]
-count = 2
-max = 0.3
-min = 0.1
-direction_count = 16
 process_mode = 4
 
 [node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=2066262182]
@@ -376,8 +371,6 @@ progress = 616.9433
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D3" unique_id=1247720010]
-target_speed = 400.0
-time_taken = 1.0
 collision_layer = 16
 collision_mask = 4
 
@@ -418,7 +411,6 @@ progress = 387.47382
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/RightUp/PathFollow2D" unique_id=1369274462]
-fire_rate = 0.2
 collision_layer = 16
 collision_mask = 4
 
@@ -426,10 +418,6 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1680482171]
-count = 30
-max = 0.2
-min = 0.1
-direction_count = 16
 process_mode = 4
 
 [node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/RightUp" unique_id=791346286]
@@ -445,9 +433,8 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=710366030]
-position = Vector2(385, 113)
+position = Vector2(127, -78)
 sprite_frames = ExtResource("2_ppd22")
 animation = &"normal"
 autoplay = "normal"
-frame = 2
-frame_progress = 0.5905901
+frame_progress = 0.41831824

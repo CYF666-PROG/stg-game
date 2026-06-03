@@ -26,7 +26,7 @@ void game::LevelManager::_physics_process(double delta)
       // 先设置禁用旋转，再添加
       pf->set_rotates(false);
       it->second.path->add_child(pf);
-      game::enemy::Imp* imp = memnew(game::enemy::Imp);
+      game::enemy::Imp* imp = memnew(game::enemy::Imp("imp/1_blue.tres"));
       imp->path_follow = pf;
       pf->add_child(imp);
     }

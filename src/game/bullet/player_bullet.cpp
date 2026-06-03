@@ -14,8 +14,7 @@ void game::bullet::PlayerBullet::_ready(){
   set_collision_layer_value(2, true);
   // 检测第一层
   set_collision_mask_value(3, true);
-  godot::UtilityFunctions::print("PlayerBullet::_ready()");
-  set_texture_coll("res://material/player/p1/rm-hb-0.png", 6);
+  // set_texture_coll("res://material/player/p1/rm-hb-0.png", 6);
 }
 
 game::bullet::PlayerBullet::PlayerBullet(){

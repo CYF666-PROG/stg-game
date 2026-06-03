@@ -18,21 +18,21 @@ void game::Entity::set_texture_coll(
     double d,
     godot::Vector2 scale
 ){
-  // 1. 获取资源加载器的单例
-  godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
-  // 2. 直接加载资源并进行安全强转
-  godot::Ref<godot::Texture2D> texture = loader->load(path);
-  // 3. 检查是否加载成功
-  if (!texture.is_valid()) {
-    godot::UtilityFunctions::print(path, " load erro");
-    return;
-  }
-  /// 创建精灵并添加贴图
-  godot::Sprite2D* sprite2d = memnew(godot::Sprite2D) ;
-  sprite2d->set_texture(texture);
-  /// 设置缩放
-  sprite2d->set_scale(scale);
-  add_child(sprite2d);
+  // // 1. 获取资源加载器的单例
+  // godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
+  // // 2. 直接加载资源并进行安全强转
+  // godot::Ref<godot::Texture2D> texture = loader->load(path);
+  // // 3. 检查是否加载成功
+  // if (!texture.is_valid()) {
+  //   godot::UtilityFunctions::print(path, " load erro");
+  //   return;
+  // }
+  // /// 创建精灵并添加贴图
+  // godot::Sprite2D* sprite2d = memnew(godot::Sprite2D) ;
+  // sprite2d->set_texture(texture);
+  // /// 设置缩放
+  // sprite2d->set_scale(scale);
+  // add_child(sprite2d);
   // 1. 使用 memnew 创建 CollisionShape2D 节点本身（容器）
   godot::CollisionShape2D* collision = memnew(godot::CollisionShape2D);
   // 2. 使用 memnew 创建具体的形状资源（核心数据）
@@ -70,7 +70,10 @@ void game::Entity::set_texture_coll(
 
 void Entity::_bind_methods() {}
 
-void game::Entity::_physics_process(double delta){
+void game::Entity::update_animation(){}
+
+void game::Entity::_physics_process(double delta)
+{
   ///检查是否处于编辑器
   if (godot::Engine::get_singleton()->is_editor_hint()){
     return;

@@ -28,7 +28,8 @@ public:
   /// 弹幕发射器
 
   // BulletManager transmitter; // 千万不能包含其他注册节点！
-
+  /// 更新动画
+  void update_animation() override;
   virtual void entity_physics_process(double delta);
   Minion();
   virtual ~Minion();

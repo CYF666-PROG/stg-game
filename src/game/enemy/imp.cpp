@@ -7,8 +7,9 @@
 #include <godot_cpp/classes/texture2d.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
+#include <godot_cpp/classes/animated_sprite2d.hpp>
 
-
+using namespace godot;
 using namespace game::enemy;
 
 void Imp::touch_trigger(utility::Trigger* trigger){
@@ -82,19 +83,33 @@ void Imp::entity_physics_process(double delta){
   // 重新赋值给 PathFollow2D，它会自动计算并更新子节点的位置
   path_follow->set_progress(current_progress);
   live_frame += 1 ;
+  update_animation();
 }
 
 void Imp::_ready(){
   game::Enemy::_ready();
 
   set_position(start_position);
-  set_texture_coll("res://material/enemy/enemy1-0.png", 15, godot::Vector2(2.1,2.1));
-  game::bullet_settings::FlowerBullet* flower_bullet = memnew(game::bullet_settings::FlowerBullet(0.5, 12, 10, 1, 0.5));
-  flower_bullet->fire_interval = 0.2;
-  flower_bullet->fire_count = 100 ;
-  // add_child(flower_bullet);
 }
 
 Imp::Imp(){}
+
+Imp::Imp(String path){
+  // 1. 获取资源加载器的单例
+  ResourceLoader* loader = ResourceLoader::get_singleton();
+  // 2. 直接加载资源并进行安全强转
+  Ref<SpriteFrames> spr = loader->load("res://material/enemy/" + path);
+  if (spr.is_null()){
+    UtilityFunctions::print("not fond ","res://material/enemy/" + path);
+  }
+  auto *anim = memnew(AnimatedSprite2D);
+  anim->set_scale(Vector2(2.0, 2.0));
+  anim->set_sprite_frames(spr);
+  add_child(anim);
+  anim->set_name("animation");
+  // 初始化播放动画名
+  anim->play("normal");
+  set_texture_coll("null", 20,Vector2(2,2));
+}
 
 Imp::~Imp(){}

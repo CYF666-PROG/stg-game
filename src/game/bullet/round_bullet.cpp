@@ -63,7 +63,7 @@ void game::bullet::RoundBullet::_ready(){
   // 检测第一层
   set_collision_mask_value(1, true);
 
-  set_texture_coll("res://material/bullet/bul1-0.png", 8);
+  // set_texture_coll("res://material/bullet/bul1-0.png", 8);
 }
 
 game::bullet::RoundBullet::RoundBullet(){

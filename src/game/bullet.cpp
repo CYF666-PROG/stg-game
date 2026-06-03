@@ -36,7 +36,7 @@ void game::Bullet::entity_physics_process(double delta){
 }
 
 void game::Bullet::_ready(){
-  set_texture_coll("res://material/player/p1/rm-hb-0.png", 6);
+  // set_texture_coll("res://material/player/p1/rm-hb-0.png", 6);
 }
 
 Bullet::Bullet(){}

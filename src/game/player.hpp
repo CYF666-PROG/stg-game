@@ -16,6 +16,7 @@ public:
   void move() ;
   void shoot();
 
+  void update_animation() override;
   void entity_physics_process(double delta) override ;
   static void _bind_methods();
   void set_bullet_texture(const godot::Ref<godot::Texture2D> p_tex) { bullet_texture = p_tex; }

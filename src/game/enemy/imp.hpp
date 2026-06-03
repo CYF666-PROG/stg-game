@@ -4,6 +4,7 @@
 #include "../../utility/trigger.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/classes/sprite_frames.hpp> 
 
 namespace game::enemy{
 /// @brief 小妖精
@@ -19,6 +20,8 @@ public:
   void entity_physics_process(double delta) override ;
   void _ready() override ;
   Imp();
+  /// 动画路径 相对于res://material/enemy/
+  Imp(godot::String path);
   virtual ~Imp();
 };
 

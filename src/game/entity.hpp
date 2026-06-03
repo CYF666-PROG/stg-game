@@ -23,7 +23,6 @@ protected:
 public:
   double hp = 0;
   virtual void entity_physics_process(double delta);
-  /// @param path 贴图路径
   /// @param d 碰撞圆半径
   /// @param scale 缩放
   void set_texture_coll(
@@ -40,6 +39,7 @@ public:
     godot::Vector2 scale = godot::Vector2(1,1)
   );
 
+  virtual void update_animation();
   void _physics_process(double delta);
   virtual void _ready() override ;
   static void _bind_methods();
