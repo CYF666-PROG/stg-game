@@ -1,7 +1,7 @@
 #pragma once
 
-#include "entity.hpp"
-#include "../bullet_settings/flower_bullet.hpp"
+#include "../entity.hpp"
+#include "../../bullet_settings/flower_bullet.hpp"
 
 
 namespace game{
@@ -11,10 +11,13 @@ class Player : public Entity{
 private:
   godot::Ref<godot::Texture2D> bullet_texture ;
   bullet_settings::FlowerBullet* flow = nullptr;
+  int orb_count = 4;
+  bool is_slow = false;
 public:
-  void update() ;
-  void move() ;
+  void update();
+  void move();
   void shoot();
+  void check_orb();
 
   void update_animation() override;
   void entity_physics_process(double delta) override ;

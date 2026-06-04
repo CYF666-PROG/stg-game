@@ -67,6 +67,7 @@ void Imp::_on_area_entered(godot::Area2D *other_area){
 
 void Imp::entity_physics_process(double delta){
   set_position(start_position);
+  update_speed();
   for (int i = 0; i < moves.size(); i++){
     if (
       moves[i] &&

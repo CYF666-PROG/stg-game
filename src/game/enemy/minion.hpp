@@ -17,6 +17,9 @@ class Minion : public game::Enemy {
 private:
 protected:
   static void _bind_methods(){}
+  godot::Vector2 last_global_pos = godot::Vector2(0,0);
+  /// @brief 当前帧的全局速度，像素/帧
+  godot::Vector2 global_speed = godot::Vector2(0,0);
 public:
   godot::PathFollow2D* path_follow = nullptr;
   /// @brief 每秒多少像素
@@ -30,6 +33,7 @@ public:
   // BulletManager transmitter; // 千万不能包含其他注册节点！
   /// 更新动画
   void update_animation() override;
+  void update_speed();
   virtual void entity_physics_process(double delta);
   Minion();
   virtual ~Minion();

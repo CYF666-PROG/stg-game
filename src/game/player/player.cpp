@@ -1,5 +1,6 @@
 #include "player.hpp"
-#include "bullet/player_bullet.hpp"
+#include "../bullet/player_bullet.hpp"
+#include "transmitter_1.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/sprite2d.hpp>
@@ -77,25 +78,55 @@ void Player::entity_physics_process(double date){
   if(keyboard->is_shoot) shoot();
 }
 
-void Player::update()
-{
+void Player::update(){
+  auto point = get_node<Sprite2D>("point");
+  if (!point){
+    UtilityFunctions::print("Player::update point not find");
+    return;
+  }
   if (!keyboard){
     godot::UtilityFunctions::print("Player::update() keyboard nullptr");
     return;
   }
-  if (keyboard->is_left){
-    spead.x = -10;
-  }else if (keyboard->is_right){
-    spead.x = 10;
-  }else{
-    spead.x = 0;
+  // 低速
+  if (keyboard->is_slow){
+    point->set_visible(true);
+    point->set_rotation(point->get_rotation() + 0.02);
+    if (keyboard->is_left){
+      spead.x = -5;
+    }else if (keyboard->is_right){
+      spead.x = 5;
+    }else{
+      spead.x = 0;
+    }
+    if (keyboard->is_up){
+      spead.y = -5;
+    }else if (keyboard->is_down){
+      spead.y = 5;
+    }else{
+      spead.y = 0;
+    }
+  }else{ // 高速
+    point->set_visible(false);
+    if (keyboard->is_left){
+      spead.x = -10;
+    }else if (keyboard->is_right){
+      spead.x = 10;
+    }else{
+      spead.x = 0;
+    }
+    if (keyboard->is_up){
+      spead.y = -10;
+    }else if (keyboard->is_down){
+      spead.y = 10;
+    }else{
+      spead.y = 0;
+    }
   }
-  if (keyboard->is_up){
-    spead.y = -10;
-  }else if (keyboard->is_down){
-    spead.y = 10;
-  }else{
-    spead.y = 0;
+  // 检查状态是否改变
+  if (is_slow != keyboard->is_slow){
+    check_orb();
+    is_slow = keyboard->is_slow;
   }
 }
 
@@ -121,10 +152,101 @@ void game::Player::move(){
   set_position(this_pesition + spead);
 }
 
-void game::Player::shoot(){
-  Bullet* player_bullet = memnew(bullet::PlayerBullet);
-  player_bullet->start_position = get_position() + godot::Vector2(0,-54);
-  get_parent()->add_child(player_bullet);
+void game::Player::shoot(){}
+
+void game::Player::check_orb(){
+  // 先删掉所有阴阳玉
+  auto arr = get_children();
+  for (auto it : arr){
+    auto tran = Object::cast_to<game::player::Transmitter_1>(it);
+    if (!tran) continue;
+    tran->queue_free();
+  }
+  if (keyboard->is_slow){
+    if (orb_count == 1){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(0,-80));
+      add_child(tran);
+    }else if (orb_count == 2){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(28,-80));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-28,-80));
+      add_child(tran);
+    }else if (orb_count == 3){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(0,-80));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(72,-35));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-72,35));
+      add_child(tran);
+    }else{
+      auto* tran = memnew(player::Transmitter_1(player::Transmitter_1::orb_Typ::Blue));
+      tran->set_position(Vector2(28,-80));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-28,-80));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(79,-15));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-79,-15));
+      add_child(tran);
+    }
+  }else{
+    if (orb_count == 1){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(0,-80));
+      add_child(tran);
+    }else if (orb_count == 2){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-60,0));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(60,0));
+      add_child(tran);
+    }else if (orb_count == 3){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(0,-80));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-60,0));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-60,0));
+      add_child(tran);
+    }else{
+      auto* tran = memnew(player::Transmitter_1(player::Transmitter_1::orb_Typ::Blue));
+      tran->set_position(Vector2(48,64));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-48,64));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(80,0));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-80,0));
+      add_child(tran);
+    }
+  }
 }
 
 void game::Player::_bind_methods(){
@@ -142,6 +264,8 @@ void game::Player::_ready(){
   // 检测第四层
   set_collision_mask_value(1, true);
   set_collision_mask_value(6, true);
+  // 检查一下阴阳玉状态
+  check_orb();
 }
 
 game::Player::Player(){

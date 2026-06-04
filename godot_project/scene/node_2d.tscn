@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://b35bipt1yp8rc"]
 
+[ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="1_ppd22"]
 [ext_resource type="Texture2D" uid="uid://bfou2gkp40yng" path="res://material/player/p1/playerImage.png" id="2_guiot"]
 [ext_resource type="SpriteFrames" uid="uid://dh5fan1s1mlor" path="res://material/enemy/imp/1_blue.tres" id="2_ppd22"]
 
@@ -16,6 +17,10 @@ size = Vector2(864, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k01lb"]
 size = Vector2(864, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drt2y"]
+atlas = ExtResource("1_ppd22")
+region = Rect2(0, 18, 64, 61)
 
 [sub_resource type="Shader" id="Shader_drhme"]
 code = "shader_type canvas_item;
@@ -207,7 +212,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"to_left",
-"speed": 40.0
+"speed": 60.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -227,11 +232,11 @@ animations = [{
 }],
 "loop": false,
 "name": &"to_right",
-"speed": 40.0
+"speed": 60.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_462ap"]
-radius = 6.3927
+radius = 4.9972477
 
 [sub_resource type="Curve2D" id="Curve2D_462ap"]
 bake_interval = 0.01
@@ -292,8 +297,9 @@ position = Vector2(504, 18)
 shape = SubResource("RectangleShape2D_k01lb")
 
 [node name="Player" type="Player" parent="." unique_id=1500520606]
-position = Vector2(504, 984)
-scale = Vector2(1.095, 1.095)
+bullet_texture = SubResource("AtlasTexture_drt2y")
+position = Vector2(506, 970)
+scale = Vector2(1.415, 1.415)
 collision_mask = 33
 
 [node name="animation" type="AnimatedSprite2D" parent="Player" unique_id=990967266]
@@ -301,12 +307,16 @@ material = SubResource("ShaderMaterial_5qbti")
 position = Vector2(4.7683716e-07, 0)
 scale = Vector2(1.75, 1.75)
 sprite_frames = SubResource("SpriteFrames_42d7r")
-animation = &"to_right"
+animation = &"to_left"
 autoplay = "normal"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1946849589]
-position = Vector2(0, -9.536743e-07)
 shape = SubResource("CircleShape2D_462ap")
+
+[node name="point" type="Sprite2D" parent="Player" unique_id=1503524100]
+position = Vector2(-0.076812744, 0.06970995)
+scale = Vector2(1.4411708, 1.4388852)
+texture = SubResource("AtlasTexture_drt2y")
 
 [node name="BulletPool" type="Node2D" parent="." unique_id=1037854336]
 
@@ -342,6 +352,8 @@ progress = 453.4643
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D2" unique_id=1300554624]
+target_speed = 200.0
+time_taken = 1.0
 collision_layer = 16
 collision_mask = 4
 
@@ -354,8 +366,8 @@ progress = 621.4522
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
-count = 12
-fire_rate = 0.2
+count = 10
+fire_rate = 0.05
 collision_layer = 16
 collision_mask = 4
 
@@ -371,6 +383,8 @@ progress = 616.9433
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D3" unique_id=1247720010]
+target_speed = 400.0
+time_taken = 3.0
 collision_layer = 16
 collision_mask = 4
 
@@ -383,6 +397,7 @@ progress = 1086.8566
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D4" unique_id=1914827745]
+time_taken = 3.0
 collision_layer = 16
 collision_mask = 4
 

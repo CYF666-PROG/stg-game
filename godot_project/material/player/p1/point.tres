@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://bbacd5kjw2cfa"]
+
+[ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="1_yn534"]
+
+[resource]
+atlas = ExtResource("1_yn534")
+region = Rect2(0, 18, 64, 61)

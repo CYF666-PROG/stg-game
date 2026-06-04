@@ -64,13 +64,21 @@ void FlowerBullet::shoot(){
       if (!new_pool) {
         return;
       }
+      velocity_vector.normalize();
       Vector2 spawn_pos = get_global_position(); // 玩家当前位置
       Vector2 direction(0, -1);                  // 向上发射
-      float speed = 100;                      // 子弹速度
+      float speed = 10;                      // 子弹速度
       float pian = 1.5 ;// 子弹贴图旋转偏移
-      auto linear_behavior = [velocity_vector, speed, pian](BulletPool::Bullet& b){
+      // 完全加速帧数
+      int jia = 10 ;
+      auto linear_behavior = [velocity_vector, speed, pian, jia](BulletPool::Bullet& b){
         b.rotation = pian + b.velocity.angle();
-        b.velocity = velocity_vector * speed;
+        if (b.lifetime < jia){
+          b.velocity = (velocity_vector * speed) * (double(b.lifetime)/double(jia));
+        }else{
+          b.velocity = velocity_vector * speed;
+        }
+        
       };
 
       // 1. 获取资源加载器的单例
@@ -100,7 +108,10 @@ void FlowerBullet::shoot(){
 void game::bullet_settings::FlowerBullet::frame_do(double delta){
   if (fire_count == 0 || int(fire_interval*60) == 0) return;
   if (frame % int(fire_interval*60) == 0){
-    if (!fire_count--) return;
+    if (!fire_count--) {
+      queue_free(); // 发射完毕后销毁自己
+      return;
+    };
     shoot();
   }
   frame += 1;

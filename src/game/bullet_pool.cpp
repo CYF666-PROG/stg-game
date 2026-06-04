@@ -120,14 +120,14 @@ void BulletPool::_physics_process(double delta){
     for (auto &b : pool){
         if (!b.active) continue;
 
-        b.lifetime += delta;
+        b.lifetime++;
 
         if (b.behavior_fn) {
             b.behavior_fn(b);
         }
 
         // 1. 位移
-        b.position += b.velocity * delta;
+        b.position += b.velocity;
 
         // 2. 边界判定
         if (b.position.x < -50 || b.position.x > 952 + 50 ||

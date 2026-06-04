@@ -20,6 +20,7 @@ void KeyBoard::update(double delta){
   this->is_up = input->is_key_pressed(KEY_UP);
   this->is_down = input->is_key_pressed(KEY_DOWN);
   this->is_shoot = input->is_key_pressed(KEY_Z);
+  this->is_slow = input->is_key_pressed(KEY_SHIFT);
 }
 
 KeyBoard *input::KeyBoard::get_singleton(){

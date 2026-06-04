@@ -38,6 +38,7 @@ void game::LevelManager::_physics_process(double delta)
 void game::LevelManager::_bind_methods(){}
 
 void game::LevelManager::_ready(){
+  godot::UtilityFunctions::print("LevelManager _ready");
   // 1. 获取场景树
   godot::SceneTree* tree = get_tree();
   if (!tree) {

@@ -1,6 +1,6 @@
 #include "register_types.hpp"
 #include "game/entity.hpp"
-#include "game/player.hpp"
+#include "game/player/player.hpp"
 #include "input/keyboard.hpp"
 #include "game/levelmanager.hpp"
 #include "game/enemy/enemy.hpp"
@@ -13,6 +13,7 @@
 #include "utility/trigger.hpp"
 #include "utility/gearbox.hpp"
 #include "game/bullet_pool.hpp"
+#include "game/player/transmitter_1.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -38,6 +39,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(utility::Trigger);
   GDREGISTER_CLASS(utility::Gearbox);
   GDREGISTER_CLASS(game::BulletPool);
+  GDREGISTER_CLASS(game::player::Transmitter_1);
 
   memnew(input::KeyBoard);
   Engine::get_singleton()->register_singleton(

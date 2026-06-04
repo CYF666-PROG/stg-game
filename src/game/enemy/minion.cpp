@@ -2,6 +2,7 @@
 
 #include <godot_cpp/classes/animated_sprite2d.hpp>
 #include <godot_cpp/classes/path_follow2d.hpp>
+#include <godot_cpp/classes/sprite_frames.hpp> 
 
 using namespace godot;
 using namespace game::enemy ;
@@ -12,53 +13,62 @@ void game::enemy::Minion::update_animation(){
     UtilityFunctions::print("Minion::update_animation not fond animation");
     return;
   }
-  double speed_x = spead.x - 1 ;
+  double speed_x = global_speed.x; 
+  double abs_speed_x = std::abs(speed_x); 
+  const double IDLE_THRESHOLD = 2; 
+  // 1. 获取当前正在播放的动画名
+  godot::StringName current_anim = animation->get_animation();
 
-  String current_anim = animation->get_animation();
-  // 1. 核心自动接续逻辑：当非循环动画（to_right）播放完毕时
-  if (!animation->is_playing()) {
-    // 【正向起步结束】 -> 进入持续奔跑动画 right
-    if (current_anim == "to_right" && animation->get_frame() != 0) {
-      animation->play("right");
-      current_anim = "right";
-    } 
-    // 【反向刹车结束】 -> 此时动画倒带停在第 0 帧，真正进入静止状态 normal
-    else if (current_anim == "to_right" && animation->get_frame() == 0) {
-      animation->set_flip_h(false); // 回到正常朝向（可选，取决于你 normal 的设计）
-      animation->play("normal");
-      current_anim = "normal";
-    }
-  }
-
-  // 2. 状态机：仅根据速度方向控制起步、奔跑和倒带刹车
-  if (Math::is_zero_approx(speed_x)) {
+  if (abs_speed_x < IDLE_THRESHOLD) { 
     // 【静止状态】
-    if (current_anim == "right") {
-      // 无论向左还是向右，停步时都倒带播放 to_right
-      // 此时的 flip_h 会保持奔跑时的状态（左或右），从而实现正确的方向倒带
-      animation->play_backwards("to_right");
+    // 只有当 to_right 播完了，或者当前不是 to_right 时，才能切回 normal 动画
+    // 防止人在减速时，转身动画还没播完就被 normal 强行打断
+    if (current_anim != godot::StringName("to_right") || !animation->is_playing()) {
+      animation->play("normal"); 
+    }
+  } 
+  else { 
+    // 【移动状态】处理水平镜像翻转 
+    godot::Vector2 current_scale = animation->get_scale(); 
+    if (speed_x > 0) { 
+      current_scale.x = std::abs(current_scale.x); // 面向右 
+    } else { 
+      current_scale.x = -std::abs(current_scale.x); // 面向左 
     } 
-    else if (current_anim != "to_right" && current_anim != "normal") {
-      // 保底安全检查
-      animation->play("normal");
-    }
-  } 
-  else if (speed_x < 0.0f) {
-    // 【向左移动】
-    if (current_anim != "to_right" && current_anim != "right") {
-      animation->set_flip_h(true);  // 🌟 关键：开启视觉镜像，全部朝左
-      animation->set_frame(0);      // 确保从头正向播放
+    animation->set_scale(current_scale); 
+
+    // 2. 核心：控制 to_right 播放完再播 right
+    if (current_anim == godot::StringName("normal")) {
+      // 如果刚从静止起步，触发转身过渡动画
       animation->play("to_right");
-    }
-  } 
-  else if (speed_x > 0.0f) {
-    // 【向右移动】
-    if (current_anim != "to_right" && current_anim != "right") {
-      animation->set_flip_h(false); // 🌟 关键：关闭视觉镜像，恢复朝右
-      animation->set_frame(0);      // 确保从头正向播放
-      animation->play("to_right");
+    } 
+    else if (current_anim == godot::StringName("to_right")) {
+      // 如果当前正在播转身，检查它是否已经放到了最后一帧（或者已经停止播放）
+      // 只有满足这个条件，才代表 to_right 播完了
+      int current_frame = animation->get_frame();
+      int total_frames = animation->get_sprite_frames()->get_frame_count("to_right");
+
+      if (current_frame >= total_frames - 1) {
+        // 完美衔接持续移动动画
+        animation->play("right");
+      }
+    } 
+    else if (current_anim != godot::StringName("right")) {
+      // 兜底保障：如果处于移动状态，且既不是 normal 也不是 to_right，则播放 right
+      animation->play("right");
     }
   }
+
+}
+
+void game::enemy::Minion::update_speed(){
+  godot::Vector2 current_position = get_global_position();
+  // 计算两帧之间的位移距离，像素/帧
+  if (last_global_pos != godot::Vector2()) {
+    global_speed = current_position - last_global_pos;
+  }
+  // 更新上一帧位置
+  last_global_pos = current_position;
 }
 
 void game::enemy::Minion::entity_physics_process(double delta) {}
