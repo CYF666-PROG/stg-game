@@ -13,6 +13,10 @@ void game::Entity::dead(){
 
 void game::Entity::entity_physics_process(double delta){}
 
+void game::Entity::hit_bullet(){
+  hp -= 1;
+}
+
 void game::Entity::set_texture_coll(
     const godot::String path, 
     double d,

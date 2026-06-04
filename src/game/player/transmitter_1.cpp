@@ -57,20 +57,20 @@ void Transmitter_1::shoot(){
   pool->spawn(
     get_global_position() + Vector2(-10,0),
     linear_behavior,
-    0,
     texture,
     "normal",
     bullet_radius,
+    4,
     Vector2(1,1) * bullet_scale,
     bullet_anchor
   );
   pool->spawn(
     get_global_position() + Vector2(10,0),
     linear_behavior,
-    0,
     texture,
     "normal",
     bullet_radius,
+    4,
     Vector2(1,1) * bullet_scale,
     bullet_anchor
   );
@@ -93,18 +93,21 @@ game::player::Transmitter_1::Transmitter_1(orb_Typ orb_typ, bullet_Typ bullet_ty
                             conf::bullet::player_1::anchor_y);
     bullet_rotation_offset = conf::bullet::player_1::rotation_offset;
     bullet_scale = conf::bullet::player_1::scale;
+    bullet_radius = conf::bullet::player_1::radius;
   }else if (bullet_typ == fast_bullet_2){
     bullet_path = String(conf::bullet::player_2::path.c_str());
     bullet_anchor = Vector2(conf::bullet::player_2::anchor_x,
                             conf::bullet::player_2::anchor_y);
     bullet_rotation_offset = conf::bullet::player_2::rotation_offset;
     bullet_scale = conf::bullet::player_2::scale;
+    bullet_radius = conf::bullet::player_2::radius;
   }else{
-    bullet_path = String(conf::bullet::player_2::path.c_str());
-    bullet_anchor = Vector2(conf::bullet::player_2::anchor_x,
-                            conf::bullet::player_2::anchor_y);
-    bullet_rotation_offset = conf::bullet::player_2::rotation_offset;
-    bullet_scale = conf::bullet::player_2::scale;
+    bullet_path = String(conf::bullet::player_3::path.c_str());
+    bullet_anchor = Vector2(conf::bullet::player_3::anchor_x,
+                            conf::bullet::player_3::anchor_y);
+    bullet_rotation_offset = conf::bullet::player_3::rotation_offset;
+    bullet_scale = conf::bullet::player_3::scale;
+    bullet_radius = conf::bullet::player_3::radius;
   }
   
 }

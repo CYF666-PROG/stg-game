@@ -21,8 +21,9 @@ protected:
   input::KeyBoard* keyboard = nullptr;
   godot::Vector2 spead = godot::Vector2(0, 0);
 public:
-  double hp = 0;
+  double hp = 100;
   virtual void entity_physics_process(double delta);
+  virtual void hit_bullet();
   /// @param d 碰撞圆半径
   /// @param scale 缩放
   void set_texture_coll(

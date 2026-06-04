@@ -1,4 +1,5 @@
 #include "bullet_pool.hpp"
+#include "entity.hpp"
 
 #include <godot_cpp/classes/physics_server2d.hpp>
 #include <godot_cpp/classes/rendering_server.hpp>
@@ -50,14 +51,15 @@ void BulletPool::_ready() {
     }
 }
 
-void BulletPool::spawn(Vector2 p_pos, 
-                       std::function<void(Bullet&)> p_behavior, 
-                       float p_rot, 
-                       Ref<SpriteFrames> p_sprite_frames, 
-                       StringName p_anim_name,
-                       float p_radius,
-                       Vector2 p_scale,
-                       Vector2 p_anchor) {
+void BulletPool::spawn(godot::Vector2 p_pos, 
+               std::function<void(Bullet&)> p_behavior, 
+               godot::Ref<godot::SpriteFrames> p_sprite_frames, 
+               godot::StringName p_anim_name,
+               float p_radius,
+               int mask,
+               godot::Vector2 p_scale,
+               godot::Vector2 p_anchor,
+               float p_rot) {
     if (p_sprite_frames.is_null() || !p_sprite_frames->has_animation(p_anim_name)) return;
 
     PhysicsServer2D *ps = PhysicsServer2D::get_singleton();
@@ -69,12 +71,12 @@ void BulletPool::spawn(Vector2 p_pos,
             b.rotation = p_rot;
             b.lifetime = 0.0f;
             b.active = true;
-
+            /// 设置碰撞遮罩
+            b.mask = mask;
             // 绑定行为
             b.behavior_fn = p_behavior;
             if (b.behavior_fn) {
                 b.behavior_fn(b);
-                b.velocity = b.base_velocity;
             }
 
             // 缓存新增的缩放和锚点
@@ -111,7 +113,6 @@ void BulletPool::_physics_process(double delta){
 
     Ref<PhysicsShapeQueryParameters2D> query;
     query.instantiate();
-    query->set_collision_mask(1); 
     query->set_collide_with_areas(true); 
     query->set_collide_with_bodies(true); 
 
@@ -219,21 +220,24 @@ void BulletPool::_physics_process(double delta){
         // =============================================================
 
         // 4. 物理碰撞
+        // 设置碰撞遮罩
+        query->set_collision_mask(b.mask); 
         if (space_state != nullptr) {
             query->set_shape_rid(b.shape_rid); 
             query->set_transform(xform); 
 
             TypedArray<Dictionary> results = space_state->intersect_shape(query, 32);
-            if (results.size() > 0) {
-                for (int i = 0; i < results.size(); ++i) {
-                    Dictionary collision = results[i];
-                    ObjectID obj_id = collision["collider_id"];
-                    Object *enemy = ObjectDB::get_instance(obj_id);
-                    if (enemy != nullptr) {
-                        enemy->call("take_damage", 10); 
-                    }
-                }
-                recycle_bullet(b);
+            if (results.size() > 0){
+              for (int i = 0; i < results.size(); ++i) {
+                  Dictionary collision = results[i];
+                  ObjectID obj_id = collision["collider_id"];
+                  Object *enemy = ObjectDB::get_instance(obj_id);
+                  auto entity = Object::cast_to<game::Entity>(enemy);
+                  if (entity != nullptr) {
+                      entity->hit_bullet(); 
+                  }
+              }
+              recycle_bullet(b);
             }
         }
     }

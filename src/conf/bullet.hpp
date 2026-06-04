@@ -11,7 +11,7 @@ namespace conf{
       double anchor_x = 0.8392857142857143;
       double anchor_y = 0.5;
       /// 判定半径
-      double radius = 10;
+      double radius = 25;
       /// 旋转偏移
       double rotation_offset = -1.570781325;
       /// 贴图缩放
@@ -23,7 +23,7 @@ namespace conf{
       double anchor_x = 0.8392857142857143;
       double anchor_y = 0.5;
       /// 判定半径
-      double radius = 10;
+      double radius = 25;
       /// 旋转偏移
       double rotation_offset = -1.570781325;
       /// 贴图缩放
@@ -35,7 +35,7 @@ namespace conf{
       double anchor_x = 0.8392857142857143;
       double anchor_y = 0.5;
       /// 判定半径
-      double radius = 10;
+      double radius = 25;
       /// 旋转偏移
       double rotation_offset = -1.570781325;
       /// 贴图缩放

@@ -322,10 +322,6 @@ texture = SubResource("AtlasTexture_drt2y")
 
 [node name="LevelManager" type="LevelManager" parent="." unique_id=954268379]
 
-[node name="NewBulletPool" type="Node2D" parent="." unique_id=1569809395]
-
-[node name="BulletPool2" type="BulletPool" parent="." unique_id=817223954]
-
 [node name="move" type="Node" parent="." unique_id=1797647836]
 
 [node name="level1" type="Node" parent="move" unique_id=601526389]
@@ -340,6 +336,8 @@ progress = 157.33813
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D5" unique_id=2111494106]
+target_speed = 200.0
+time_taken = 0.0
 collision_layer = 16
 collision_mask = 4
 
@@ -353,7 +351,7 @@ rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D2" unique_id=1300554624]
 target_speed = 200.0
-time_taken = 1.0
+time_taken = 0.1
 collision_layer = 16
 collision_mask = 4
 
@@ -375,6 +373,7 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=822150124]
+count = 1
 process_mode = 4
 
 [node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=2066262182]
@@ -384,7 +383,7 @@ rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D3" unique_id=1247720010]
 target_speed = 400.0
-time_taken = 3.0
+time_taken = 1.0
 collision_layer = 16
 collision_mask = 4
 
@@ -453,3 +452,5 @@ sprite_frames = ExtResource("2_ppd22")
 animation = &"normal"
 autoplay = "normal"
 frame_progress = 0.41831824
+
+[node name="BulletPool2" type="BulletPool" parent="." unique_id=1946099959]

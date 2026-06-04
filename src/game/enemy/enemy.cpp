@@ -11,6 +11,8 @@ void game::Enemy::_bind_methods(){
 
 void game::Enemy::_on_area_entered(godot::Area2D *other_area){}
 
+
+
 void game::Enemy::_ready(){
   // 清除所有碰撞层
   set_collision_layer(0);

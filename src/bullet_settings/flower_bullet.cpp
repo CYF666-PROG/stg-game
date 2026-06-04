@@ -64,7 +64,6 @@ void FlowerBullet::shoot(){
       if (!new_pool) {
         return;
       }
-      velocity_vector.normalize();
       Vector2 spawn_pos = get_global_position(); // 玩家当前位置
       Vector2 direction(0, -1);                  // 向上发射
       float speed = 10;                      // 子弹速度
@@ -74,9 +73,9 @@ void FlowerBullet::shoot(){
       auto linear_behavior = [velocity_vector, speed, pian, jia](BulletPool::Bullet& b){
         b.rotation = pian + b.velocity.angle();
         if (b.lifetime < jia){
-          b.velocity = (velocity_vector * speed) * (double(b.lifetime)/double(jia));
+          b.velocity = (velocity_vector ) * (double(b.lifetime)/double(jia));
         }else{
-          b.velocity = velocity_vector * speed;
+          b.velocity = velocity_vector;
         }
         
       };
@@ -95,10 +94,10 @@ void FlowerBullet::shoot(){
       new_pool->spawn(
         spawn_pos,     
         linear_behavior, 
-        1.5707,         
         texture,  
         "normal",
         6.0f,
+        1,
         godot::Vector2(1.5,1.5)
       );
     }
