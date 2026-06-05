@@ -1,0 +1,18 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bytmoayrjcirk"]
+
+[ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="1_nelda"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqelh"]
+atlas = ExtResource("1_nelda")
+region = Rect2(129, 17, 62, 62)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqelh")
+}],
+"loop": false,
+"name": &"normal",
+"speed": 3.0
+}]

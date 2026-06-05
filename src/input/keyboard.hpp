@@ -23,7 +23,7 @@ public:
   void update(double delta);
   static KeyBoard* get_singleton();
 
-
+  void _physics_process(double delta);
   KeyBoard();
   ~KeyBoard();
 };

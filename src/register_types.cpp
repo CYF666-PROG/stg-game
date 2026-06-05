@@ -14,11 +14,16 @@
 #include "utility/gearbox.hpp"
 #include "game/bullet_pool.hpp"
 #include "game/player/transmitter_1.hpp"
+#include "game/effect_manager.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/engine.hpp>
 
 using namespace godot ;
+
+// 1. 在文件顶部（using namespace godot; 下面），定义两个专属于这个文件的静态追踪指针
+static input::KeyBoard* _keyboard_instance = nullptr;
+static game::LevelManager* _levelmanager_instance = nullptr;
 
 void initialize_example_module(ModuleInitializationLevel p_level) {
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
@@ -40,12 +45,8 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(utility::Gearbox);
   GDREGISTER_CLASS(game::BulletPool);
   GDREGISTER_CLASS(game::player::Transmitter_1);
+  GDREGISTER_CLASS(game::EffectManager);
 
-  memnew(input::KeyBoard);
-  Engine::get_singleton()->register_singleton(
-    "KeyBoard", 
-    input::KeyBoard::get_singleton()
-  );
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {
@@ -53,8 +54,6 @@ void uninitialize_example_module(ModuleInitializationLevel p_level) {
 		return;
 	}
 
-  Engine::get_singleton()->unregister_singleton("KeyBoard");
-  memdelete(input::KeyBoard::get_singleton());
 }
 
 extern "C" {

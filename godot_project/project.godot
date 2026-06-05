@@ -15,6 +15,13 @@ run/main_scene="uid://b35bipt1yp8rc"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+MyEffectManager="*uid://bdl2tlxl1d4mk"
+MyKeyBoard="*uid://cy4w7oybf01fs"
+MyLevelManager="*uid://bat807cieqsik"
+MyBulletPool="*uid://bfu438reqkknl"
+
 [display]
 
 window/size/viewport_width=1440

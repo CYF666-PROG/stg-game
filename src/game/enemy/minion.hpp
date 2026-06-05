@@ -31,6 +31,7 @@ public:
   /// 弹幕发射器
 
   // BulletManager transmitter; // 千万不能包含其他注册节点！
+  virtual void dead() override;
   /// 更新动画
   void update_animation() override;
   void update_speed();

@@ -11,6 +11,7 @@
 
 using namespace game;
 
+LevelManager* LevelManager::singleton = nullptr;
 
 void game::LevelManager::_physics_process(double delta)
 {
@@ -61,9 +62,18 @@ void game::LevelManager::_ready(){
   make_enemy(3.0, IMP, get_path2d("level1/RightUp"));
 }
 
-LevelManager::LevelManager() {}
+LevelManager::LevelManager() {
+    // 当 Godot 实例化 Autoload 时，把实例赋给静态指针
+  if (singleton == nullptr) {
+      singleton = this;
+  }
+}
 
-LevelManager::~LevelManager(){}
+LevelManager::~LevelManager(){
+if (singleton == this) {
+  singleton = nullptr;
+}
+}
 
 godot::Path2D *game::LevelManager::get_path2d(godot::String path){
   // 3. 根据相对路径寻找 Path2D
@@ -100,4 +110,8 @@ void game::LevelManager::make_enemy(double time, enemy_typ typ, godot::Path2D *p
   senemy.path = path;
   senemy.typ = typ ;
   level_timeline.emplace(time, std::move(senemy));
+}
+
+LevelManager *game::LevelManager::get_singleton(){
+  return nullptr;
 }

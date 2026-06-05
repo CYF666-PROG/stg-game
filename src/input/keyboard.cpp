@@ -30,7 +30,12 @@ KeyBoard *input::KeyBoard::get_singleton(){
 void KeyBoard::_bind_methods(){
 }
 
-KeyBoard::KeyBoard() {
+void input::KeyBoard::_physics_process(double delta){
+  update(delta);
+}
+
+KeyBoard::KeyBoard()
+{
   if (KeyBoard::get_singleton() != nullptr){
     return ;
   }

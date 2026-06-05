@@ -1,13 +1,58 @@
 #include "minion.hpp"
+#include "../effect_manager.hpp"
 
 #include <godot_cpp/classes/animated_sprite2d.hpp>
 #include <godot_cpp/classes/path_follow2d.hpp>
 #include <godot_cpp/classes/sprite_frames.hpp> 
+#include <godot_cpp/classes/resource_loader.hpp>
 
 using namespace godot;
 using namespace game::enemy ;
 
-void game::enemy::Minion::update_animation(){
+void game::enemy::Minion::dead(){
+  // 1. 获取资源加载器的单例
+  godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
+  // 2. 直接加载资源并进行安全强转
+  godot::Ref<SpriteFrames> texture = loader->load("res://material/special_effects/entity_dead.tres");
+  // 3. 检查是否加载成功
+  if (!texture.is_valid()) {
+    godot::UtilityFunctions::print("res://material/special_effects/entity_dead.tres", " load erro");
+    return;
+  }
+  auto eff = game::EffectManager::get_singleton();
+  if (!eff){
+    godot::UtilityFunctions::print("Minion::dead EffectManager not fond");
+    return;
+  }
+  eff->spawn_effect(
+    texture,get_global_position(),
+    "normal", 
+    0.5,
+    [](EffectManager::EffectInstance &inst, int elapsed_ticks) -> bool {
+      // --- 只专注于修改数值，非常简便 ---
+      // 1. 每帧旋转 0.1 弧度
+      inst.rotation += 0.1;
+      // 2. 每帧缩小 2%，直到缩小到零
+      inst.scale.x = inst.scale.x + 0.3;
+      inst.scale.y = inst.scale.x;
+      if (inst.total_elapsed_ticks < 3){
+        inst.modulate.a = 0.5;
+      }
+      // 3. 同时逐渐变透明
+      inst.modulate.a = Math::max(0.0, inst.modulate.a - 0.05);
+
+      // 当缩小到零时提前销毁
+      if (inst.modulate.a == 0) {
+          return false;
+      }
+      return true; // 继续存活
+    }
+  );
+  queue_free();
+}
+
+void game::enemy::Minion::update_animation()
+{
   auto* animation = Object::cast_to<AnimatedSprite2D>(get_node_or_null("animation"));
   if (!animation){
     UtilityFunctions::print("Minion::update_animation not fond animation");
@@ -58,7 +103,6 @@ void game::enemy::Minion::update_animation(){
       animation->play("right");
     }
   }
-
 }
 
 void game::enemy::Minion::update_speed(){

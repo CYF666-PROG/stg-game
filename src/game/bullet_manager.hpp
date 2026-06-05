@@ -24,6 +24,7 @@ public:
   /// 发射弹幕贴图
   godot::Ref<godot::Texture2D> to_launch_texture;
   virtual void shoot();
+  virtual void shoot_effects();
 
   virtual void frame_do(double delta);
   virtual void _physics_process(double delta) override;

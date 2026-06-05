@@ -318,10 +318,6 @@ position = Vector2(-0.076812744, 0.06970995)
 scale = Vector2(1.4411708, 1.4388852)
 texture = SubResource("AtlasTexture_drt2y")
 
-[node name="BulletPool" type="Node2D" parent="." unique_id=1037854336]
-
-[node name="LevelManager" type="LevelManager" parent="." unique_id=954268379]
-
 [node name="move" type="Node" parent="." unique_id=1797647836]
 
 [node name="level1" type="Node" parent="move" unique_id=601526389]
@@ -452,5 +448,3 @@ sprite_frames = ExtResource("2_ppd22")
 animation = &"normal"
 autoplay = "normal"
 frame_progress = 0.41831824
-
-[node name="BulletPool2" type="BulletPool" parent="." unique_id=1946099959]

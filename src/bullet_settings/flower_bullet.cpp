@@ -16,6 +16,7 @@ using namespace game ;
 
 
 void FlowerBullet::shoot(){
+  shoot_effects();
   double base_angle = get_rotation(); // 获取当前花弹的初始角度
   // 🌟 角度控制参数（可以根据您的需求修改）
   double angle_step = rad; // 🔴 每隔多少弧度发射一次（例如：0.5236 弧度约等于 30 度）
@@ -62,6 +63,7 @@ void FlowerBullet::shoot(){
       // sub_bullet->init(get_global_position());
       auto *new_pool = BulletPool::get_pool();
       if (!new_pool) {
+        UtilityFunctions::print("FlowerBullet::shoot pool not foud");
         return;
       }
       Vector2 spawn_pos = get_global_position(); // 玩家当前位置

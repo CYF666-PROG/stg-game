@@ -17,6 +17,7 @@ namespace game{
 class LevelManager : public godot::Node2D{
   GDCLASS(LevelManager, godot::Node2D)
 private:
+  static LevelManager* singleton;
   enum enemy_typ {
     IMP
   };
@@ -60,7 +61,7 @@ public:
     enemy_typ typ, 
     godot::Path2D* path
   );
-  
+  static LevelManager* get_singleton();
   void _physics_process(double delta) override;
   void _ready() override ;
   static void _bind_methods();
