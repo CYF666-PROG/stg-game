@@ -18,10 +18,6 @@ size = Vector2(864, 17)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k01lb"]
 size = Vector2(864, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_drt2y"]
-atlas = ExtResource("1_ppd22")
-region = Rect2(0, 18, 64, 61)
-
 [sub_resource type="Shader" id="Shader_drhme"]
 code = "shader_type canvas_item;
 
@@ -238,6 +234,10 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_462ap"]
 radius = 4.9972477
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_drt2y"]
+atlas = ExtResource("1_ppd22")
+region = Rect2(0, 18, 64, 61)
+
 [sub_resource type="Curve2D" id="Curve2D_462ap"]
 bake_interval = 0.01
 _data = {
@@ -297,7 +297,6 @@ position = Vector2(504, 18)
 shape = SubResource("RectangleShape2D_k01lb")
 
 [node name="Player" type="Player" parent="." unique_id=1500520606]
-bullet_texture = SubResource("AtlasTexture_drt2y")
 position = Vector2(506, 970)
 scale = Vector2(1.415, 1.415)
 collision_mask = 33
@@ -332,8 +331,6 @@ progress = 157.33813
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D5" unique_id=2111494106]
-target_speed = 200.0
-time_taken = 0.0
 collision_layer = 16
 collision_mask = 4
 
@@ -346,8 +343,6 @@ progress = 453.4643
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D2" unique_id=1300554624]
-target_speed = 200.0
-time_taken = 0.1
 collision_layer = 16
 collision_mask = 4
 
@@ -360,8 +355,8 @@ progress = 621.4522
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
-count = 10
-fire_rate = 0.05
+count = 5
+fire_rate = 0.5
 collision_layer = 16
 collision_mask = 4
 
@@ -369,7 +364,6 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=822150124]
-count = 1
 process_mode = 4
 
 [node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=2066262182]
@@ -378,8 +372,6 @@ progress = 616.9433
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D3" unique_id=1247720010]
-target_speed = 400.0
-time_taken = 1.0
 collision_layer = 16
 collision_mask = 4
 
@@ -392,7 +384,6 @@ progress = 1086.8566
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D4" unique_id=1914827745]
-time_taken = 3.0
 collision_layer = 16
 collision_mask = 4
 

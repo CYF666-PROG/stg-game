@@ -1,6 +1,6 @@
 #include "imp.hpp"
-#include "../../bullet_settings/flower_bullet.hpp"
 #include "../bullet/player_bullet.hpp"
+#include "../bullet_manager.hpp"
 
 
 

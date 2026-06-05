@@ -35,7 +35,7 @@ public:
   /// 更新动画
   void update_animation() override;
   void update_speed();
-  virtual void entity_physics_process(double delta);
+  virtual void entity_physics_process(double delta) override;
   Minion();
   virtual ~Minion();
 };

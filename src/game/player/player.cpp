@@ -1,6 +1,7 @@
 #include "player.hpp"
-#include "../bullet/player_bullet.hpp"
+#include "godot_cpp/core/math_defs.hpp"
 #include "transmitter_1.hpp"
+#include "skill.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/sprite2d.hpp>
@@ -71,11 +72,11 @@ void game::Player::update_animation(){
 }
 
 void Player::entity_physics_process(double date){
-  keyboard->update(date);
   update();
   move();
   update_animation();
   if(keyboard->is_shoot) shoot();
+  if(keyboard->is_skill && !is_skilling) skill();
 }
 
 void Player::update(){
@@ -246,6 +247,16 @@ void game::Player::check_orb(){
       tran->set_position(Vector2(-80,0));
       add_child(tran);
     }
+  }
+}
+
+void game::Player::skill(){
+  is_skilling = true;
+  int count = 4;
+  double r = 0.0;
+  for (int i = 0; i <count; ++i) {
+    add_child(memnew(player::Skill(r)));
+    r += 2*Math_PI/double(count);
   }
 }
 

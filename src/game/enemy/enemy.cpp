@@ -1,8 +1,10 @@
 #include "enemy.hpp"
+#include "enemy_manager.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace game;
+using namespace godot;
 
 void game::Enemy::_bind_methods(){
   // 注册 _on_area_entered
@@ -24,6 +26,13 @@ void game::Enemy::_ready(){
   set_collision_mask_value(5, true);
   // 连接内置信号 "area_entered" 到本对象的指定函数
   connect("area_entered", godot::Callable(this, "_on_area_entered"));
+  // 注册到敌人管理器
+  auto enm_man = enemy::EnemyManager::get_singleton();
+  if (!enm_man){
+    UtilityFunctions::print("Enemy::_ready EnemyManager not fond");
+    return;
+  }
+  enm_man->register_enemy(this);
 }
 
 Enemy::Enemy(){}

@@ -15,6 +15,8 @@
 #include "game/bullet_pool.hpp"
 #include "game/player/transmitter_1.hpp"
 #include "game/effect_manager.hpp"
+#include "game/player/skill.hpp"
+#include "game/enemy/enemy_manager.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -46,6 +48,8 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::BulletPool);
   GDREGISTER_CLASS(game::player::Transmitter_1);
   GDREGISTER_CLASS(game::EffectManager);
+  GDREGISTER_CLASS(game::player::Skill);
+  GDREGISTER_CLASS(game::enemy::EnemyManager)
 
 }
 

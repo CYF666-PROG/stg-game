@@ -13,11 +13,13 @@ private:
   bullet_settings::FlowerBullet* flow = nullptr;
   int orb_count = 4;
   bool is_slow = false;
+  bool is_skilling = false;
 public:
   void update();
   void move();
   void shoot();
   void check_orb();
+  void skill();
 
   void update_animation() override;
   void entity_physics_process(double delta) override ;

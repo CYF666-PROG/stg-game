@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../entity.hpp"
-#include "../bullet_manager.hpp"
+
 
 #include <godot_cpp/core/class_db.hpp>
 
