@@ -61,6 +61,7 @@ void Transmitter_1::shoot(){
     "normal",
     bullet_radius,
     4,
+    0,
     Vector2(1,1) * bullet_scale,
     bullet_anchor
   );
@@ -71,6 +72,7 @@ void Transmitter_1::shoot(){
     "normal",
     bullet_radius,
     4,
+    0,
     Vector2(1,1) * bullet_scale,
     bullet_anchor
   );

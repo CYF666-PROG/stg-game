@@ -39,13 +39,21 @@ EffectManager::~EffectManager() {
     }
 }
 
-void EffectManager::spawn_effect(const Ref<SpriteFrames> &p_frames, Vector2 p_global_pos, StringName p_anim_name, double p_speed_scale, EffectUpdateCallback p_callback) {
+void EffectManager::spawn_effect(
+  const Ref<SpriteFrames> &p_frames, 
+  Vector2 p_global_pos, 
+  StringName p_anim_name, 
+  double p_speed_scale, 
+  EffectUpdateCallback p_callback,
+  int z_index
+) {
     if (p_frames.is_null() || !p_frames->has_animation(p_anim_name)) return;
 
     RenderingServer *rs = RenderingServer::get_singleton();
     RID ci = rs->canvas_item_create();
     rs->canvas_item_set_parent(ci, get_canvas_item());
-
+    // 设置z轴索引
+    rs->canvas_item_set_z_index(ci, z_index);
     // 默认变换 (旋转0, 缩放1, 原点是初始位置)
     Transform2D xform;
     xform.set_origin(p_global_pos);

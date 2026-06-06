@@ -68,13 +68,14 @@ public:
     void _physics_process(double delta);
   
     // 修改后的 spawn 接口，追加了 p_scale 和 p_anchor
-    /// 初始坐标 运动函数 贴图 动画名称 判定点半径 碰撞层遮罩3为对第1,2层 缩放 锚点 初始角度rad 
+    /// 初始坐标 运动函数 贴图 动画名称 判定点半径 碰撞层遮罩3为对第1,2层 z轴索引 缩放 锚点 初始角度rad 
     void spawn(godot::Vector2 p_pos, 
                std::function<void(Bullet&)> p_behavior, 
                godot::Ref<godot::SpriteFrames> p_sprite_frames, 
                godot::StringName p_anim_name,
                float p_radius,
                int mask = 1,
+               int z_index = 10,
                godot::Vector2 p_scale = godot::Vector2(1.0f, 1.0f),
                godot::Vector2 p_anchor = godot::Vector2(0.5f, 0.5f),
                float p_rot = 0

@@ -1,4 +1,5 @@
 #include "keyboard.hpp"
+#include "godot_cpp/classes/global_constants.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -22,6 +23,7 @@ void KeyBoard::update(double delta){
   this->is_shoot = input->is_key_pressed(KEY_Z);
   this->is_slow = input->is_key_pressed(KEY_SHIFT);
   this->is_skill = input->is_key_pressed(KEY_X);
+  this->is_esc = input->is_key_pressed(KEY_ESCAPE);
 }
 
 KeyBoard *input::KeyBoard::get_singleton(){

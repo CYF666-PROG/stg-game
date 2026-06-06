@@ -19,7 +19,6 @@ config/icon="res://icon.svg"
 
 MyEffectManager="*uid://bdl2tlxl1d4mk"
 MyKeyBoard="*uid://cy4w7oybf01fs"
-MyLevelManager="*uid://bat807cieqsik"
 MyBulletPool="*uid://bfu438reqkknl"
 MyEnemyManager="*uid://3igh74embtwd"
 MyUiManager="*uid://05tt6okpfghi"

@@ -52,7 +52,7 @@ namespace red_yin_yang_orb{
     constexpr double anchor_x = 0.5;
     constexpr double anchor_y = 0.5;
     /// 贴图缩放
-    constexpr double scale = 2;
+    constexpr double scale = 1.5;
 }
 
 namespace blue_yin_yang_orb{
@@ -61,7 +61,7 @@ namespace blue_yin_yang_orb{
     constexpr double anchor_x = 0.5;
     constexpr double anchor_y = 0.5;
     /// 贴图缩放
-    constexpr double scale = 2;
+    constexpr double scale = 1.5;
 }
 
 namespace pink_yin_yang_orb{
@@ -70,7 +70,7 @@ namespace pink_yin_yang_orb{
     constexpr double anchor_x = 0.5;
     constexpr double anchor_y = 0.5;
     /// 贴图缩放
-    constexpr double scale = 2;
+    constexpr double scale = 1.5;
 }
 
 namespace skill_1{

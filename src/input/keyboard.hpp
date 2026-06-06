@@ -19,7 +19,8 @@ public:
   bool is_down = false ;
   bool is_shoot = false ;
   bool is_slow = false ;
-  bool is_skill = true;
+  bool is_skill = false;
+  bool is_esc = false;
 
   void update(double delta);
   static KeyBoard* get_singleton();

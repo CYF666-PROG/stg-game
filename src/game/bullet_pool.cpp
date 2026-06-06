@@ -57,6 +57,7 @@ void BulletPool::spawn(godot::Vector2 p_pos,
                godot::StringName p_anim_name,
                float p_radius,
                int mask,
+               int z_index,
                godot::Vector2 p_scale,
                godot::Vector2 p_anchor,
                float p_rot) {
@@ -73,6 +74,8 @@ void BulletPool::spawn(godot::Vector2 p_pos,
             b.active = true;
             /// 设置碰撞遮罩
             b.mask = mask;
+            /// 设置z轴索引
+            rs->canvas_item_set_z_index(b.canvas_item_rid, z_index);
             // 绑定行为
             b.behavior_fn = p_behavior;
             if (b.behavior_fn) {
@@ -121,11 +124,11 @@ void BulletPool::_physics_process(double delta){
     for (auto &b : pool){
         if (!b.active) continue;
 
-        b.lifetime++;
-
         if (b.behavior_fn) {
             b.behavior_fn(b);
         }
+
+        b.lifetime++;
 
         // 1. 位移
         b.position += b.velocity;

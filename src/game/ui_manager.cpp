@@ -141,7 +141,25 @@ bool UiManager::load_heart_card(){
   return true;
 }
 
-void UiManager::_physics_process(double delta){}
+void UiManager::pause(){
+};
+
+void UiManager::play(){}
+
+
+void UiManager::_physics_process(double delta){
+  auto keyboard = input::KeyBoard::get_singleton();
+  if (!keyboard) return;
+  // 切换游戏状态
+  // 暂停游戏
+  if (status_typ == PLAYING && !was_esc_pressed && keyboard->is_esc) {
+    pause();
+  }else if (status_typ == PAUSE && !was_esc_pressed && keyboard->is_esc) {
+    play();
+  }
+
+  was_esc_pressed = keyboard->is_esc;
+}
 
 void UiManager::_ready(){
   the_ui_manager = this;

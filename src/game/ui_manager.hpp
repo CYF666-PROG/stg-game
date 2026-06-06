@@ -20,11 +20,23 @@ private:
   std::vector<godot::Ref<godot::AtlasTexture>> star_tex;
   std::vector<godot::Sprite2D*> hearts;
   std::vector<godot::Sprite2D*> stars;
+  // 上一帧是否按下esc
+  bool was_esc_pressed = false;
+  enum status_Typ{
+    PLAYING,
+    PAUSE,
+    DEAD,
+    TITLE,
+  };
+  status_Typ status_typ = PLAYING;
 public:
   static UiManager* get_ui_manager();
   bool load_status_ui();
   bool load_heart_card();
   void check_player();
+  void pause();
+  void play();
+
   void _physics_process(double delta) override;
   void _ready() override;
   static void _bind_methods();

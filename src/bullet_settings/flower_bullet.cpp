@@ -100,6 +100,7 @@ void FlowerBullet::shoot(){
         "normal",
         6.0f,
         1,
+        10,
         godot::Vector2(1.5,1.5)
       );
     }

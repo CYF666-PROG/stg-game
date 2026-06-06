@@ -68,7 +68,8 @@ public:
         godot::Vector2 p_global_pos, 
         godot::StringName p_anim_name = "default", 
         double p_speed_scale = 1.0,
-        EffectUpdateCallback p_callback = nullptr
+        EffectUpdateCallback p_callback = nullptr,
+        int z_index = 11
     );
 };
 
