@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="1_ppd22"]
 [ext_resource type="Texture2D" uid="uid://bfou2gkp40yng" path="res://material/player/p1/playerImage.png" id="2_guiot"]
 [ext_resource type="SpriteFrames" uid="uid://dh5fan1s1mlor" path="res://material/enemy/imp/1_blue.tres" id="2_ppd22"]
+[ext_resource type="Texture2D" uid="uid://c37va5bf5xd7x" path="res://material/ui/heart/0.tres" id="3_3cebx"]
+[ext_resource type="Texture2D" uid="uid://u3s0engr6uke" path="res://material/ui/star/0.tres" id="4_tytcy"]
 
 [sub_resource type="GDScript" id="GDScript_drhme"]
 
@@ -257,7 +259,7 @@ _data = {
 }
 point_count = 8
 
-[node name="Node2D" type="Node2D" unique_id=1385972863]
+[node name="play" type="Node2D" unique_id=1385972863]
 script = SubResource("GDScript_drhme")
 metadata/_edit_vertical_guides_ = [72.0]
 metadata/_edit_horizontal_guides_ = [36.0, 1044.0, 1024.0, 919.0]
@@ -280,19 +282,19 @@ collision_mask = 0
 position = Vector2(944.75, 540)
 shape = SubResource("RectangleShape2D_5qbti")
 
-[node name="Wall_up" type="StaticBody2D" parent="Wall" unique_id=1135039448]
+[node name="Wall_dow" type="StaticBody2D" parent="Wall" unique_id=1135039448]
 collision_layer = 32
 collision_mask = 0
 
-[node name="Wall_up" type="CollisionShape2D" parent="Wall/Wall_up" unique_id=413685184]
+[node name="Wall_dow" type="CollisionShape2D" parent="Wall/Wall_dow" unique_id=413685184]
 position = Vector2(504, 1052.5)
 shape = SubResource("RectangleShape2D_gvr3l")
 
-[node name="Wall_dow" type="StaticBody2D" parent="Wall" unique_id=1113499453]
+[node name="Wall_up" type="StaticBody2D" parent="Wall" unique_id=1113499453]
 collision_layer = 32
 collision_mask = 0
 
-[node name="Wall_dow" type="CollisionShape2D" parent="Wall/Wall_dow" unique_id=1455672413]
+[node name="Wall_up" type="CollisionShape2D" parent="Wall/Wall_up" unique_id=1455672413]
 position = Vector2(504, 18)
 shape = SubResource("RectangleShape2D_k01lb")
 
@@ -314,7 +316,7 @@ shape = SubResource("CircleShape2D_462ap")
 
 [node name="point" type="Sprite2D" parent="Player" unique_id=1503524100]
 position = Vector2(-0.076812744, 0.06970995)
-scale = Vector2(1.4411708, 1.4388852)
+scale = Vector2(1.443, 1.443)
 texture = SubResource("AtlasTexture_drt2y")
 
 [node name="move" type="Node" parent="." unique_id=1797647836]
@@ -355,7 +357,7 @@ progress = 621.4522
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
-count = 5
+count = 3
 fire_rate = 0.5
 collision_layer = 16
 collision_mask = 4
@@ -433,8 +435,123 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D3/Gearbox" unique_id=1692556614]
 shape = SubResource("CircleShape2D_5qbti")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=710366030]
-position = Vector2(127, -78)
+[node name="StatusUi" type="ColorRect" parent="." unique_id=1057809944]
+z_index = 100
+offset_left = 936.0
+offset_right = 1440.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
+
+[node name="heart" type="Node2D" parent="StatusUi" unique_id=1902708117]
+
+[node name="Label" type="Label" parent="StatusUi/heart" unique_id=1192442507]
+offset_left = 17.0
+offset_top = 163.0
+offset_right = 78.0
+offset_bottom = 201.0
+theme_override_colors/font_color = Color(0.59442014, 0.00025846213, 0.59441596, 1)
+theme_override_font_sizes/font_size = 25
+text = "残机"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="StatusUi/heart" unique_id=495682062]
+offset_left = 17.0
+offset_top = 191.0
+offset_right = 78.0
+offset_bottom = 229.0
+theme_override_colors/font_color = Color(0.59442014, 0.00025846213, 0.59441596, 1)
+theme_override_font_sizes/font_size = 12
+text = "Lives"
+horizontal_alignment = 1
+
+[node name="0" type="Sprite2D" parent="StatusUi/heart" unique_id=323160569]
+position = Vector2(98, 182)
+texture = ExtResource("3_3cebx")
+
+[node name="1" type="Sprite2D" parent="StatusUi/heart" unique_id=160360630]
+position = Vector2(130, 182)
+texture = ExtResource("3_3cebx")
+
+[node name="2" type="Sprite2D" parent="StatusUi/heart" unique_id=1783289251]
+position = Vector2(162, 182)
+texture = ExtResource("3_3cebx")
+
+[node name="3" type="Sprite2D" parent="StatusUi/heart" unique_id=1968892082]
+position = Vector2(194, 182)
+texture = ExtResource("3_3cebx")
+
+[node name="4" type="Sprite2D" parent="StatusUi/heart" unique_id=555582326]
+position = Vector2(226, 182)
+texture = ExtResource("3_3cebx")
+
+[node name="5" type="Sprite2D" parent="StatusUi/heart" unique_id=559897167]
+position = Vector2(258, 182)
+texture = ExtResource("3_3cebx")
+
+[node name="6" type="Sprite2D" parent="StatusUi/heart" unique_id=842231575]
+position = Vector2(290, 182)
+texture = ExtResource("3_3cebx")
+
+[node name="7" type="Sprite2D" parent="StatusUi/heart" unique_id=387888012]
+position = Vector2(322, 182)
+texture = ExtResource("3_3cebx")
+
+[node name="card" type="Node2D" parent="StatusUi" unique_id=1496480682]
+
+[node name="Label" type="Label" parent="StatusUi/card" unique_id=385812421]
+offset_left = 17.0
+offset_top = 232.0
+offset_right = 78.0
+offset_bottom = 270.0
+theme_override_colors/font_color = Color(0.59442014, 0.00025846213, 0.59441596, 1)
+theme_override_font_sizes/font_size = 25
+text = "符卡"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="StatusUi/card" unique_id=512336557]
+offset_left = 17.0
+offset_top = 261.0
+offset_right = 78.0
+offset_bottom = 299.0
+theme_override_colors/font_color = Color(0.59442014, 0.00025846213, 0.59441596, 1)
+theme_override_font_sizes/font_size = 12
+text = "Spell Cards"
+horizontal_alignment = 1
+
+[node name="0" type="Sprite2D" parent="StatusUi/card" unique_id=535815229]
+position = Vector2(98, 251)
+texture = ExtResource("4_tytcy")
+
+[node name="1" type="Sprite2D" parent="StatusUi/card" unique_id=2113102863]
+position = Vector2(130, 251)
+texture = ExtResource("4_tytcy")
+
+[node name="2" type="Sprite2D" parent="StatusUi/card" unique_id=1556353499]
+position = Vector2(162, 251)
+texture = ExtResource("4_tytcy")
+
+[node name="3" type="Sprite2D" parent="StatusUi/card" unique_id=325223188]
+position = Vector2(194, 251)
+texture = ExtResource("4_tytcy")
+
+[node name="4" type="Sprite2D" parent="StatusUi/card" unique_id=401395229]
+position = Vector2(226, 251)
+texture = ExtResource("4_tytcy")
+
+[node name="5" type="Sprite2D" parent="StatusUi/card" unique_id=1829043202]
+position = Vector2(258, 251)
+texture = ExtResource("4_tytcy")
+
+[node name="6" type="Sprite2D" parent="StatusUi/card" unique_id=572686752]
+position = Vector2(290, 251)
+texture = ExtResource("4_tytcy")
+
+[node name="7" type="Sprite2D" parent="StatusUi/card" unique_id=1834098274]
+position = Vector2(322, 251)
+texture = ExtResource("4_tytcy")
+
+[node name="PlayerStatus" type="AnimatedSprite2D" parent="." unique_id=710366030]
+position = Vector2(989, -120)
 sprite_frames = ExtResource("2_ppd22")
 animation = &"normal"
 autoplay = "normal"

@@ -41,7 +41,7 @@ public:
   );
 
   virtual void update_animation();
-  void _physics_process(double delta);
+  void _physics_process(double delta) override;
   virtual void _ready() override ;
   static void _bind_methods();
   Entity();

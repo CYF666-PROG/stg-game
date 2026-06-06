@@ -1,7 +1,14 @@
 #include "player.hpp"
+#include "godot_cpp/classes/resource_loader.hpp"
 #include "godot_cpp/core/math_defs.hpp"
+#include "godot_cpp/variant/string.hpp"
+#include "godot_cpp/variant/vector2.hpp"
+#include "godot_cpp/variant/vector2i.hpp"
 #include "transmitter_1.hpp"
 #include "skill.hpp"
+#include "../ui_manager.hpp"
+#include "../effect_manager.hpp"
+#include "../../conf/bullet.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/sprite2d.hpp>
@@ -72,14 +79,28 @@ void game::Player::update_animation(){
 }
 
 void Player::entity_physics_process(double date){
-  update();
   move();
   update_animation();
   if(keyboard->is_shoot) shoot();
-  if(keyboard->is_skill && !is_skilling) skill();
+  if(keyboard->is_skill && !cooldown) skill();
+
+  if (invincible_frame) --invincible_frame;
+  if (cooldown) --cooldown;
 }
 
-void Player::update(){
+void Player::move(){
+  // 中弹后从板底缓缓上升
+  if (invincible_frame && invincible_frame > 40) {
+    if (invincible_frame == 120) {
+      set_global_position(Vector2(504,1200));
+    }
+    if (invincible_frame <= 100) {
+      auto pos = get_global_position();
+      pos.y -= 3.8;
+      set_global_position(pos);
+    }
+    return;
+  }
   auto point = get_node<Sprite2D>("point");
   if (!point){
     UtilityFunctions::print("Player::update point not find");
@@ -89,39 +110,40 @@ void Player::update(){
     godot::UtilityFunctions::print("Player::update() keyboard nullptr");
     return;
   }
+  auto pos = get_global_position();
   // 低速
   if (keyboard->is_slow){
     point->set_visible(true);
     point->set_rotation(point->get_rotation() + 0.02);
     if (keyboard->is_left){
-      spead.x = -5;
+      pos.x += -5;
     }else if (keyboard->is_right){
-      spead.x = 5;
+      pos.x += 5;
     }else{
-      spead.x = 0;
+      pos.x += 0;
     }
     if (keyboard->is_up){
-      spead.y = -5;
+      pos.y += -5;
     }else if (keyboard->is_down){
-      spead.y = 5;
+      pos.y += 5;
     }else{
-      spead.y = 0;
+      pos.y += 0;
     }
   }else{ // 高速
     point->set_visible(false);
     if (keyboard->is_left){
-      spead.x = -10;
+      pos.x += -10;
     }else if (keyboard->is_right){
-      spead.x = 10;
+      pos.x += 10;
     }else{
-      spead.x = 0;
+      pos.x += 0;
     }
     if (keyboard->is_up){
-      spead.y = -10;
+      pos.y += -10;
     }else if (keyboard->is_down){
-      spead.y = 10;
+      pos.y += 10;
     }else{
-      spead.y = 0;
+      pos.y += 0;
     }
   }
   // 检查状态是否改变
@@ -129,28 +151,24 @@ void Player::update(){
     check_orb();
     is_slow = keyboard->is_slow;
   }
-}
-
-void game::Player::move(){
-  godot::Vector2 this_pesition = get_position();
   //检查碰撞
   godot::TypedArray<godot::Node2D> hit_array = get_overlapping_bodies();
   for (int i = 0; i < hit_array.size(); i++){
-    godot::Node2D* body = godot::Object::cast_to<godot::Node2D>(hit_array[i]);
+    auto* body = godot::Object::cast_to<godot::Node2D>(hit_array[i]);
     if (!body){
       continue;
     }
-    if (body->get_name().to_lower().contains("wall_left") && spead.x < 0){
-      spead.x = 0 ;
-    }else if (body->get_name().to_lower().contains("wall_right") && spead.x > 0){
-      spead.x = 0 ;
-    }else if (body->get_name().to_lower().contains("wall_up") && spead.y > 0){
-      spead.y = 0 ;
-    }else if (body->get_name().to_lower().contains("wall_dow") && spead.y < 0){
-      spead.y = 0 ;
+    if (body->get_name().to_lower().contains("wall_left")&&keyboard->is_left){
+      pos.x = get_global_position().x ;
+    }else if (body->get_name().to_lower().contains("wall_right")&&keyboard->is_right){
+      pos.x = get_global_position().x ;
+    }else if (body->get_name().to_lower().contains("wall_up")&&keyboard->is_up){
+      pos.y = get_global_position().y ;
+    }else if (body->get_name().to_lower().contains("wall_dow")&&keyboard->is_down){
+      pos.y = get_global_position().y ;
     }
   }
-  set_position(this_pesition + spead);
+  set_global_position(pos);
 }
 
 void game::Player::shoot(){}
@@ -250,8 +268,14 @@ void game::Player::check_orb(){
   }
 }
 
-void game::Player::skill(){
-  is_skilling = true;
+void Player::skill(){
+  if (card < 5) return;
+  card -= 5;
+  auto ui = game::UiManager::get_ui_manager();
+  if (ui) {
+    ui->check_player();
+  }
+  cooldown = 300;
   int count = 4;
   double r = 0.0;
   for (int i = 0; i <count; ++i) {
@@ -260,13 +284,54 @@ void game::Player::skill(){
   }
 }
 
-void game::Player::_bind_methods(){
+void Player::hit_bullet(){
+  if (invincible_frame) return;
+  invincible_frame = 120;
+  hp -= 5;
+  auto ui = UiManager::get_ui_manager();
+  if (ui){
+    ui->check_player();
+  }
+  // 处理原地留下判定点特效
+  // 获取判定点资源
+  godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
+  godot::Ref<SpriteFrames> point = loader->load(String(conf::player::point::path.c_str()));
+  // 检查是否加载成功
+  if (!point.is_valid()) {
+    godot::UtilityFunctions::print(String(conf::player::point::path.c_str()), " load erro");
+    return;
+  }
+  auto eff = game::EffectManager::get_singleton();
+  if (!eff){
+    godot::UtilityFunctions::print("Player::hit_bullet EffectManager not fond");
+    return;
+  }
+  auto lam = [](EffectManager::EffectInstance &eff, int f)->bool{
+    if (f > 60) return false;
+    eff.scale = Vector2(1,1) * conf::player::point::scale;
+    eff.rotation += 0.05;
+    return true;
+  };
+  eff->spawn_effect(
+    point, 
+    get_global_position(),
+    "normal",
+    1.0,
+    lam
+  );
+}
+
+void Player::hited(){
+
+}
+
+void Player::_bind_methods(){
   godot::ClassDB::bind_method(godot::D_METHOD("set_bullet_texture", "tex"), &game::Player::set_bullet_texture);
   godot::ClassDB::bind_method(godot::D_METHOD("get_bullet_texture"), &game::Player::get_bullet_texture);
   ADD_PROPERTY(godot::PropertyInfo(godot::Variant::OBJECT, "bullet_texture", godot::PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_bullet_texture", "get_bullet_texture");
 }
 
-void game::Player::_ready(){
+void Player::_ready(){
   // 清除所有碰撞层
   set_collision_layer(0);
   set_collision_mask(0);
@@ -277,6 +342,10 @@ void game::Player::_ready(){
   set_collision_mask_value(6, true);
   // 检查一下阴阳玉状态
   check_orb();
+  auto ui = UiManager::get_ui_manager();
+  if (ui) {
+    ui->check_player();
+  }
 }
 
 game::Player::Player(){

@@ -17,15 +17,12 @@
 #include "game/effect_manager.hpp"
 #include "game/player/skill.hpp"
 #include "game/enemy/enemy_manager.hpp"
+#include "game/ui_manager.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/engine.hpp>
 
 using namespace godot ;
-
-// 1. 在文件顶部（using namespace godot; 下面），定义两个专属于这个文件的静态追踪指针
-static input::KeyBoard* _keyboard_instance = nullptr;
-static game::LevelManager* _levelmanager_instance = nullptr;
 
 void initialize_example_module(ModuleInitializationLevel p_level) {
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
@@ -50,6 +47,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::EffectManager);
   GDREGISTER_CLASS(game::player::Skill);
   GDREGISTER_CLASS(game::enemy::EnemyManager)
+  GDREGISTER_CLASS(game::UiManager);
 
 }
 

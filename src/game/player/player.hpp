@@ -13,9 +13,17 @@ private:
   bullet_settings::FlowerBullet* flow = nullptr;
   int orb_count = 4;
   bool is_slow = false;
-  bool is_skilling = false;
+  /// 技能冷却时间 帧
+  int cooldown = 0;
+  /// 中弹后无敌时间
+  int invincible_frame = 0;
 public:
-  void update();
+  /// 5个为一颗心
+  int hp = 15;
+  /// 5个为一张符卡
+  int card = 17;
+  void hited();
+  void hit_bullet() override;
   void move();
   void shoot();
   void check_orb();

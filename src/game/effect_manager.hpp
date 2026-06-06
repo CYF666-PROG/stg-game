@@ -62,7 +62,7 @@ public:
 
     void _physics_process(double delta) override;
 
-    // 核心接口，保留原本的 p_speed_scale 参数
+    // 特效贴图 生成位置 动画名 播放速度 回调 回调传入效果结构体EffectInstance 和存活帧数
     void spawn_effect(
         const godot::Ref<godot::SpriteFrames> &p_frames, 
         godot::Vector2 p_global_pos, 

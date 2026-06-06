@@ -79,5 +79,27 @@ namespace skill_1{
     /// 判定半径
     constexpr double radius = 132;
 }
+namespace heart {
+  constexpr double scale = 1;
+  inline const std::string path_0 = "res://material/ui/heart/0.tres";
+  inline const std::string path_1 = "res://material/ui/heart/1.tres";
+  inline const std::string path_2 = "res://material/ui/heart/2.tres";
+  inline const std::string path_3 = "res://material/ui/heart/3.tres";
+  inline const std::string path_4 = "res://material/ui/heart/4.tres";
+  inline const std::string path_full = "res://material/ui/heart/full.tres";
+}
+namespace star {
+  constexpr double scale = 1;
+  inline const std::string path_0 = "res://material/ui/star/0.tres";
+  inline const std::string path_1 = "res://material/ui/star/1.tres";
+  inline const std::string path_2 = "res://material/ui/star/2.tres";
+  inline const std::string path_3 = "res://material/ui/star/3.tres";
+  inline const std::string path_4 = "res://material/ui/star/4.tres";
+  inline const std::string path_full = "res://material/ui/star/full.tres";
+}
+namespace point {
+  constexpr double scale = 2.041845;
+  inline const std::string path = "res://material/player/p1/s_point.tres";
+}
 } // namespace player
 } // namespace conf

@@ -34,7 +34,7 @@ void Skill::_on_area_entered(godot::Area2D *other_area){
 
 void Skill::_physics_process(double delta){
   // 检测是否要炸
-  if ((is_to_boon > 0 && is_to_boon <= live_frame) || live_frame > 480) {
+  if ((is_to_boon > 0 && is_to_boon <= live_frame) || live_frame > 300) {
     queue_free();
   }
   if (live_frame <= 200){

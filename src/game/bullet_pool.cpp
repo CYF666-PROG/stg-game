@@ -45,7 +45,7 @@ void BulletPool::_ready() {
         pool[i].canvas_item_rid = rs->canvas_item_create();
         rs->canvas_item_set_parent(pool[i].canvas_item_rid, canvas_rid);
         // 强制将子弹的渲染层级设为 400 (数值越大越靠前，常规游戏元素多在 0 左右)
-        rs->canvas_item_set_z_index(pool[i].canvas_item_rid, 4095);
+        rs->canvas_item_set_z_index(pool[i].canvas_item_rid, 10);
         rs->canvas_item_set_visible(pool[i].canvas_item_rid, false);
         pool[i].active = false;
     }
