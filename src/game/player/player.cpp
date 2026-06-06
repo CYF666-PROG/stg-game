@@ -184,42 +184,52 @@ void game::Player::check_orb(){
   if (keyboard->is_slow){
     if (orb_count == 1){
       auto* tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
       tran->set_position(Vector2(0,-80));
       add_child(tran);
     }else if (orb_count == 2){
       auto* tran = memnew(game::player::Transmitter_1);
       tran->set_position(Vector2(28,-80));
+      tran->player = this;
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
       tran->set_position(Vector2(-28,-80));
       add_child(tran);
     }else if (orb_count == 3){
       auto* tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
       tran->set_position(Vector2(0,-80));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
       tran->set_position(Vector2(72,-35));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
       tran->set_position(Vector2(-72,35));
       add_child(tran);
     }else{
       auto* tran = memnew(player::Transmitter_1(player::Transmitter_1::orb_Typ::Blue));
+      tran->player = this;
       tran->set_position(Vector2(28,-80));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
       tran->set_position(Vector2(-28,-80));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
       tran->set_position(Vector2(79,-15));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
       tran->set_position(Vector2(-79,-15));
       add_child(tran);
     }
@@ -301,6 +311,7 @@ void Player::hit_bullet(){
     godot::UtilityFunctions::print(String(conf::player::point::path.c_str()), " load erro");
     return;
   }
+  // 添加特效
   auto eff = game::EffectManager::get_singleton();
   if (!eff){
     godot::UtilityFunctions::print("Player::hit_bullet EffectManager not fond");
@@ -319,6 +330,9 @@ void Player::hit_bullet(){
     1.0,
     lam
   );
+  if (hp < 0) {
+    ui->dead();
+  }
 }
 
 void Player::hited(){

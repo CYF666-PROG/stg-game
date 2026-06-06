@@ -15,9 +15,9 @@ private:
   bool is_slow = false;
   /// 技能冷却时间 帧
   int cooldown = 0;
+  public:
   /// 中弹后无敌时间
   int invincible_frame = 0;
-public:
   /// 5个为一颗心
   int hp = 15;
   /// 5个为一张符卡

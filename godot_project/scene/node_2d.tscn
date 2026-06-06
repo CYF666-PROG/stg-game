@@ -444,7 +444,6 @@ frame_progress = 0.41831824
 [node name="LevelManager" type="LevelManager" parent="." unique_id=261955755]
 
 [node name="move" type="Node2D" parent="." unique_id=1808431910]
-visible = false
 
 [node name="level1" type="Node2D" parent="move" unique_id=1273722686]
 
@@ -562,6 +561,8 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="menu" type="Node2D" parent="." unique_id=848301549]
+z_index = 100
+position = Vector2(-936, 0)
 
 [node name="ColorRect" type="ColorRect" parent="menu" unique_id=1685888236]
 offset_left = 72.0
@@ -569,3 +570,43 @@ offset_top = 36.0
 offset_right = 936.0
 offset_bottom = 1044.0
 color = Color(0, 0, 0, 0.58431375)
+
+[node name="pause" type="Label" parent="menu" unique_id=1948241814]
+offset_left = 87.0
+offset_top = 255.0
+offset_right = 371.0
+offset_bottom = 353.0
+theme_override_font_sizes/font_size = 50
+text = "一時停止"
+
+[node name="dead" type="Label" parent="menu" unique_id=545511552]
+offset_left = 87.0
+offset_top = 255.0
+offset_right = 371.0
+offset_bottom = 353.0
+theme_override_font_sizes/font_size = 50
+text = "満身創痍"
+
+[node name="continue" type="Label" parent="menu" unique_id=1958510949]
+offset_left = 224.0
+offset_top = 386.0
+offset_right = 354.0
+offset_bottom = 461.0
+theme_override_font_sizes/font_size = 40
+text = "继续游戏"
+
+[node name="exit" type="Label" parent="menu" unique_id=1989050398]
+offset_left = 224.0
+offset_top = 479.0
+offset_right = 354.0
+offset_bottom = 554.0
+theme_override_font_sizes/font_size = 40
+text = "退出游戏"
+
+[node name="retry" type="Label" parent="menu" unique_id=404838469]
+offset_left = 224.0
+offset_top = 565.0
+offset_right = 384.0
+offset_bottom = 640.0
+theme_override_font_sizes/font_size = 40
+text = "重新开始"

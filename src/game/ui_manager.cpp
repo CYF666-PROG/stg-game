@@ -1,5 +1,9 @@
 #include "ui_manager.hpp"
+#include "bullet_pool.hpp"
+#include "effect_manager.hpp"
 #include "godot_cpp/classes/animated_sprite2d.hpp"
+#include "godot_cpp/classes/label.hpp"
+#include "godot_cpp/classes/node2d.hpp"
 #include "godot_cpp/classes/sprite2d.hpp"
 #include "godot_cpp/core/memory.hpp"
 #include "godot_cpp/variant/string.hpp"
@@ -23,7 +27,6 @@ UiManager* UiManager::the_ui_manager = nullptr;
 
 void UiManager::check_player(){
   if (!load_status_ui()) return;
-  if (!load_heart_card()) return;
   // 先设为空心
   for (int i = 0; i < hearts.size(); ++i) {
     if (hearts[i] == nullptr) continue;
@@ -84,10 +87,6 @@ bool UiManager::load_status_ui(){
     UtilityFunctions::print("UiManager::check_player not found /root/play/StatusUi");
     return false;
   }
-  return true;
-}
-
-bool UiManager::load_heart_card(){
   // 1. 获取资源加载器的单例
   godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
   // 获取心贴图
@@ -141,10 +140,82 @@ bool UiManager::load_heart_card(){
   return true;
 }
 
+bool UiManager::load_menu(){
+  // 加载ui文字
+  menu_label[0] = get_node<Label>("/root/play/menu/continue");
+  menu_label[1] = get_node<Label>("/root/play/menu/exit");
+  menu_label[2] = get_node<Label>("/root/play/menu/retry");
+  for (auto it : menu_label) {
+    if (!it) {
+      UtilityFunctions::print("UiManager::load_menu erro");
+      return false;
+    }
+  }
+  // 加载menu节点
+  menu_node = get_node<Node2D>("/root/play/menu");
+  if (!menu_node) {
+    UtilityFunctions::print("/root/play/menu load erro");
+    return false;
+  }
+  return true;
+}
+
 void UiManager::pause(){
+  auto pool = game::BulletPool::get_pool();
+  if (!pool) {
+    UtilityFunctions::print("UiManager::pause get_pool erro");
+    return;
+  }
+  auto eff = game::EffectManager::get_singleton();
+  if (!eff) {
+    UtilityFunctions::print("UiManager::pause get_singleton erro");
+    return;
+  }
+  auto play = get_node<Node2D>("/root/play");
+  if (!play) {
+    return;
+  }
+  auto pause = get_node<Label>("/root/play/menu/pause");
+  auto dead = get_node<Label>("/root/play/menu/dead");
+  if (!pause || !dead) {
+    return;
+  }
+  pause->set_visible(true);
+  dead->set_visible(false);
+  // 暂停场景根节点
+  play->set_process_mode(godot::Node::PROCESS_MODE_DISABLED);
+  // 暂停特效 弹幕池
+  pool->set_physics_process(false);
+  eff->set_physics_process(false);
+  status_typ = PAUSE;
+  if (!load_menu()) {
+    UtilityFunctions::print("UiManager::pause load_menu erro");
+  }
 };
 
-void UiManager::play(){}
+void UiManager::play(){
+  auto pool = game::BulletPool::get_pool();
+  if (!pool) {
+    UtilityFunctions::print("UiManager::play get_pool erro");
+    return;
+  }
+  auto eff = game::EffectManager::get_singleton();
+  if (!eff) {
+    UtilityFunctions::print("UiManager::play get_singleton erro");
+    return;
+  }
+  auto play = get_node<Node2D>("/root/play");
+  if (!play) {
+    return;
+  }
+  status_typ = PLAYING;
+  menu_node->set_global_position(Vector2(-936,0));
+  // 恢复根节点
+  play->set_process_mode(godot::Node::PROCESS_MODE_INHERIT);
+  // 恢复特效 弹幕池
+  pool->set_physics_process(true);
+  eff->set_physics_process(true);
+}
 
 
 void UiManager::_physics_process(double delta){
@@ -157,8 +228,84 @@ void UiManager::_physics_process(double delta){
   }else if (status_typ == PAUSE && !was_esc_pressed && keyboard->is_esc) {
     play();
   }
-
+  if(status_typ == PAUSE){
+    update_menu();
+  }
   was_esc_pressed = keyboard->is_esc;
+  ++frame;
+}
+
+void UiManager::update_menu(){
+  auto keyboard = input::KeyBoard::get_singleton();
+  if (!keyboard) {
+    UtilityFunctions::print("UiManager::update_menu keyboard erro");
+    return;
+  }
+  if (!menu_node) {
+    UtilityFunctions::print("UiManager::update_menu menu_node not foud");
+    return;
+  }
+  // 处理从左向右移动
+  auto pos = menu_node->get_global_position();
+  if(pos.x < 93.6){
+    pos.x += 100;
+    menu_node->set_global_position(pos);
+  }
+  if (Math::abs(pos.x) < 150) {
+    menu_node->set_global_position(Vector2(0,0));
+  }
+  // 更新选中的索引
+  double speed_multiplier = 0.05; 
+  float factor = (std::sin(frame * speed_multiplier) + 1.0f) * 0.5f;
+  godot::Color normal_color = godot::Color(1.0f, 1.0f, 1.0f); // 默认白色
+  godot::Color red_color = godot::Color(1.0f, 0.0f, 0.0f); // 警示红色
+  godot::Color current_color = normal_color.lerp(red_color, factor);
+
+  if (!was_dow_pressed && keyboard->is_down) {
+    menu_label[menu_label_index]->add_theme_color_override("font_color", normal_color);
+    menu_label_index = (menu_label_index+1)%3;
+  }else if (!was_up_pressed && keyboard->is_up) {
+    menu_label[menu_label_index]->add_theme_color_override("font_color", normal_color);
+    menu_label_index = (menu_label_index+2)%3;
+  }
+  // 6. 每一帧实时更新 Label 的颜色
+  menu_label[menu_label_index]->add_theme_color_override("font_color", current_color);
+
+  was_dow_pressed = keyboard->is_down;
+  was_up_pressed = keyboard->is_up;
+}
+
+void UiManager::dead(){
+  auto pool = game::BulletPool::get_pool();
+  if (!pool) {
+    UtilityFunctions::print("UiManager::pause get_pool erro");
+    return;
+  }
+  auto eff = game::EffectManager::get_singleton();
+  if (!eff) {
+    UtilityFunctions::print("UiManager::pause get_singleton erro");
+    return;
+  }
+  auto play = get_node<Node2D>("/root/play");
+  if (!play) {
+    return;
+  }
+  auto pause = get_node<Label>("/root/play/menu/pause");
+  auto dead = get_node<Label>("/root/play/menu/dead");
+  if (!pause || !dead) {
+    return;
+  }
+  pause->set_visible(false);
+  dead->set_visible(true);
+  // 暂停场景根节点
+  play->set_process_mode(godot::Node::PROCESS_MODE_DISABLED);
+  // 暂停特效 弹幕池
+  pool->set_physics_process(false);
+  eff->set_physics_process(false);
+  status_typ = PAUSE;
+  if (!load_menu()) {
+    UtilityFunctions::print("UiManager::pause load_menu erro");
+  }
 }
 
 void UiManager::_ready(){
@@ -176,4 +323,5 @@ UiManager::UiManager(){
   hearts_tex.resize(6, nullptr);
   stars.resize(8,nullptr);
   star_tex.resize(6,nullptr);
+  menu_label.resize(3,nullptr);
 };

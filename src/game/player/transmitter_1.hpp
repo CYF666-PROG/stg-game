@@ -1,6 +1,7 @@
 #include "../bullet_manager.hpp"
 #include "../bullet_pool.hpp"
 #include "../../input/keyboard.hpp"
+#include "player.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -26,6 +27,7 @@ private:
   input::KeyBoard* keyboard = nullptr;
   godot::Sprite2D *spr = nullptr;
 public:
+  game::Player* player = nullptr;
   enum orb_Typ{
     Red,
     Pink,

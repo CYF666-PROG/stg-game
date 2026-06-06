@@ -45,6 +45,10 @@ void Transmitter_1::frame_do(double delta){
 }
 
 void Transmitter_1::shoot(){
+  // 检查自机是否刚中弹
+  if (player && player->invincible_frame > 40) {
+    return;
+  }
   if (!pool){
     UtilityFunctions::print("Transmitter_1: pool not found");
     pool = game::BulletPool::get_pool();
