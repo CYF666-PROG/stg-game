@@ -11,7 +11,10 @@ EnemyManager *EnemyManager::instance = nullptr;
 void EnemyManager::_bind_methods() {
 }
 
-EnemyManager::EnemyManager() { if (instance == nullptr) instance = this; }
+EnemyManager::EnemyManager() {}
+void EnemyManager::_ready(){
+  instance = this;
+};
 EnemyManager::~EnemyManager() { if (instance == this) instance = nullptr; }
 EnemyManager *EnemyManager::get_singleton() { return instance; }
 

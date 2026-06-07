@@ -55,6 +55,7 @@ protected:
     static void _bind_methods();
 
 public:
+    virtual void _ready() override ;
     static EffectManager *singleton;
     static EffectManager *get_singleton() { return singleton; }
     EffectManager();

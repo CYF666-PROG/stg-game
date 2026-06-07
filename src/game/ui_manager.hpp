@@ -31,14 +31,14 @@ private:
   bool was_esc_pressed = false;
   bool was_up_pressed = false;
   bool was_dow_pressed = false;
+  public:
   enum status_Typ{
     PLAYING,
     PAUSE,
     DEAD,
     TITLE,
   };
-  status_Typ status_typ = PLAYING;
-public:
+  status_Typ status_typ = TITLE;
   void update_menu();
   static UiManager* get_ui_manager();
   bool load_status_ui();
@@ -47,6 +47,8 @@ public:
   void pause();
   void play();
   void dead();
+  void quit();
+  void restart();
 
   void _physics_process(double delta) override;
   void _ready() override;

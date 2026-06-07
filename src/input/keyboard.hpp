@@ -10,6 +10,7 @@ class KeyBoard : public godot::Node {
 
 private:
   static KeyBoard* singleton ;
+  bool before_determine = false;
 protected:
     static void _bind_methods();
 public:
@@ -21,6 +22,7 @@ public:
   bool is_slow = false ;
   bool is_skill = false;
   bool is_esc = false;
+  bool is_determine = false;
 
   void update(double delta);
   static KeyBoard* get_singleton();

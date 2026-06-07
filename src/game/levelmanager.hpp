@@ -62,6 +62,7 @@ public:
     godot::Path2D* path
   );
   static LevelManager* get_singleton();
+  void restart();
   void _physics_process(double delta) override;
   void _ready() override ;
   static void _bind_methods();

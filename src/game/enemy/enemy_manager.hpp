@@ -39,6 +39,7 @@ public:
     /// @return 
     godot::Node2D *get_closest_enemy(godot::Vector2 bullet_position, double max_distance);
     void clear_enemies();
+    virtual void _ready() override ;
 };
 };
  // namespace godot

@@ -11,23 +11,19 @@ config_version=5
 [application]
 
 config/name="stg_game"
-run/main_scene="uid://b35bipt1yp8rc"
+run/main_scene="uid://c6kdcdi2wgurb"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-MyEffectManager="*uid://bdl2tlxl1d4mk"
 MyKeyBoard="*uid://cy4w7oybf01fs"
-MyBulletPool="*uid://bfu438reqkknl"
-MyEnemyManager="*uid://3igh74embtwd"
 MyUiManager="*uid://05tt6okpfghi"
 
 [display]
 
 window/size/viewport_width=1440
 window/size/viewport_height=1080
-window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 

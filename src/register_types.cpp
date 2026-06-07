@@ -18,6 +18,8 @@
 #include "game/player/skill.hpp"
 #include "game/enemy/enemy_manager.hpp"
 #include "game/ui_manager.hpp"
+#include "ui/column.hpp"
+#include "ui/text.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -48,7 +50,8 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::player::Skill);
   GDREGISTER_CLASS(game::enemy::EnemyManager)
   GDREGISTER_CLASS(game::UiManager);
-
+  GDREGISTER_CLASS(ui::Column);
+  GDREGISTER_CLASS(ui::Text);
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {

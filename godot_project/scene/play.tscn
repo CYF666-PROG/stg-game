@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://b35bipt1yp8rc"]
 
-[ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="1_ppd22"]
-[ext_resource type="Texture2D" uid="uid://bfou2gkp40yng" path="res://material/player/p1/playerImage.png" id="2_guiot"]
-[ext_resource type="SpriteFrames" uid="uid://dh5fan1s1mlor" path="res://material/enemy/imp/1_blue.tres" id="2_ppd22"]
-[ext_resource type="Texture2D" uid="uid://c37va5bf5xd7x" path="res://material/ui/heart/0.tres" id="3_3cebx"]
-[ext_resource type="Texture2D" uid="uid://u3s0engr6uke" path="res://material/ui/star/0.tres" id="4_tytcy"]
+[ext_resource type="Texture2D" uid="uid://bfou2gkp40yng" path="res://material/player/p1/playerImage.png" id="1_ydei8"]
+[ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="2_eoxkv"]
+[ext_resource type="Texture2D" uid="uid://c37va5bf5xd7x" path="res://material/ui/heart/0.tres" id="3_8utoj"]
+[ext_resource type="Texture2D" uid="uid://u3s0engr6uke" path="res://material/ui/star/0.tres" id="4_0u7nf"]
+[ext_resource type="SpriteFrames" uid="uid://dh5fan1s1mlor" path="res://material/enemy/imp/1_blue.tres" id="5_k3qh1"]
 
 [sub_resource type="GDScript" id="GDScript_drhme"]
 
@@ -38,99 +38,99 @@ void fragment() {
 shader = SubResource("Shader_drhme")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_guiot"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(160, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_42d7r"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(192, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sypnp"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(224, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ppd22"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(0, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3cebx"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(32, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tytcy"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(64, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_462ap"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(96, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5qbti"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(128, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gvr3l"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(160, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k01lb"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(192, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cb6ix"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(224, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0g8r3"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(160, 96, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_123pn"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(192, 96, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3u7g2"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(224, 96, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f08rc"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(0, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cxisf"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(32, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_su6sf"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(64, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nl3on"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(96, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mpuhk"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(128, 48, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ssc4f"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(0, 96, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s0fja"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(32, 96, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_el7ve"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(64, 96, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yfstv"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(96, 96, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bapa2"]
-atlas = ExtResource("2_guiot")
+atlas = ExtResource("1_ydei8")
 region = Rect2(128, 96, 32, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_42d7r"]
@@ -237,7 +237,7 @@ animations = [{
 radius = 4.9972477
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_drt2y"]
-atlas = ExtResource("1_ppd22")
+atlas = ExtResource("2_eoxkv")
 region = Rect2(0, 18, 64, 61)
 
 [sub_resource type="Curve2D" id="Curve2D_462ap"]
@@ -350,35 +350,35 @@ horizontal_alignment = 1
 
 [node name="0" type="Sprite2D" parent="StatusUi/heart" unique_id=323160569]
 position = Vector2(98, 182)
-texture = ExtResource("3_3cebx")
+texture = ExtResource("3_8utoj")
 
 [node name="1" type="Sprite2D" parent="StatusUi/heart" unique_id=160360630]
 position = Vector2(130, 182)
-texture = ExtResource("3_3cebx")
+texture = ExtResource("3_8utoj")
 
 [node name="2" type="Sprite2D" parent="StatusUi/heart" unique_id=1783289251]
 position = Vector2(162, 182)
-texture = ExtResource("3_3cebx")
+texture = ExtResource("3_8utoj")
 
 [node name="3" type="Sprite2D" parent="StatusUi/heart" unique_id=1968892082]
 position = Vector2(194, 182)
-texture = ExtResource("3_3cebx")
+texture = ExtResource("3_8utoj")
 
 [node name="4" type="Sprite2D" parent="StatusUi/heart" unique_id=555582326]
 position = Vector2(226, 182)
-texture = ExtResource("3_3cebx")
+texture = ExtResource("3_8utoj")
 
 [node name="5" type="Sprite2D" parent="StatusUi/heart" unique_id=559897167]
 position = Vector2(258, 182)
-texture = ExtResource("3_3cebx")
+texture = ExtResource("3_8utoj")
 
 [node name="6" type="Sprite2D" parent="StatusUi/heart" unique_id=842231575]
 position = Vector2(290, 182)
-texture = ExtResource("3_3cebx")
+texture = ExtResource("3_8utoj")
 
 [node name="7" type="Sprite2D" parent="StatusUi/heart" unique_id=387888012]
 position = Vector2(322, 182)
-texture = ExtResource("3_3cebx")
+texture = ExtResource("3_8utoj")
 
 [node name="card" type="Node2D" parent="StatusUi" unique_id=1496480682]
 
@@ -404,39 +404,39 @@ horizontal_alignment = 1
 
 [node name="0" type="Sprite2D" parent="StatusUi/card" unique_id=535815229]
 position = Vector2(98, 251)
-texture = ExtResource("4_tytcy")
+texture = ExtResource("4_0u7nf")
 
 [node name="1" type="Sprite2D" parent="StatusUi/card" unique_id=2113102863]
 position = Vector2(130, 251)
-texture = ExtResource("4_tytcy")
+texture = ExtResource("4_0u7nf")
 
 [node name="2" type="Sprite2D" parent="StatusUi/card" unique_id=1556353499]
 position = Vector2(162, 251)
-texture = ExtResource("4_tytcy")
+texture = ExtResource("4_0u7nf")
 
 [node name="3" type="Sprite2D" parent="StatusUi/card" unique_id=325223188]
 position = Vector2(194, 251)
-texture = ExtResource("4_tytcy")
+texture = ExtResource("4_0u7nf")
 
 [node name="4" type="Sprite2D" parent="StatusUi/card" unique_id=401395229]
 position = Vector2(226, 251)
-texture = ExtResource("4_tytcy")
+texture = ExtResource("4_0u7nf")
 
 [node name="5" type="Sprite2D" parent="StatusUi/card" unique_id=1829043202]
 position = Vector2(258, 251)
-texture = ExtResource("4_tytcy")
+texture = ExtResource("4_0u7nf")
 
 [node name="6" type="Sprite2D" parent="StatusUi/card" unique_id=572686752]
 position = Vector2(290, 251)
-texture = ExtResource("4_tytcy")
+texture = ExtResource("4_0u7nf")
 
 [node name="7" type="Sprite2D" parent="StatusUi/card" unique_id=1834098274]
 position = Vector2(322, 251)
-texture = ExtResource("4_tytcy")
+texture = ExtResource("4_0u7nf")
 
 [node name="PlayerStatus" type="AnimatedSprite2D" parent="." unique_id=710366030]
 position = Vector2(989, -120)
-sprite_frames = ExtResource("2_ppd22")
+sprite_frames = ExtResource("5_k3qh1")
 animation = &"normal"
 autoplay = "normal"
 frame_progress = 0.41831824
@@ -610,3 +610,9 @@ offset_right = 384.0
 offset_bottom = 640.0
 theme_override_font_sizes/font_size = 40
 text = "重新开始"
+
+[node name="BulletPool" type="BulletPool" parent="." unique_id=1638380432]
+
+[node name="EnemyManager" type="EnemyManager" parent="." unique_id=1240991516]
+
+[node name="EffectManager" type="EffectManager" parent="." unique_id=1477197276]

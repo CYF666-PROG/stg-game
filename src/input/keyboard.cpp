@@ -24,6 +24,13 @@ void KeyBoard::update(double delta){
   this->is_slow = input->is_key_pressed(KEY_SHIFT);
   this->is_skill = input->is_key_pressed(KEY_X);
   this->is_esc = input->is_key_pressed(KEY_ESCAPE);
+
+  if (!before_determine && this->is_shoot) {
+    is_determine = true ;
+  }else {
+    is_determine = false ;
+  }
+  before_determine = this->is_shoot;
 }
 
 KeyBoard *input::KeyBoard::get_singleton(){

@@ -2,6 +2,7 @@
 #include "../utility/move.hpp"
 #include "../utility/move/circle.hpp"
 #include "enemy/imp.hpp"
+#include "godot_cpp/classes/global_constants.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -39,6 +40,7 @@ void game::LevelManager::_physics_process(double delta)
 void game::LevelManager::_bind_methods(){}
 
 void game::LevelManager::_ready(){
+  singleton = this;
   godot::UtilityFunctions::print("LevelManager _ready");
   // 1. 获取场景树
   godot::SceneTree* tree = get_tree();
@@ -61,6 +63,18 @@ void game::LevelManager::_ready(){
   make_enemy(2.5, IMP, get_path2d("level1/LiftUp"));
   make_enemy(3.0, IMP, get_path2d("level1/RightUp"));
 }
+
+void LevelManager::restart(){
+  godot::SceneTree *tree = get_tree();
+  if (tree) {
+    // 调用引擎内置方法重新加载当前场景
+    godot::Error err = tree->reload_current_scene();
+    
+    if (err != godot::OK) {
+      godot::UtilityFunctions::printerr( err);
+    }
+  }
+};
 
 LevelManager::LevelManager() {
     // 当 Godot 实例化 Autoload 时，把实例赋给静态指针
@@ -113,5 +127,5 @@ void game::LevelManager::make_enemy(double time, enemy_typ typ, godot::Path2D *p
 }
 
 LevelManager *game::LevelManager::get_singleton(){
-  return nullptr;
+  return singleton;
 }

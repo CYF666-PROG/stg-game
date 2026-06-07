@@ -9,6 +9,7 @@
 #include "godot_cpp/variant/string.hpp"
 #include "godot_cpp/variant/typed_array.hpp"
 #include "godot_cpp/variant/vector2.hpp"
+#include "levelmanager.hpp"
 #include "player/player.hpp"
 #include "../conf/bullet.hpp"
 
@@ -17,6 +18,7 @@
 #include "godot_cpp/classes/resource_loader.hpp"
 #include "godot_cpp/variant/color.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
+#include <godot_cpp/classes/scene_tree.hpp>
 #include <cstdint>
 
 using namespace godot;
@@ -231,6 +233,16 @@ void UiManager::_physics_process(double delta){
   if(status_typ == PAUSE){
     update_menu();
   }
+  // 只在暂停时处理点击事件
+  if (status_typ == PAUSE && keyboard->is_determine) {
+    if (menu_label_index == 0) {
+      play();
+    }else if (menu_label_index == 1) {
+      quit();
+    }else if (menu_label_index == 2) {
+      restart();
+    }
+  }
   was_esc_pressed = keyboard->is_esc;
   ++frame;
 }
@@ -307,6 +319,47 @@ void UiManager::dead(){
     UtilityFunctions::print("UiManager::pause load_menu erro");
   }
 }
+
+void UiManager::quit(){
+  status_typ = TITLE;
+  // 1. 获取当前节点的 SceneTree
+  SceneTree *tree = get_tree();
+  if (tree) {
+    // 2. 调用切换场景方法（传入 Godot 虚拟路径）
+    Error err = tree->change_scene_to_file("res://scene/title.tscn");
+    if (err != OK) {
+      UtilityFunctions::printerr( err);
+    }
+  }
+};
+
+void UiManager::restart(){
+  auto level = game::LevelManager::get_singleton();
+  if (!level) {
+    UtilityFunctions::print("restart LevelManager not foud");
+    return;
+  }
+  // 重新加载场景
+  status_typ = PLAYING;
+  SceneTree *tree = get_tree(); 
+  if (tree) {
+    Error err = tree->change_scene_to_file("res://scene/title.tscn");
+    if (err != OK) {
+      UtilityFunctions::printerr( err);
+    }
+  }
+
+  tree = get_tree(); 
+  if (tree) {
+    Error err = tree->change_scene_to_file("res://scene/play.tscn");
+    if (err != OK) {
+      UtilityFunctions::printerr( err);
+    }
+  }
+  // 重新在加载
+  load_status_ui();
+  load_menu();
+};
 
 void UiManager::_ready(){
   the_ui_manager = this;

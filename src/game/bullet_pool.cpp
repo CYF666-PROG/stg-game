@@ -31,6 +31,7 @@ BulletPool::~BulletPool() {
         if (b.shape_rid.is_valid()) ps->free_rid(b.shape_rid);
         if (b.canvas_item_rid.is_valid()) rs->free_rid(b.canvas_item_rid);
     }
+  new_bullet_pool = nullptr;
 }
 
 void BulletPool::_ready() {

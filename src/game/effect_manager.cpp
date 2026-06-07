@@ -25,9 +25,11 @@ static inline void _rs_update_item_texture(RenderingServer *rs, RID canvas_item,
 
 void EffectManager::_bind_methods() {}
 
-EffectManager::EffectManager() {
-    if (singleton == nullptr) { singleton = this; }
+void EffectManager::_ready(){
+  singleton = this;
 }
+
+EffectManager::EffectManager() {}
 
 EffectManager::~EffectManager() {
     if (singleton == this) { singleton = nullptr; }
