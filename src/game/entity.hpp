@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../input/keyboard.hpp"
+#include "audio_manager.hpp"
 
 #include <godot_cpp/classes/area2d.hpp>
 #include <godot_cpp/classes/sprite2d.hpp>
@@ -16,6 +17,8 @@ class Entity : public godot::Area2D {
   GDCLASS(Entity, godot::Area2D)
 private:
 protected:
+  // 音频总管
+  AudioManager* audio = nullptr;
   /// @brief 已存活帧数
   double live_frame = 0;
   input::KeyBoard* keyboard = nullptr;

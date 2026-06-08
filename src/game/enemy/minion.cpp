@@ -24,6 +24,7 @@ void game::enemy::Minion::dead(){
     godot::UtilityFunctions::print("Minion::dead EffectManager not fond");
     return;
   }
+  // 播放死亡特效
   eff->spawn_effect(
     texture,get_global_position(),
     "normal", 
@@ -48,6 +49,8 @@ void game::enemy::Minion::dead(){
       return true; // 继续存活
     }
   );
+  // 播放死亡音效
+  audio->play("imp_dead");
   queue_free();
 }
 

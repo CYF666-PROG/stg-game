@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 MyKeyBoard="*uid://cy4w7oybf01fs"
 MyUiManager="*uid://05tt6okpfghi"
+MyAudioManager="*uid://cf2u0v6sk1xxh"
 
 [display]
 

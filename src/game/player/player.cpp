@@ -333,6 +333,8 @@ void Player::hit_bullet(){
   if (hp < 0) {
     ui->dead();
   }
+  // 添加音效
+  audio->play("player_dead");
 }
 
 void Player::hited(){
@@ -359,6 +361,11 @@ void Player::_ready(){
   auto ui = UiManager::get_ui_manager();
   if (ui) {
     ui->check_player();
+  }
+  // 获取音频管理器
+  audio = AudioManager::get_audio();
+  if (!audio) {
+    UtilityFunctions::print("Player::_ready AudioManager not foud");
   }
 }
 

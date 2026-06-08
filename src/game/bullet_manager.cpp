@@ -2,6 +2,7 @@
 #include "effect_manager.hpp"
 #include "../conf/bullet.hpp"
 
+
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/sprite_frames.hpp>
@@ -77,7 +78,10 @@ void game::BulletManager::_ready(){
   pool = BulletPool::get_pool();
   if (!pool) {
     godot::UtilityFunctions::print("BulletManager::_ready pool not found");
-    return;
+  }
+  audio_manager = AudioManager::get_audio();
+  if (!audio_manager) {
+    godot::UtilityFunctions::print("BulletManager::_ready audio_manager not found");
   }
 }
 

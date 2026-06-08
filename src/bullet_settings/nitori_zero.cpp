@@ -22,6 +22,7 @@ void NitoriZero::shoot() {
 }
 
 void NitoriZero::pointed(){
+  audio_manager->fire_bullet();
 double rotation_offset = this->rotation_offset;
     // ==========================================
     // 🌟 弹幕控制参数

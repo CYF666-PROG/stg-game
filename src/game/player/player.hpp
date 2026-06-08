@@ -2,6 +2,7 @@
 
 #include "../entity.hpp"
 #include "../../bullet_settings/flower_bullet.hpp"
+#include "../audio_manager.hpp"
 
 
 namespace game{

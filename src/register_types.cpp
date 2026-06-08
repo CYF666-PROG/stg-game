@@ -24,6 +24,7 @@
 #include "game/ui_manager.hpp"
 #include "ui/column.hpp"
 #include "ui/text.hpp"
+#include "game/audio_manager.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -60,6 +61,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::bullet_settings::Strafe)
   GDREGISTER_CLASS(game::bullet_settings::NitoriZero)
   GDREGISTER_CLASS(game::bullet_settings::Sunflower)
+  GDREGISTER_CLASS(game::AudioManager)
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {

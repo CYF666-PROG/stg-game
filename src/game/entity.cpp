@@ -1,4 +1,5 @@
 #include "entity.hpp"
+#include "audio_manager.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -6,6 +7,7 @@
 #include <godot_cpp/classes/circle_shape2d.hpp>
 
 using namespace game ;
+using namespace godot;
 
 void game::Entity::dead(){
   queue_free();
@@ -89,6 +91,10 @@ void game::Entity::_ready(){}
 
 Entity::Entity(){
   this->keyboard = input::KeyBoard::get_singleton();
+  audio = AudioManager::get_audio();
+  if (!audio) {
+    UtilityFunctions::print("Entity::Entity() AudioManager not foud");
+  }
 }
 
 Entity::~Entity(){
