@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://u3s0engr6uke" path="res://material/ui/star/0.tres" id="4_0u7nf"]
 [ext_resource type="VideoStream" uid="uid://c8ep3bsg0hgld" path="res://background/level_3.mp4" id="6_eoxkv"]
 [ext_resource type="SpriteFrames" uid="uid://to46ef76nrj5" path="res://material/bullet/fire/blue.tres" id="6_k3qh1"]
-[ext_resource type="SpriteFrames" uid="uid://deheedwi72dbe" path="res://material/bullet/pointed/blue.tres" id="7_0u7nf"]
+[ext_resource type="SpriteFrames" uid="uid://dp2j0e6oslahh" path="res://material/bullet/pointed/red.tres" id="7_0u7nf"]
 [ext_resource type="Texture2D" uid="uid://bgp0c0q28to2k" path="res://material/bullet/pointed/a_blue.tres" id="8_0u7nf"]
 
 [sub_resource type="GDScript" id="GDScript_drhme"]
@@ -507,10 +507,9 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=611677611]
 shape = SubResource("CircleShape2D_5qbti")
 
-[node name="NitoriZero" type="NitoriZero" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=808276439]
+[node name="Sunflower" type="Sunflower" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=1613148346]
 to_launch_texture = ExtResource("7_0u7nf")
-fire_type = 3
-fire_delay = 60
+position = Vector2(8, 0)
 
 [node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=2066262182]
 position = Vector2(209.41759, 97.83382)

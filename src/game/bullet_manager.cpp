@@ -74,6 +74,11 @@ void game::BulletManager::_ready(){
   set_physics_process(false);
   // 2. 禁用闲置帧更新（对应 _process）
   set_process(false);
+  pool = BulletPool::get_pool();
+  if (!pool) {
+    godot::UtilityFunctions::print("BulletManager::_ready pool not found");
+    return;
+  }
 }
 
 BulletManager::BulletManager() {}

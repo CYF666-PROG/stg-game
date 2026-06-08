@@ -80,7 +80,7 @@ void Strafe::shoot(){
         linear_behavior,  
         to_launch_texture,  
         "normal",
-        6.0f,
+        radius,
         1,
         10,
         zoom
