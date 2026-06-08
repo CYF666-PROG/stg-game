@@ -46,7 +46,7 @@ namespace player_3{
 namespace pointed {
   inline const std::string path_blue = "res://material/bullet/pointed/blue.tres";
   /// 判定半径
-  constexpr double radius = 4;
+  constexpr double radius = 3;
   /// 旋转偏移
   constexpr double rotation_offset = 1.570781325;
   /// 贴图缩放

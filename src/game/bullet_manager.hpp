@@ -40,7 +40,7 @@ public:
   int fire_delay = 0;
   /// 发射弹幕贴图
   godot::Ref<godot::SpriteFrames> to_launch_texture;
-  /// 贴图旋转偏移
+  /// 贴图旋转偏移 rad
   double rotation_offset = 0;
   /// 贴图缩放
   godot::Vector2 zoom = godot::Vector2(1,1);

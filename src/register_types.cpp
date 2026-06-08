@@ -12,6 +12,7 @@
 #include "bullet_settings/strafe.hpp"
 #include "bullet_settings/nitori_zero.hpp"
 #include "bullet_settings/sunflower.hpp"
+#include "bullet_settings/nitori_one.hpp"
 #include "game/bullet/player_bullet.hpp"
 #include "game/bullet/round_bullet.hpp"
 #include "utility/trigger.hpp"
@@ -60,6 +61,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::bullet_settings::RotateFlower)
   GDREGISTER_CLASS(game::bullet_settings::Strafe)
   GDREGISTER_CLASS(game::bullet_settings::NitoriZero)
+  GDREGISTER_CLASS(game::bullet_settings::NitoriOne)
   GDREGISTER_CLASS(game::bullet_settings::Sunflower)
   GDREGISTER_CLASS(game::AudioManager)
 }

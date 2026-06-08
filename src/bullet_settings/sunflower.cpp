@@ -72,7 +72,7 @@ void game::bullet_settings::Sunflower::outside(){
   
   double direction_count = 14; // 发射方向个数
   double count = 10; // 发射轮数
-  double degree = 2; // 每轮间隔多少度
+  double degree = 1; // 每轮间隔多少度
   double max = 6 ;// 最大速度
   double min = 1 ;// 最小速度
   double plus = 20 ; // 加速帧数
