@@ -39,7 +39,7 @@ public:
         godot::Vector2 position;
         /// @brief 每帧速度
         godot::Vector2 velocity;
-        float rotation = 0.0f;
+        double rotation = 0.0f;
         /// @brief 存活帧数
         int lifetime = 0; 
         bool active = false;

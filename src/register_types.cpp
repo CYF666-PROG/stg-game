@@ -8,6 +8,9 @@
 #include "game/enemy/imp.hpp"
 #include "game/bullet_manager.hpp"
 #include "bullet_settings/flower_bullet.hpp"
+#include "bullet_settings/rotate_flower.hpp"
+#include "bullet_settings/strafe.hpp"
+#include "bullet_settings/nitori_zero.hpp"
 #include "game/bullet/player_bullet.hpp"
 #include "game/bullet/round_bullet.hpp"
 #include "utility/trigger.hpp"
@@ -52,6 +55,9 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::UiManager);
   GDREGISTER_CLASS(ui::Column);
   GDREGISTER_CLASS(ui::Text);
+  GDREGISTER_CLASS(game::bullet_settings::RotateFlower)
+  GDREGISTER_CLASS(game::bullet_settings::Strafe)
+  GDREGISTER_CLASS(game::bullet_settings::NitoriZero)
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {

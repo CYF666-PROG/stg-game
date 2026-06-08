@@ -1,22 +1,22 @@
-[gd_resource type="SpriteFrames" format=3 uid="uid://biariitn77hms"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://dr146466dgvrx"]
 
-[ext_resource type="Texture2D" uid="uid://bukiiykc2h2pb" path="res://material/bullet/bullet_all_2.png" id="1_uepjl"]
+[ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="1_uepjl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5qpi0"]
 atlas = ExtResource("1_uepjl")
-region = Rect2(0, 389, 32, 35)
+region = Rect2(3, 146, 27, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dym63"]
 atlas = ExtResource("1_uepjl")
-region = Rect2(64, 389, 32, 35)
+region = Rect2(35, 146, 27, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x25e0"]
 atlas = ExtResource("1_uepjl")
-region = Rect2(32, 389, 32, 35)
+region = Rect2(67, 146, 27, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3juj3"]
 atlas = ExtResource("1_uepjl")
-region = Rect2(96, 389, 32, 35)
+region = Rect2(99, 146, 27, 30)
 
 [resource]
 animations = [{

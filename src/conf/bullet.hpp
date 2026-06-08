@@ -43,6 +43,39 @@ namespace player_3{
     /// 贴图缩放
     constexpr double scale = 2;
 }
+namespace pointed {
+  inline const std::string path_blue = "res://material/bullet/pointed/blue.tres";
+  /// 判定半径
+  constexpr double radius = 4;
+  /// 旋转偏移
+  constexpr double rotation_offset = 1.570781325;
+  /// 贴图缩放
+  constexpr double scale = 1.7;
+}
+namespace ring {
+  /// 判定半径
+  constexpr double radius = 6;
+  /// 旋转偏移
+  constexpr double rotation_offset = 0;
+  /// 贴图缩放
+  constexpr double scale = 1.5;
+}
+namespace circle{
+  /// 判定半径
+  constexpr double radius = 12;
+  /// 旋转偏移
+  constexpr double rotation_offset = 0;
+  /// 贴图缩放
+  constexpr double scale = 2.187;
+};
+namespace fire {
+  /// 判定半径
+  constexpr double radius = 17;
+  /// 旋转偏移
+  constexpr double rotation_offset = 1.570781325;
+  /// 贴图缩放
+  constexpr double scale = 2.306;
+}
 } // namespace bullet
 
 namespace player{

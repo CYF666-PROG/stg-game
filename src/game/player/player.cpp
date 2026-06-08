@@ -46,7 +46,7 @@ void game::Player::update_animation(){
   }
 
   // 2. 状态机：根据速度方向控制起步和倒带刹车
-  if (Math::is_zero_approx(speed_x)) {
+  if (!keyboard->is_left && !keyboard->is_right) {
     // 【静止状态】
     if (current_anim == "left") {
       // 从左边停下：倒带播放 to_left
@@ -61,7 +61,7 @@ void game::Player::update_animation(){
       animation->play("normal");
     }
   } 
-  else if (speed_x < 0.0f) {
+  else if (keyboard->is_left) {
     // 【向左移动】
     // 如果当前在右边跑、或者在往右倒带，直接打断，触发向左起步
     if (current_anim != "to_left" && current_anim != "left") {
@@ -69,7 +69,7 @@ void game::Player::update_animation(){
       animation->play("to_left");
     }
   } 
-  else if (speed_x > 0.0f) {
+  else if (keyboard->is_right) {
     // 【向右移动】
     if (current_anim != "to_right" && current_anim != "right") {
       animation->set_frame(0); // 确保从头正向播放

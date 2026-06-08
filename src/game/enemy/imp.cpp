@@ -16,7 +16,7 @@ void Imp::touch_trigger(utility::Trigger* trigger){
   ///确保是自己轨迹上的触发器
   if (get_parent()->get_parent() != trigger->get_parent()->get_parent()) return;
   if (!trigger) return;
-  game::BulletManager* target_shape = nullptr;
+
   // 1. 获取所有的子节点列表
   godot::TypedArray<godot::Node> children = trigger->get_children();
     // 2. 遍历子节点
@@ -27,23 +27,17 @@ void Imp::touch_trigger(utility::Trigger* trigger){
       game::BulletManager* shape = godot::Object::cast_to<game::BulletManager>(child);
       // 如果强转成功，说明这个子节点就是我们要找的类型！
       if (shape) {
-        target_shape = shape;
-        break; // 找到了，跳出循环
+        game::BulletManager* new_bull_emitter = godot::Object::cast_to<game::BulletManager>(shape->duplicate());
+        if(!new_bull_emitter) return;
+        //开启发射器
+        add_child(new_bull_emitter);
+        new_bull_emitter->set_process_mode(godot::Node::PROCESS_MODE_INHERIT);
+        new_bull_emitter->set_process(true);
+        new_bull_emitter->set_physics_process(true);
+        new_bull_emitter->set_visible(true);
       }
     }
   }
-  if (!target_shape) return ;
-  game::BulletManager* new_bull_emitter = godot::Object::cast_to<game::BulletManager>(target_shape->duplicate());
-  if(!new_bull_emitter) return;
-  // 设置发射次数和间隔
-  new_bull_emitter->fire_count = trigger->count;
-  new_bull_emitter->fire_interval = trigger->fire_rate;
-  //开启发射器
-  new_bull_emitter->set_process_mode(godot::Node::PROCESS_MODE_INHERIT);
-  new_bull_emitter->set_process(true);
-  new_bull_emitter->set_physics_process(true);
-  new_bull_emitter->set_visible(true);
-  add_child(new_bull_emitter);
 }
 
 /// 碰撞检测

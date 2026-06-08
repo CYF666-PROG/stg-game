@@ -4,7 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="2_eoxkv"]
 [ext_resource type="Texture2D" uid="uid://c37va5bf5xd7x" path="res://material/ui/heart/0.tres" id="3_8utoj"]
 [ext_resource type="Texture2D" uid="uid://u3s0engr6uke" path="res://material/ui/star/0.tres" id="4_0u7nf"]
-[ext_resource type="SpriteFrames" uid="uid://dh5fan1s1mlor" path="res://material/enemy/imp/1_blue.tres" id="5_k3qh1"]
+[ext_resource type="VideoStream" uid="uid://c8ep3bsg0hgld" path="res://background/level_3.mp4" id="6_eoxkv"]
+[ext_resource type="SpriteFrames" uid="uid://to46ef76nrj5" path="res://material/bullet/fire/blue.tres" id="6_k3qh1"]
+[ext_resource type="SpriteFrames" uid="uid://deheedwi72dbe" path="res://material/bullet/pointed/blue.tres" id="7_0u7nf"]
+[ext_resource type="Texture2D" uid="uid://bgp0c0q28to2k" path="res://material/bullet/pointed/a_blue.tres" id="8_0u7nf"]
 
 [sub_resource type="GDScript" id="GDScript_drhme"]
 
@@ -259,16 +262,40 @@ _data = {
 }
 point_count = 8
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_k3qh1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_0u7nf")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 5.0
+}]
+
 [node name="play" type="Node2D" unique_id=1385972863]
 script = SubResource("GDScript_drhme")
 metadata/_edit_vertical_guides_ = [72.0]
 metadata/_edit_horizontal_guides_ = [36.0, 1044.0, 1024.0, 919.0]
 
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1572236081]
+offset_left = -460.0
+offset_top = 36.0
+offset_right = 1332.0
+offset_bottom = 1044.0
+stream = ExtResource("6_eoxkv")
+volume_db = -80.0
+autoplay = true
+expand = true
+metadata/_edit_lock_ = true
+
 [node name="Wall" type="Node2D" parent="." unique_id=1728563001]
+metadata/_edit_lock_ = true
 
 [node name="Wall_left" type="StaticBody2D" parent="Wall" unique_id=1341216460]
 collision_layer = 32
 collision_mask = 0
+metadata/_edit_lock_ = true
 
 [node name="Wall_left" type="CollisionShape2D" parent="Wall/Wall_left" unique_id=31628354]
 position = Vector2(63.125, 540)
@@ -277,6 +304,7 @@ shape = SubResource("RectangleShape2D_462ap")
 [node name="Wall_right" type="StaticBody2D" parent="Wall" unique_id=610517460]
 collision_layer = 32
 collision_mask = 0
+metadata/_edit_lock_ = true
 
 [node name="Wall_right" type="CollisionShape2D" parent="Wall/Wall_right" unique_id=1537857604]
 position = Vector2(944.75, 540)
@@ -285,6 +313,7 @@ shape = SubResource("RectangleShape2D_5qbti")
 [node name="Wall_dow" type="StaticBody2D" parent="Wall" unique_id=1135039448]
 collision_layer = 32
 collision_mask = 0
+metadata/_edit_lock_ = true
 
 [node name="Wall_dow" type="CollisionShape2D" parent="Wall/Wall_dow" unique_id=413685184]
 position = Vector2(504, 1052.5)
@@ -293,6 +322,7 @@ shape = SubResource("RectangleShape2D_gvr3l")
 [node name="Wall_up" type="StaticBody2D" parent="Wall" unique_id=1113499453]
 collision_layer = 32
 collision_mask = 0
+metadata/_edit_lock_ = true
 
 [node name="Wall_up" type="CollisionShape2D" parent="Wall/Wall_up" unique_id=1455672413]
 position = Vector2(504, 18)
@@ -435,11 +465,11 @@ position = Vector2(322, 251)
 texture = ExtResource("4_0u7nf")
 
 [node name="PlayerStatus" type="AnimatedSprite2D" parent="." unique_id=710366030]
-position = Vector2(989, -120)
-sprite_frames = ExtResource("5_k3qh1")
+position = Vector2(431, 1228.0001)
+scale = Vector2(2.3055558, 2.3055563)
+sprite_frames = ExtResource("6_k3qh1")
 animation = &"normal"
-autoplay = "normal"
-frame_progress = 0.41831824
+frame_progress = 0.565261
 
 [node name="LevelManager" type="LevelManager" parent="." unique_id=261955755]
 
@@ -457,23 +487,13 @@ progress = 157.33813
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D5" unique_id=2111494106]
+target_speed = 200.0
+time_taken = 1.0
 collision_layer = 16
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D5/Gearbox" unique_id=306005960]
 shape = SubResource("CircleShape2D_guiot")
-
-[node name="PathFollow2D2" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1558169163]
-position = Vector2(91.9795, 55.0055)
-progress = 453.4643
-rotates = false
-
-[node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D2" unique_id=1300554624]
-collision_layer = 16
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D2/Gearbox" unique_id=426645120]
-shape = SubResource("CircleShape2D_5qbti")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1089030392]
 position = Vector2(213.87929, 97.18346)
@@ -481,17 +501,16 @@ progress = 621.4522
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
-count = 3
-fire_rate = 0.1
 collision_layer = 16
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=611677611]
 shape = SubResource("CircleShape2D_5qbti")
 
-[node name="FlowerBullet" type="FlowerBullet" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=822150124]
-count = 1
-process_mode = 4
+[node name="NitoriZero" type="NitoriZero" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=808276439]
+to_launch_texture = ExtResource("7_0u7nf")
+fire_type = 3
+fire_delay = 60
 
 [node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=2066262182]
 position = Vector2(209.41759, 97.83382)
@@ -499,6 +518,8 @@ progress = 616.9433
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D3" unique_id=1247720010]
+target_speed = 0.0
+time_taken = 1.0
 collision_layer = 16
 collision_mask = 4
 
@@ -546,6 +567,13 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_5qbti")
 
 [node name="FlowerBullet" type="FlowerBullet" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1680482171]
+rad = 30.0
+count = 0
+direction_count = 5
+launch_angle = 185.0
+fire_count = 50
+fire_interval = 20
+to_launch_texture = SubResource("SpriteFrames_k3qh1")
 process_mode = 4
 
 [node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/RightUp" unique_id=791346286]
