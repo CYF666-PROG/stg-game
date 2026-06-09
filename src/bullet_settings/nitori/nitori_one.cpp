@@ -1,5 +1,5 @@
 #include "nitori_one.hpp"
-#include "../conf/bullet.hpp"
+#include "../../conf/bullet.hpp"
 
 #include <godot_cpp/classes/resource_loader.hpp>
 

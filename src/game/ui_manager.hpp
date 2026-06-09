@@ -1,3 +1,5 @@
+#pragma once
+
 #include "godot_cpp/classes/animated_sprite2d.hpp"
 #include "godot_cpp/classes/atlas_texture.hpp"
 #include "godot_cpp/classes/color_rect.hpp"

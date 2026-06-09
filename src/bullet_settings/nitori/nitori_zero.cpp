@@ -1,10 +1,10 @@
 #include "nitori_zero.hpp"
 
 #include "godot_cpp/variant/vector2.hpp"
-#include "rotate_flower.hpp"
-#include "../game/bullet_pool.hpp"
-#include "../game/player/player.hpp"
-#include "../conf/bullet.hpp"
+#include "../rotate_flower.hpp"
+#include "../../game/bullet_pool.hpp"
+#include "../../game/player/player.hpp"
+#include "../../conf/bullet.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
@@ -23,7 +23,7 @@ void NitoriZero::shoot() {
 
 void NitoriZero::pointed(){
   audio_manager->fire_bullet();
-double rotation_offset = this->rotation_offset;
+  double rotation_offset = this->rotation_offset;
     // ==========================================
     // 🌟 弹幕控制参数
     // ==========================================

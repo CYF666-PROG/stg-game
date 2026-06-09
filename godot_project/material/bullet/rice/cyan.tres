@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://c6ta88brdsnj3"]
+
+[ext_resource type="Texture2D" uid="uid://cqg43mhosg4ib" path="res://material/bullet/rice/a_cyan.tres" id="1_gl83c"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_gl83c")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 5.0
+}]

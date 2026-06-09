@@ -25,6 +25,7 @@ MyAudioManager="*uid://cf2u0v6sk1xxh"
 
 window/size/viewport_width=1440
 window/size/viewport_height=1080
+window/size/mode=2
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
 

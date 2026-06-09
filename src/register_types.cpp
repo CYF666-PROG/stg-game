@@ -10,9 +10,12 @@
 #include "bullet_settings/flower_bullet.hpp"
 #include "bullet_settings/rotate_flower.hpp"
 #include "bullet_settings/strafe.hpp"
-#include "bullet_settings/nitori_zero.hpp"
 #include "bullet_settings/sunflower.hpp"
-#include "bullet_settings/nitori_one.hpp"
+#include "bullet_settings/nitori/nitori_zero.hpp"
+#include "bullet_settings/nitori/nitori_one.hpp"
+#include "bullet_settings/nitori/two.hpp"
+#include "bullet_settings/nitori/three.hpp"
+#include "bullet_settings/nitori/four.hpp"
 #include "game/bullet/player_bullet.hpp"
 #include "game/bullet/round_bullet.hpp"
 #include "utility/trigger.hpp"
@@ -63,6 +66,9 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::bullet_settings::NitoriZero)
   GDREGISTER_CLASS(game::bullet_settings::NitoriOne)
   GDREGISTER_CLASS(game::bullet_settings::Sunflower)
+  GDREGISTER_CLASS(game::bullet_settings::nitori::Two)
+  GDREGISTER_CLASS(game::bullet_settings::nitori::Three);
+  GDREGISTER_CLASS(game::bullet_settings::nitori::Four);
   GDREGISTER_CLASS(game::AudioManager)
 }
 

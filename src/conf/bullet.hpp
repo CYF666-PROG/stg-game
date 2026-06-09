@@ -70,11 +70,27 @@ namespace circle{
 };
 namespace fire {
   /// 判定半径
-  constexpr double radius = 17;
+  constexpr double radius = 10;
   /// 旋转偏移
   constexpr double rotation_offset = 1.570781325;
   /// 贴图缩放
-  constexpr double scale = 2.306;
+  constexpr double scale = 2;
+}
+namespace ellipse {
+  /// 判定半径
+  constexpr double radius = 5;
+  /// 旋转偏移
+  constexpr double rotation_offset = 1.570781325;
+  /// 贴图缩放
+  constexpr double scale = 1.5;
+}
+namespace rice {
+  /// 判定半径
+  constexpr double radius = 3;
+  /// 旋转偏移
+  constexpr double rotation_offset = 1.570781325;
+  /// 贴图缩放
+  constexpr double scale = 2;
 }
 } // namespace bullet
 

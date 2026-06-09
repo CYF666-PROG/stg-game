@@ -1,4 +1,4 @@
-#include "../game/bullet_manager.hpp"
+#include "../../game/bullet_manager.hpp"
 
 #include "godot_cpp/classes/wrapped.hpp"
 

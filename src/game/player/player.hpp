@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../entity.hpp"
-#include "../../bullet_settings/flower_bullet.hpp"
 #include "../audio_manager.hpp"
 
 
@@ -11,7 +10,6 @@ class Player : public Entity{
   GDCLASS(Player, game::Entity)
 private:
   godot::Ref<godot::Texture2D> bullet_texture ;
-  bullet_settings::FlowerBullet* flow = nullptr;
   int orb_count = 4;
   bool is_slow = false;
   /// 技能冷却时间 帧

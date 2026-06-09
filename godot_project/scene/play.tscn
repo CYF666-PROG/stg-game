@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="2_eoxkv"]
 [ext_resource type="Texture2D" uid="uid://c37va5bf5xd7x" path="res://material/ui/heart/0.tres" id="3_8utoj"]
 [ext_resource type="Texture2D" uid="uid://u3s0engr6uke" path="res://material/ui/star/0.tres" id="4_0u7nf"]
+[ext_resource type="SpriteFrames" uid="uid://c6ta88brdsnj3" path="res://material/bullet/rice/cyan.tres" id="6_8utoj"]
 [ext_resource type="VideoStream" uid="uid://c8ep3bsg0hgld" path="res://background/level_3.mp4" id="6_eoxkv"]
-[ext_resource type="SpriteFrames" uid="uid://to46ef76nrj5" path="res://material/bullet/fire/blue.tres" id="6_k3qh1"]
 [ext_resource type="Texture2D" uid="uid://bgp0c0q28to2k" path="res://material/bullet/pointed/a_blue.tres" id="8_0u7nf"]
 
 [sub_resource type="GDScript" id="GDScript_drhme"]
@@ -277,6 +277,12 @@ script = SubResource("GDScript_drhme")
 metadata/_edit_vertical_guides_ = [72.0]
 metadata/_edit_horizontal_guides_ = [36.0, 1044.0, 1024.0, 919.0]
 
+[node name="BulletPool" type="BulletPool" parent="." unique_id=1638380432]
+
+[node name="EnemyManager" type="EnemyManager" parent="." unique_id=1240991516]
+
+[node name="EffectManager" type="EffectManager" parent="." unique_id=1477197276]
+
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1572236081]
 offset_left = -460.0
 offset_top = 36.0
@@ -464,11 +470,10 @@ position = Vector2(322, 251)
 texture = ExtResource("4_0u7nf")
 
 [node name="PlayerStatus" type="AnimatedSprite2D" parent="." unique_id=710366030]
-position = Vector2(431, 1228.0001)
-scale = Vector2(2.3055558, 2.3055563)
-sprite_frames = ExtResource("6_k3qh1")
+position = Vector2(433, 1230.0001)
+scale = Vector2(2.5, 2.5)
+sprite_frames = ExtResource("6_8utoj")
 animation = &"normal"
-frame_progress = 0.565261
 
 [node name="LevelManager" type="LevelManager" parent="." unique_id=261955755]
 
@@ -495,8 +500,8 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_guiot")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1089030392]
-position = Vector2(213.87929, 97.18346)
-progress = 621.4522
+position = Vector2(843.66864, 131.01872)
+progress = 1255.7267
 rotates = false
 
 [node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
@@ -506,18 +511,14 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=611677611]
 shape = SubResource("CircleShape2D_5qbti")
 
-[node name="NitoriOne" type="NitoriOne" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=363895365]
-fire_delay = 60
-position = Vector2(-24, 0)
-
 [node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=2066262182]
-position = Vector2(209.41759, 97.83382)
-progress = 616.9433
+position = Vector2(797.18634, 113.96311)
+progress = 1206.1295
 rotates = false
 
 [node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D3" unique_id=1247720010]
 target_speed = 0.0
-time_taken = 1.0
+time_taken = 0.1
 collision_layer = 16
 collision_mask = 4
 
@@ -637,8 +638,5 @@ offset_bottom = 640.0
 theme_override_font_sizes/font_size = 40
 text = "重新开始"
 
-[node name="BulletPool" type="BulletPool" parent="." unique_id=1638380432]
-
-[node name="EnemyManager" type="EnemyManager" parent="." unique_id=1240991516]
-
-[node name="EffectManager" type="EffectManager" parent="." unique_id=1477197276]
+[node name="Four" type="Four" parent="." unique_id=2094051919]
+position = Vector2(478, 203)

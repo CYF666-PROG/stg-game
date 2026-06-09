@@ -56,7 +56,7 @@ void game::LevelManager::_ready(){
     return;
   }
 
-  make_enemy(0.5, IMP, get_path2d("level1/LiftUp"));
+  // make_enemy(0.5, IMP, get_path2d("level1/LiftUp"));
 }
 
 void LevelManager::restart(){

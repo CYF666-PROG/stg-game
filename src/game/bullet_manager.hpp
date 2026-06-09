@@ -3,6 +3,7 @@
 #include "bullet.hpp"
 #include "bullet_pool.hpp"
 #include "audio_manager.hpp"
+#include "player/player.hpp"
 
 #include <godot_cpp/classes/node2d.hpp>
 #include "godot_cpp/classes/sprite_frames.hpp"
@@ -20,8 +21,8 @@ private:
 protected :
   BulletPool* pool = nullptr;
   AudioManager* audio_manager = nullptr;
+  Player* player = nullptr;
   static void _bind_methods();   
-  std::vector<Bullet*> active_bullets{nullptr};
   /// @brief 开始射击后过去的帧数
   int frame = 0;
 public:
