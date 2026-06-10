@@ -15,6 +15,8 @@ public:
   void start_2() override;
   void start_3() override;
   void start_4() override;
+  void start_5() override;
+  void start_6() override;
 
   NiToRi() = default;
   ~NiToRi() = default;

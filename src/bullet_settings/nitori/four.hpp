@@ -13,8 +13,7 @@ namespace game::bullet_settings::nitori{
 class Four : public game::BulletManager{
   GDCLASS(Four, game::BulletManager)
 private:
-
-  const int interval_frames = 60;       // 每隔多少帧发射这一大波（30颗）
+  // 环参数
   const int b_count = 60;               // 一次发射的子弹总数
   const double stage1_max_speed = 6;    // 初始发射和最终扩散的最大速度
   const double stage2_max_speed = 5;
@@ -25,7 +24,8 @@ private:
   const double rotation_speed_deg = 5 ; // 自转速度
   
   int ring_frame_count = 0; // 射击环时的计时器
-
+  // 向玩家射击参数
+  bool run_shoot_player = false;
   // 椭圆弹数据
   godot::Ref<godot::SpriteFrames> ellipse_tex; // 椭圆弹贴图
   double ellipse_scale = conf::bullet::ellipse::scale;
@@ -37,6 +37,11 @@ private:
   double rice_radius = conf::bullet::rice::radius;
   double rice_rotation_offset = conf::bullet::rice::rotation_offset;
 public:
+  bool is_end();
+  void re_set();
+  void run_to_shoot_player();
+  void disabled();
+
   void shoot() override;
   void shoot_player();
   void shoot_rings();

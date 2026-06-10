@@ -22,14 +22,30 @@ Four::Four(){
   }
 };
 
+bool Four::is_end(){
+  if(ring_frame_count > 25) return true;
+  return false;
+}
+
+void Four::re_set(){
+  ring_frame_count = 0;
+}
+
+void Four::run_to_shoot_player(){run_shoot_player = true;}
+
 void Four::shoot(){
   shoot_player();
   shoot_rings();
   ring_frame_count++;
 }
 
+void Four::disabled(){
+  ring_frame_count = 100;
+}
+
 void Four::shoot_player(){
-  // 每6帧发射
+  if (!run_shoot_player) return;
+  // 每几帧发射
   if (frame % 5 != 0) return;
   double max_offset_deg = 8;    // 🌟 最大随机偏移角度（例如 10.0f，表示在玩家方向左右 ±10度内晃动）
   double bullet_speed = 2;       // 子弹发射的速度

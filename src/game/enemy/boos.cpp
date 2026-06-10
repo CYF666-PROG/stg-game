@@ -6,6 +6,7 @@
 #include "godot_cpp/core/memory.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 #include "godot_cpp/variant/vector2.hpp"
+#include <godot_cpp/classes/scene_tree.hpp>
 
 using namespace game;
 using namespace godot;
@@ -83,12 +84,22 @@ void Boos::next(){
     start_2();
   }else if (level == 2) {
     start_3();
+  }else if (level == 3) {
+    start_4();
+  }else if (level == 4) {
+    start_5();
+  }else if (level == 5) {
+    start_6();
+  }else if (level == 6) {
+    dead();
   }
 }
 
 void Boos::clear(){
   // 全屏消弹
-  add_child(memnew(utility::Clear));
+  auto clear = memnew(utility::Clear);
+  get_tree()->get_current_scene()->add_child(clear);
+  clear->set_global_position(get_global_position());
   // 清楚残留发射器
   auto arr = get_children();
   for (auto it : arr) {
