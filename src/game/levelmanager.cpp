@@ -1,8 +1,11 @@
 #include "levelmanager.hpp"
 #include "../utility/move.hpp"
 #include "../utility/move/circle.hpp"
+#include "enemy/boos.hpp"
+#include "enemy/boos/nitori.hpp"
 #include "enemy/imp.hpp"
 #include "godot_cpp/classes/global_constants.hpp"
+#include "godot_cpp/core/memory.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -11,6 +14,7 @@
 
 
 using namespace game;
+using namespace godot;
 
 LevelManager* LevelManager::singleton = nullptr;
 
@@ -31,6 +35,15 @@ void game::LevelManager::_physics_process(double delta)
       game::enemy::Imp* imp = memnew(game::enemy::Imp("imp/1_blue.tres"));
       imp->path_follow = pf;
       pf->add_child(imp);
+    }else if (it->second.typ == NITORI) {
+      auto *current_scene_root = get_tree()->get_current_scene();
+      if (!current_scene_root) {
+        UtilityFunctions::print("LevelManager::_physics_process scene_root not foud");
+        continue;
+      }
+      auto nitori = memnew(game::boos::NiToRi);
+      current_scene_root->add_child(nitori);
+      UtilityFunctions::print("make nitori");
     }
     it = level_timeline.erase(it);
   }
@@ -56,7 +69,7 @@ void game::LevelManager::_ready(){
     return;
   }
 
-  // make_enemy(0.5, IMP, get_path2d("level1/LiftUp"));
+  make_enemy(0.5, NITORI, get_path2d("level1/LiftUp"));
 }
 
 void LevelManager::restart(){

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="2_eoxkv"]
 [ext_resource type="Texture2D" uid="uid://c37va5bf5xd7x" path="res://material/ui/heart/0.tres" id="3_8utoj"]
 [ext_resource type="Texture2D" uid="uid://u3s0engr6uke" path="res://material/ui/star/0.tres" id="4_0u7nf"]
-[ext_resource type="SpriteFrames" uid="uid://c6ta88brdsnj3" path="res://material/bullet/rice/cyan.tres" id="6_8utoj"]
+[ext_resource type="SpriteFrames" uid="uid://blrccmj2a27xf" path="res://material/enemy/boos/nitori.tres" id="6_8utoj"]
 [ext_resource type="VideoStream" uid="uid://c8ep3bsg0hgld" path="res://background/level_3.mp4" id="6_eoxkv"]
 [ext_resource type="Texture2D" uid="uid://bgp0c0q28to2k" path="res://material/bullet/pointed/a_blue.tres" id="8_0u7nf"]
 
@@ -470,10 +470,11 @@ position = Vector2(322, 251)
 texture = ExtResource("4_0u7nf")
 
 [node name="PlayerStatus" type="AnimatedSprite2D" parent="." unique_id=710366030]
-position = Vector2(433, 1230.0001)
-scale = Vector2(2.5, 2.5)
+position = Vector2(122, 365)
+scale = Vector2(1.6500015, 1.6500015)
 sprite_frames = ExtResource("6_8utoj")
 animation = &"normal"
+autoplay = "normal"
 
 [node name="LevelManager" type="LevelManager" parent="." unique_id=261955755]
 
@@ -637,6 +638,3 @@ offset_right = 384.0
 offset_bottom = 640.0
 theme_override_font_sizes/font_size = 40
 text = "重新开始"
-
-[node name="Four" type="Four" parent="." unique_id=2094051919]
-position = Vector2(478, 203)

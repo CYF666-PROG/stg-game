@@ -19,10 +19,6 @@ Three::Three() {
   if (fire_tex.is_null()){
     UtilityFunctions::print("not fond ","res://material/bullet/fire/blue.tres");
   }
-  pool = BulletPool::get_pool();
-  if (!pool) {
-    godot::UtilityFunctions::print("Three::Three pool not found");
-  }
 }
 
 void Three::shoot() {

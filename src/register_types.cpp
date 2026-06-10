@@ -1,4 +1,6 @@
 #include "register_types.hpp"
+#include "game/enemy/boos.hpp"
+#include "game/enemy/boos/nitori.hpp"
 #include "game/entity.hpp"
 #include "game/player/player.hpp"
 #include "input/keyboard.hpp"
@@ -70,6 +72,8 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::bullet_settings::nitori::Three);
   GDREGISTER_CLASS(game::bullet_settings::nitori::Four);
   GDREGISTER_CLASS(game::AudioManager)
+  GDREGISTER_CLASS(game::Boos)
+  GDREGISTER_CLASS(game::boos::NiToRi)
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {

@@ -19,7 +19,8 @@ class LevelManager : public godot::Node2D{
 private:
   static LevelManager* singleton;
   enum enemy_typ {
-    IMP
+    IMP,
+    NITORI
   };
 
   struct enemy {

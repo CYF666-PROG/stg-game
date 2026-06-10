@@ -1,5 +1,6 @@
 #include "nitori_zero.hpp"
 
+#include "godot_cpp/variant/string.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include "../rotate_flower.hpp"
 #include "../../game/bullet_pool.hpp"
@@ -21,9 +22,42 @@ void NitoriZero::shoot() {
   pointed();
 }
 
+NitoriZero::NitoriZero(){
+  // 加载子弹
+  String path = "res://material/bullet/pointed/blue.tres";
+  ResourceLoader* loader = ResourceLoader::get_singleton();
+  // 2. 直接加载资源并进行安全强转
+  pointed_tex = loader->load(path);
+  if (pointed_tex.is_null()){
+    UtilityFunctions::print("not fond ",path);
+  }
+}
+
+void NitoriZero::_ready(){
+  game::BulletManager::_ready();
+}
+
+void NitoriZero::re_set(){
+  // 重置批次
+  fire_burst_counter = 0;
+  pointed_max_cout = 0;
+  // 重置帧计数器
+  fire_frame_counter = 0;
+  pointed_frame_counter = 0;
+}
+
+bool NitoriZero::is_end(){
+  if (fire_burst_counter < fire_max_cout) {
+    return false;
+  }
+  if (pointed_burst_counter < pointed_burst_counter) {
+    return false;
+  }
+  return true;
+}
+
 void NitoriZero::pointed(){
-  audio_manager->fire_bullet();
-  double rotation_offset = this->rotation_offset;
+    double rotation_offset = this->pointed_rotation_offset;
     // ==========================================
     // 🌟 弹幕控制参数
     // ==========================================
@@ -34,14 +68,21 @@ void NitoriZero::pointed(){
     // 基础配置
     float center_angle_deg = 90.0f; // 正上方
     float angle_step_deg = 10.0f;     // 每隔 6 度发射一颗
-
+    // 做到间隔发射
     pointed_frame_counter++;
     if (pointed_frame_counter < interval_frames) {
         return; 
     }
     pointed_frame_counter = 0; 
-
+    // 大于批次计数直接退出
+    if (pointed_burst_counter >= pointed_max_cout) {
+      return;
+    }
+    pointed_burst_counter++;
+    // 特效
+    audio_manager->fire_bullet();
     shoot_effects();
+
     godot::Vector2 center_pos = get_global_position(); 
     auto *new_pool = BulletPool::get_pool();
     if (!new_pool) {
@@ -82,7 +123,7 @@ void NitoriZero::pointed(){
             if (b.velocity != godot::Vector2(0, 0)) b.rotation = rotation_offset + b.velocity.angle();
         };
 
-        new_pool->spawn(center_pos, left_behavior, to_launch_texture, "normal", 6.0f, 1, 10, zoom);
+        new_pool->spawn(center_pos, left_behavior, pointed_tex, "normal", pointed_radius, 1, 10, Vector2(1,1) * pointed_scale);
     }
 
     // ==========================================
@@ -114,7 +155,7 @@ void NitoriZero::pointed(){
             if (b.velocity != godot::Vector2(0, 0)) b.rotation = rotation_offset + b.velocity.angle();
         };
 
-        new_pool->spawn(center_pos, right_behavior, to_launch_texture, "normal", 6.0f, 1, 10, zoom);
+        new_pool->spawn(center_pos, right_behavior, pointed_tex, "normal", pointed_radius, 1, 10, Vector2(1,1) * pointed_scale);
     }
 }
 

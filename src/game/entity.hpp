@@ -20,7 +20,7 @@ protected:
   // 音频总管
   AudioManager* audio = nullptr;
   /// @brief 已存活帧数
-  double live_frame = 0;
+  int live_frame = 0;
   input::KeyBoard* keyboard = nullptr;
   godot::Vector2 spead = godot::Vector2(0, 0);
 public:

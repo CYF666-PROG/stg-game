@@ -151,4 +151,14 @@ namespace point {
   inline const std::string path = "res://material/player/p1/s_point.tres";
 }
 } // namespace player
+namespace boos {
+namespace nitori {
+  inline const std::string path = "res://material/enemy/boos/nitori.tres";
+  /// 锚点
+  constexpr double anchor_x = 0.5;
+  constexpr double anchor_y = 0.5;
+  /// 贴图缩放
+  constexpr double scale = 1.65;
+}
+}
 } // namespace conf
