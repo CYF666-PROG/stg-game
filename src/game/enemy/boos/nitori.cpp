@@ -1,6 +1,9 @@
 #include "nitori.hpp"
 #include "../../../conf/bullet.hpp"
 #include "../../../bullet_settings/nitori/nitori_zero.hpp"
+#include "../../../bullet_settings/nitori/nitori_one.hpp"
+#include "../../../bullet_settings/nitori/two.hpp"
+#include "../../../bullet_settings/nitori/three.hpp"
 
 #include "godot_cpp/classes/animated_sprite2d.hpp"
 #include "godot_cpp/classes/rectangle_shape2d.hpp"
@@ -9,7 +12,9 @@
 #include "godot_cpp/classes/sprite_frames.hpp"
 #include "godot_cpp/core/memory.hpp"
 #include "godot_cpp/variant/string.hpp"
+#include "godot_cpp/variant/utility_functions.hpp"
 #include "godot_cpp/variant/vector2.hpp"
+#include <vector>
 
 using namespace game::boos;
 using namespace godot;
@@ -44,6 +49,168 @@ void NiToRi::_ready(){
 }
 
 void NiToRi::start_0(){
-  auto f = memnew(game::bullet_settings::NitoriZero);
-  add_child(f);
+  level = 0;
+  hp = 100;
+  auto nitori_zero = memnew(game::bullet_settings::NitoriZero);
+  add_child(nitori_zero);
+  shoot_l = [nitori_zero](Boos* b){
+    if(b->frame_status == 0) {
+      UtilityFunctions::print("shoot_l re_set");
+      nitori_zero->re_set();
+    };
+    if (nitori_zero->is_end()) {
+      b->status = moveing;
+    }
+    b->frame_status++;
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(577,154));
+  poss.push_back(Vector2(428,124));
+  poss.push_back(Vector2(435,166));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      UtilityFunctions::print("move_l move end");
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+    b->frame_status++;
+  };
+  status = shooting;
 }
+
+void NiToRi::start_1(){
+  level = 1;
+  hp = 100;
+  auto nitori_one = memnew(game::bullet_settings::NitoriOne);
+  add_child(nitori_one);
+  shoot_l = [nitori_one](Boos* b){
+    if(b->frame_status == 0) {
+      UtilityFunctions::print("shoot_l re_set");
+      nitori_one->re_set();
+    };
+    if (nitori_one->is_end()) {
+      b->status = moveing;
+    }
+    b->frame_status++;
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(577,154));
+  poss.push_back(Vector2(428,124));
+  poss.push_back(Vector2(435,166));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      UtilityFunctions::print("move_l move end");
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+    b->frame_status++;
+  };
+  status = shooting;
+};
+
+void NiToRi::start_2(){
+  level = 2;
+  hp = 100;
+  auto nitori_two = memnew(game::bullet_settings::nitori::Two);
+  add_child(nitori_two);
+  status = moveing;
+  shoot_l = [](Boos* b){
+    if (b->frame_status > 60) {
+      b->status = moveing;
+    }
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(478,202));
+  poss.push_back(Vector2(693,177));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      UtilityFunctions::print("move_l move end");
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+  };
+};
+
+void NiToRi::start_3(){
+  level = 3;
+  hp = 100;
+  auto nitori_one = memnew(game::bullet_settings::NitoriOne);
+  nitori_one->count = 20 ;
+  nitori_one->deflection_deg = 0.2;
+  nitori_one->disabled();
+  add_child(nitori_one);
+  status = moveing;
+  shoot_l = [
+    nitori_one,
+    a = 1,               // 控制向左偏还是向右偏
+    count = 0           // 当前将要发射几轮 初始是禁用所以要设为-1
+  ](Boos* b) mutable{
+    if(b->frame_status == 0){
+      count = 0;
+    }
+    if (nitori_one->is_end()) {
+      count++;
+      if (count > 4) {
+        b->status = moveing;
+        return;
+      }
+      if (count % 2 == 0) {
+        nitori_one->deflection_deg *= -1;
+      }
+      nitori_one->re_set();
+    }
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(478,202));
+  poss.push_back(Vector2(693,177));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      UtilityFunctions::print("move_l move end");
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+  };
+};
+
+void NiToRi::start_4(){
+  level = 3;
+  hp = 100;
+  auto nitori_two = memnew(game::bullet_settings::nitori::Three);
+  add_child(nitori_two);
+  status = moveing;
+  shoot_l = [](Boos* b){
+    if (b->frame_status > 60) {
+      b->status = moveing;
+    }
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(478,202));
+  poss.push_back(Vector2(693,177));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      UtilityFunctions::print("move_l move end");
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+  };
+};

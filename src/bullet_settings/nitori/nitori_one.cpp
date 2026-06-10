@@ -7,11 +7,22 @@ using namespace game::bullet_settings;
 using namespace godot;
 
 void NitoriOne::shoot(){
-  if (frame % 240 == 0){
-    now_count = 0;
-    now_initial_direction_rad = Math::deg_to_rad(initial_direction_deg);
-  }
   sector();
+}
+
+bool NitoriOne::is_end(){
+  if (now_count > count) {
+    return true;
+  }
+  return false;
+};
+
+void NitoriOne::re_set(){
+  now_count = 1;
+};
+
+void NitoriOne::disabled(){
+  now_count = count + 1;
 }
 
 void game::bullet_settings::NitoriOne::sector(){

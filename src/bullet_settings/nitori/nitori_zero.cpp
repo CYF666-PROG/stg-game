@@ -40,7 +40,7 @@ void NitoriZero::_ready(){
 void NitoriZero::re_set(){
   // 重置批次
   fire_burst_counter = 0;
-  pointed_max_cout = 0;
+  pointed_burst_counter = 0;
   // 重置帧计数器
   fire_frame_counter = 0;
   pointed_frame_counter = 0;
@@ -50,7 +50,7 @@ bool NitoriZero::is_end(){
   if (fire_burst_counter < fire_max_cout) {
     return false;
   }
-  if (pointed_burst_counter < pointed_burst_counter) {
+  if (pointed_burst_counter < pointed_max_cout) {
     return false;
   }
   return true;

@@ -31,6 +31,7 @@
 #include "ui/column.hpp"
 #include "ui/text.hpp"
 #include "game/audio_manager.hpp"
+#include "utility/clear.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -74,6 +75,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::AudioManager)
   GDREGISTER_CLASS(game::Boos)
   GDREGISTER_CLASS(game::boos::NiToRi)
+  GDREGISTER_CLASS(utility::Clear)
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {

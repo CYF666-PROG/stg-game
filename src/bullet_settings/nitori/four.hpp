@@ -9,6 +9,7 @@
 #include <vector>
 
 namespace game::bullet_settings::nitori{
+  // 河童 "水皿旋轮"
 class Four : public game::BulletManager{
   GDCLASS(Four, game::BulletManager)
 private:

@@ -10,8 +10,9 @@
 #include <vector>
 
 namespace game::bullet_settings::nitori{
-class Two : public godot::Node2D{
-  GDCLASS(Two, godot::Node2D)
+  // 漂溺 "水底粼光，心中痛伤"
+class Two : public game::BulletManager{
+  GDCLASS(Two, game::BulletManager)
 private:
   int global_frame_counter = 0; // 全局帧计数器
   int state = 0;                // 0: 等待/依次开启, 1: 持续发射中, 2: 依次关闭, 3: 循环结束

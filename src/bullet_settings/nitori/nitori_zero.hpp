@@ -4,17 +4,18 @@
 #include "godot_cpp/classes/wrapped.hpp"
 
 namespace game::bullet_settings{
+  // 光学"水相伪装"
 class NitoriZero : public game::BulletManager{
   GDCLASS(NitoriZero, game::BulletManager)
 private:
   int pointed_frame_counter = 0;
   int pointed_burst_counter = 0;       // 记录当前是第几批
-  int pointed_max_cout = 20;          // 一次最大发射个数
+  int pointed_max_cout = 10;          // 一次最大发射个数
 
   int fire_frame_counter = 0;
   double fire_current_base_degree = 0.0; // 记录弹幕的当前基础旋转角度
   int fire_burst_counter = 0;       // 记录当前是第几批
-  int fire_max_cout = 20;          // 一次最大发射个数
+  int fire_max_cout = 6;          // 一次最大发射个数
 
   // 子弹数据
   godot::Ref<godot::SpriteFrames> pointed_tex;

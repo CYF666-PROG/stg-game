@@ -7,6 +7,7 @@
 #include "godot_cpp/variant/vector2.hpp"
 
 namespace game::bullet_settings::nitori{
+  // 水符 "河童的幻想大瀑布"
 class Three : public game::BulletManager{
   GDCLASS(Three, game::BulletManager)
 private:
