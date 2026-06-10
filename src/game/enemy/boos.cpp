@@ -121,7 +121,8 @@ void Boos::hit_bullet(){
 
 void Boos::entity_physics_process(double delta){
   if (hp <= 0) next();
-
+  // 更新血条
+  health->update_health(hp, 100);
   // 方便lamb知道自己这个动作持续了多少帧
   if (befor_status != status) {
     frame_status = 0;
@@ -139,6 +140,12 @@ void Boos::entity_physics_process(double delta){
 void Boos::_ready(){
   // 调用父类的准备
   Enemy::_ready();
+  // 创建boos血条
+  health = memnew(ui::BossHealth);
+  add_child(health);
+  if (!health) {
+    UtilityFunctions::print("Boos::_ready() health ERRO");
+  }
   set_global_position(Vector2(141,-118));
   auto target_pos = Vector2(478,202);
   move_l = [target_pos](Boos* b){

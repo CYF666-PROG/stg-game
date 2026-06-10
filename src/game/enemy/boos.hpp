@@ -1,6 +1,8 @@
 #pragma once
 
 #include "enemy.hpp"
+#include "../../ui/boss_health.hpp"
+
 #include "godot_cpp/classes/animated_sprite2d.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include <functional>
@@ -12,6 +14,7 @@ class Boos : public Enemy {
 
 private:
 public:
+  ui::BossHealth* health = nullptr;
   godot::AnimatedSprite2D* anima = nullptr;
   // 符卡切换时无敌帧
   int invincible_frame = 0 ;

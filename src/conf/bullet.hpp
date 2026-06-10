@@ -160,5 +160,14 @@ namespace nitori {
   /// 贴图缩放
   constexpr double scale = 1.65;
 }
+namespace health {
+  inline const std::string path_outside = "res://material/ui/boos_health/out_health.tres";
+  inline const std::string path_inside = "res://material/ui/boos_health/in_health.tres";
+  /// 锚点
+  constexpr double anchor_x = 0.5;
+  constexpr double anchor_y = 0.5;
+  /// 贴图缩放
+  constexpr double scale = 1;
+}
 }
 } // namespace conf

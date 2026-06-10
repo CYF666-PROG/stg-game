@@ -458,7 +458,7 @@ position = Vector2(322, 251)
 texture = ExtResource("4_0u7nf")
 
 [node name="PlayerStatus" type="AnimatedSprite2D" parent="." unique_id=710366030]
-position = Vector2(122, 365)
+position = Vector2(-210, 1185)
 scale = Vector2(1.6500015, 1.6500015)
 sprite_frames = ExtResource("6_8utoj")
 animation = &"normal"
