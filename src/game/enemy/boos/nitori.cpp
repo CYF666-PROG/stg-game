@@ -5,6 +5,7 @@
 #include "../../../bullet_settings/nitori/two.hpp"
 #include "../../../bullet_settings/nitori/three.hpp"
 #include "../../../bullet_settings/nitori/four.hpp"
+#include "../../../ui/card_name.hpp"
 
 #include "godot_cpp/classes/animated_sprite2d.hpp"
 #include "godot_cpp/classes/rectangle_shape2d.hpp"
@@ -15,6 +16,8 @@
 #include "godot_cpp/variant/string.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 #include "godot_cpp/variant/vector2.hpp"
+#include <godot_cpp/classes/scene_tree.hpp>
+
 #include <vector>
 
 using namespace game::boos;
@@ -52,11 +55,15 @@ void NiToRi::_ready(){
 void NiToRi::start_0(){
   level = 0;
   hp = 100;
+  // 添加card_name
+  card_name = memnew(ui::CardName);
+  get_tree()->get_current_scene()->add_child(card_name);
+  card_name->setup_and_play(String::utf8(u8"光学'水相伪装'"));
   auto nitori_zero = memnew(game::bullet_settings::NitoriZero);
   add_child(nitori_zero);
   shoot_l = [nitori_zero](Boos* b){
     if(b->frame_status == 0) {
-      UtilityFunctions::print("shoot_l re_set");
+      nitori_zero->start_shoot();
       nitori_zero->re_set();
     };
     if (nitori_zero->is_end()) {
@@ -73,7 +80,6 @@ void NiToRi::start_0(){
     pos_index = 0
   ](Boos* b) mutable {
     if (b->move(poss[pos_index])) {
-      UtilityFunctions::print("move_l move end");
       pos_index = (pos_index+1) % poss.size();
       b->status = shooting;
       return;
@@ -90,7 +96,6 @@ void NiToRi::start_1(){
   add_child(nitori_one);
   shoot_l = [nitori_one](Boos* b){
     if(b->frame_status == 0) {
-      UtilityFunctions::print("shoot_l re_set");
       nitori_one->re_set();
     };
     if (nitori_one->is_end()) {
@@ -107,7 +112,6 @@ void NiToRi::start_1(){
     pos_index = 0
   ](Boos* b) mutable {
     if (b->move(poss[pos_index])) {
-      UtilityFunctions::print("move_l move end");
       pos_index = (pos_index+1) % poss.size();
       b->status = shooting;
       return;
@@ -120,6 +124,9 @@ void NiToRi::start_1(){
 void NiToRi::start_2(){
   level = 2;
   hp = 100;
+  card_name = memnew(ui::CardName);
+  get_tree()->get_current_scene()->add_child(card_name);
+  card_name->setup_and_play(String::utf8(u8"漂溺 '水底粼光，心中痛伤'"));
   auto nitori_two = memnew(game::bullet_settings::nitori::Two);
   add_child(nitori_two);
   status = moveing;
@@ -136,7 +143,6 @@ void NiToRi::start_2(){
     pos_index = 0
   ](Boos* b) mutable {
     if (b->move(poss[pos_index])) {
-      UtilityFunctions::print("move_l move end");
       pos_index = (pos_index+1) % poss.size();
       b->status = shooting;
       return;
@@ -181,7 +187,6 @@ void NiToRi::start_3(){
     pos_index = 0
   ](Boos* b) mutable {
     if (b->move(poss[pos_index])) {
-      UtilityFunctions::print("move_l move end");
       pos_index = (pos_index+1) % poss.size();
       b->status = shooting;
       return;
@@ -192,6 +197,9 @@ void NiToRi::start_3(){
 void NiToRi::start_4(){
   level = 4;
   hp = 100;
+  card_name = memnew(ui::CardName);
+  get_tree()->get_current_scene()->add_child(card_name);
+  card_name->setup_and_play(String::utf8(u8"水符 '河童的幻想大瀑布'"));
   auto nitori_two = memnew(game::bullet_settings::nitori::Three);
   add_child(nitori_two);
   status = moveing;
@@ -208,7 +216,6 @@ void NiToRi::start_4(){
     pos_index = 0
   ](Boos* b) mutable {
     if (b->move(poss[pos_index])) {
-      UtilityFunctions::print("move_l move end");
       pos_index = (pos_index+1) % poss.size();
       b->status = shooting;
       return;
@@ -253,7 +260,6 @@ void NiToRi::start_5(){
     pos_index = 0
   ](Boos* b) mutable {
     if (b->move(poss[pos_index])) {
-      UtilityFunctions::print("move_l move end");
       pos_index = (pos_index+1) % poss.size();
       b->status = shooting;
       return;
@@ -263,6 +269,9 @@ void NiToRi::start_5(){
 void NiToRi::start_6(){
   level = 6;
   hp = 100;
+  card_name = memnew(ui::CardName);
+  get_tree()->get_current_scene()->add_child(card_name);
+  card_name->setup_and_play(String::utf8(u8"河童 '水皿旋轮'"));
   auto nitori_four = memnew(game::bullet_settings::nitori::Four);
   add_child(nitori_four);
   nitori_four->disabled();
@@ -291,7 +300,6 @@ void NiToRi::start_6(){
     pos_index = 0
   ](Boos* b) mutable {
     if (b->move(poss[pos_index])) {
-      UtilityFunctions::print("move_l move end");
       pos_index = (pos_index+1) % poss.size();
       if (b->frame_status > 20) b->status = shooting;
       return;

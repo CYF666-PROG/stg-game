@@ -2,6 +2,7 @@
 
 #include "enemy.hpp"
 #include "../../utility/move.hpp"
+#include "../../utility/trigger.hpp"
 
 #include <godot_cpp/variant/vector2.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -31,10 +32,17 @@ public:
   /// 弹幕发射器
 
   // BulletManager transmitter; // 千万不能包含其他注册节点！
+  virtual void set_animation(godot::String path){};
   virtual void dead() override;
   /// 更新动画
   void update_animation() override;
   void update_speed();
+  // 根据path2d更新位置
+  void update_position();
+
+  virtual void touch_trigger(utility::Trigger* trigger);
+  virtual void _on_area_entered(godot::Area2D *other_area) override;
+  void _ready() override;
   virtual void entity_physics_process(double delta) override;
   Minion();
   virtual ~Minion();

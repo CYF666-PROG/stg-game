@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../utility/move.hpp"
+#include "enemy/minion.hpp"
 
 #include <godot_cpp/variant/vector2.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -20,10 +21,22 @@ private:
   static LevelManager* singleton;
   enum enemy_typ {
     IMP,
-    NITORI
+    NITORI,
+    BIG_butterfly
+  };
+  enum Color {
+    blue,
+    red,
+    yellow,
+    pink_green,
+    yellow_blue,
+    yellow_red,
   };
 
   struct enemy {
+    int level = 0;
+    double hp = 100;
+    Color coler = blue;
     enemy_typ typ = IMP;
     /// 轨迹对象
     godot::Path2D* path = nullptr;
@@ -35,13 +48,14 @@ private:
   /// 敌人时间表
   std::multimap<double, enemy> level_timeline;
   // 关卡计时器 单位为帧
-  int level_frame = 0;
+  int level_frame = 4400;
   /// @brief 获取move下path2d节点
   /// @param path 相对于move节点的路径 例如 "level1/LiftUp"
   /// @return 
   godot::Path2D* get_path2d(godot::String path);
   
 public:
+  game::enemy::Minion* get_minion(enemy_typ typ, Color color);
   /// @brief 
   /// @param time 出场时间
   /// @param typ 类型
@@ -59,9 +73,20 @@ public:
   /// @param path 轨迹对象
   void make_enemy(
     double time,
-    enemy_typ typ, 
-    godot::Path2D* path
+    enemy_typ typ,
+    Color color,
+    godot::Path2D* path,
+    double hp
   );
+  void make_boos(double time, enemy_typ typ, int level);
+  bool is_pause = false;
+  void pause();
+  void start();
+  int now_level = 1;
+  void level_1();
+  double level_2_time = 17;
+  void level_2();
+
   static LevelManager* get_singleton();
   void restart();
   void _physics_process(double delta) override;

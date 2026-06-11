@@ -21,6 +21,7 @@
 #include "game/bullet/player_bullet.hpp"
 #include "game/bullet/round_bullet.hpp"
 #include "ui/boss_health.hpp"
+#include "ui/card_name.hpp"
 #include "utility/trigger.hpp"
 #include "utility/gearbox.hpp"
 #include "game/bullet_pool.hpp"
@@ -78,6 +79,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::boos::NiToRi)
   GDREGISTER_CLASS(utility::Clear)
   GDREGISTER_CLASS(ui::BossHealth)
+  GDREGISTER_CLASS(ui::CardName)
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {

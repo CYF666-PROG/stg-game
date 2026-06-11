@@ -4,8 +4,10 @@
 #include "enemy/boos.hpp"
 #include "enemy/boos/nitori.hpp"
 #include "enemy/imp.hpp"
+#include "enemy/minion.hpp"
 #include "godot_cpp/classes/global_constants.hpp"
 #include "godot_cpp/core/memory.hpp"
+#include "godot_cpp/variant/string.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -18,37 +20,49 @@ using namespace godot;
 
 LevelManager* LevelManager::singleton = nullptr;
 
-void game::LevelManager::_physics_process(double delta)
-{
+void game::LevelManager::_physics_process(double delta){
   /// 检查是否在编辑器
   if (godot::Engine::get_singleton()->is_editor_hint()){
     return;
   }
+  // 检查关卡
+  if (level_frame >= level_2_time * 60) {
+    level_2();
+    level_2_time = 99999999;
+  }
+
   
   auto it_end = level_timeline.lower_bound(double(level_frame)/60);
   for (auto it = level_timeline.begin(); it != it_end;) {
-    if (it->second.typ == IMP){
-      auto* pf = memnew(godot::PathFollow2D);
-      // 先设置禁用旋转，再添加
-      pf->set_rotates(false);
-      it->second.path->add_child(pf);
-      game::enemy::Imp* imp = memnew(game::enemy::Imp("imp/1_blue.tres"));
-      imp->path_follow = pf;
-      pf->add_child(imp);
-    }else if (it->second.typ == NITORI) {
+    // 先处理boos
+    if (it->second.typ == NITORI) {
       auto *current_scene_root = get_tree()->get_current_scene();
       if (!current_scene_root) {
         UtilityFunctions::print("LevelManager::_physics_process scene_root not foud");
-        continue;
       }
       auto nitori = memnew(game::boos::NiToRi);
+      nitori->set_level(it->second.level);
       current_scene_root->add_child(nitori);
       UtilityFunctions::print("make nitori");
+    }else {
+      auto* pf = memnew(godot::PathFollow2D);
+      // 先设置禁用旋转，再添加
+      pf->set_rotates(false);
+      pf->set_loop(false);
+      it->second.path->add_child(pf);
+      auto min = get_minion(it->second.typ,it->second.coler);
+      min->path_follow = pf;
+      min->hp = it->second.hp;
+      pf->add_child(min);
     }
+
     it = level_timeline.erase(it);
   }
-  level_frame += 1;
+  if(!is_pause) level_frame += 1;
 }
+
+void LevelManager::pause(){is_pause = true;}
+void LevelManager::start(){is_pause = false;}
 
 void game::LevelManager::_bind_methods(){}
 
@@ -68,8 +82,134 @@ void game::LevelManager::_ready(){
     godot::UtilityFunctions::print("错误：当前场景未加载完成或不存在");
     return;
   }
+  // level_1();
+}
 
-  make_enemy(0.5, NITORI, get_path2d("level1/LiftUp"));
+void LevelManager::level_1(){
+  now_level = 1;
+  for (double time = 2.5; time <= 8; time += 0.5) {
+    double deat = UtilityFunctions::randf_range(-0.5, 0.5);
+    make_enemy(time + deat, IMP,blue, get_path2d("level1/left_1"), 20);
+    deat = UtilityFunctions::randf_range(-0.5, 0.5);
+    make_enemy(time + deat, IMP,red, get_path2d("level1/left_2"), 20);
+    deat = UtilityFunctions::randf_range(-0.5, 0.5);
+    make_enemy(time + deat, IMP,yellow, get_path2d("level1/left_3"),20);
+  }
+  make_enemy(3, IMP,red, get_path2d("level1/right_up_1"),20);
+  make_enemy(3.2, IMP,blue, get_path2d("level1/right_up_2"),20);
+  make_enemy(3.4, IMP,blue, get_path2d("level1/right_up_3"),20);
+}
+
+void LevelManager::level_2(){
+  now_level = 2;
+  // level_2开始的秒
+  double t = level_2_time;
+
+  make_enemy(t + 1, BIG_butterfly,red, get_path2d("level2/left_up"),100);
+  make_enemy(t + 1, BIG_butterfly,red, get_path2d("level2/right_up"),100);
+
+  make_enemy(t + 4, IMP,red, get_path2d("level2/left_up_2"),20);
+  make_enemy(t + 4.2, IMP,blue, get_path2d("level2/left_up"),20);
+  make_enemy(t + 5, IMP,blue, get_path2d("level2/right_up"),20);
+  make_enemy(t + 5.2, IMP,red, get_path2d("level2/right_up_2"),20);
+
+
+  make_enemy(t + 7, IMP,red, get_path2d("level2/left_up_2"),20);
+  make_enemy(t + 7.2, IMP,blue, get_path2d("level2/left_up"),20);
+  make_enemy(t + 9, IMP,blue, get_path2d("level2/right_up"),20);
+  make_enemy(t + 9.2, IMP,red, get_path2d("level2/right_up_2"),20);
+
+  for (double i = 9; i <= 11; i += 0.5) {
+    double deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,blue, get_path2d("level2/right"), 20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,red, get_path2d("level2/right_2"), 20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,yellow, get_path2d("level2/right_3"),20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,yellow, get_path2d("level2/right_4"),20);
+  }
+  for (double i = 11; i <= 13; i += 0.5) {
+    double deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,blue, get_path2d("level2/left"), 20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,red, get_path2d("level2/left_2"), 20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,yellow, get_path2d("level2/left_3"),20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,yellow, get_path2d("level2/left_4"),20);
+  }
+  make_enemy(t + 10, IMP,red, get_path2d("level2/left_up_2"),20);
+  make_enemy(t + 10.2, IMP,blue, get_path2d("level2/left_up"),20);
+  // 左右交替向上出怪
+  for (int i = 0; i < 3; i++) {
+    double b = i * 4.666;   // 三轮之间所隔时间
+    for (double i = 17+b; i <= 19+b; i += 0.5) {
+      String path ;
+      int a = UtilityFunctions::randi_range(1, 4);
+      if (a == 1) path = "level2/left_down";
+      if (a == 2) path = "level2/left_down_2";
+      if (a == 3) path = "level2/left_down_3";
+      if (a == 4) path = "level2/left_down_4";
+      Color color;
+      a = UtilityFunctions::randi_range(1, 3);
+      if (a == 1) color = blue; 
+      if (a == 2) color = red; 
+      if (a == 3) color = yellow;
+      make_enemy(i + t, IMP,color, get_path2d(path),20);
+    }
+
+    for (double i = 19+b; i <= 21+b; i += 0.5) {
+      String path ;
+      int a = UtilityFunctions::randi_range(1, 4);
+      if (a == 1) path = "level2/right_down";
+      if (a == 2) path = "level2/right_down_2";
+      if (a == 3) path = "level2/right_down_3";
+      if (a == 4) path = "level2/right_down_4";
+      Color color;
+      a = UtilityFunctions::randi_range(1, 3);
+      if (a == 1) color = blue; 
+      if (a == 2) color = red; 
+      if (a == 3) color = yellow;
+      make_enemy(i + t, IMP,color, get_path2d(path),20);
+    }
+  }
+  make_enemy(t + 38, BIG_butterfly,red, get_path2d("level2/left_up"),100);
+  make_enemy(t + 38, BIG_butterfly,red, get_path2d("level2/right_up"),100);
+  for (double i = 50; i <= 55; i += 0.2) {
+    String path ;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) path = "level2/left_5";
+    if (a == 2) path = "level2/left_6";
+    if (a == 3) path = "level2/left_7";
+    if (a == 4) path = "level2/left_8";
+    Color color;
+    a = UtilityFunctions::randi_range(1, 3);
+    if (a == 1) color = blue; 
+    if (a == 2) color = red; 
+    if (a == 3) color = yellow;
+    make_enemy(i + t, IMP,color, get_path2d(path),20);
+
+    a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) path = "level2/right_5";
+    if (a == 2) path = "level2/right_6";
+    if (a == 3) path = "level2/right_7";
+    if (a == 4) path = "level2/right_8";
+    a = UtilityFunctions::randi_range(1, 3);
+    if (a == 1) color = blue; 
+    if (a == 2) color = red; 
+    if (a == 3) color = yellow;
+    make_enemy(i + t, IMP,color, get_path2d(path),20);
+
+  }
+  make_boos(t+57,NITORI,0);
+}
+
+void LevelManager::make_boos(double time, enemy_typ typ, int level){
+  enemy boos ;
+  boos.typ = typ;
+  boos.level = level;
+  level_timeline.emplace(time, std::move(boos));
 }
 
 void LevelManager::restart(){
@@ -103,16 +243,60 @@ godot::Path2D *game::LevelManager::get_path2d(godot::String path){
   // 如果它在更深的层级，可以用 "Map/Paths/EnemyPath"
   godot::Node* target_node = current_scene->get_node_or_null("move/" + path);
   if (!target_node) {
-    godot::UtilityFunctions::print("错误：在当前场景下未找到名为 LiftUp 的节点");
+    godot::UtilityFunctions::print("not found", path);
     return nullptr;
   }
   // 4. 安全类型转换
   godot::Path2D* path_obj = godot::Object::cast_to<godot::Path2D>(target_node);
   if (!path_obj){
-    godot::UtilityFunctions::print("错误：在当前场景下未找到名为 LiftUp 的 Path2D 节点");
+    godot::UtilityFunctions::print("not found", path);
   } 
   return path_obj;
 }
+
+enemy::Minion* LevelManager::get_minion(enemy_typ typ, Color color){
+  game::enemy::Minion* spawn_enemy = nullptr;
+  // --- 1. 处理 IMP (妖精小怪) 类型 ---
+  if (typ == IMP) { // 核心修复：= 改为 ==
+    auto imp = memnew(game::enemy::Imp);
+    
+    // 根据传入的颜色，加载对应的 SpriteFrames 动画资源
+    switch (color) {
+      case blue:
+        imp->set_animation("res://material/enemy/imp/hat/blue.tres");
+        break;
+      case red:
+        imp->set_animation("res://material/enemy/imp/hat/red.tres");
+        break;
+      case yellow:
+        imp->set_animation("res://material/enemy/imp/hat/yellow.tres");
+        break;
+      case pink_green:
+        imp->set_animation("res://material/enemy/imp/pink_green.tres");
+        break;
+      case yellow_blue:
+        imp->set_animation("res://material/enemy/imp/yellow_blue.tres");
+        break;
+      case yellow_red:
+        imp->set_animation("res://material/enemy/imp/yellow_red.tres");
+        break;
+    }
+    spawn_enemy = imp;
+  }else if (typ == BIG_butterfly) {
+    auto imp = memnew(game::enemy::Imp);
+    switch (color) {
+      case red:
+        imp->set_animation("res://material/enemy/big_butterfly/red.tres");
+        break;
+    }
+    spawn_enemy = imp;
+  }
+  // --- 3. 安全防御与返回 ---
+  if (spawn_enemy == nullptr) {
+    godot::UtilityFunctions::print("LevelManager: Unknown enemy type requested!");
+  }
+  return spawn_enemy;
+  }
 
 void game::LevelManager::make_enemy(
     double time,
@@ -127,10 +311,12 @@ void game::LevelManager::make_enemy(
   level_timeline.emplace(time, std::move(senemy));
 }
 
-void game::LevelManager::make_enemy(double time, enemy_typ typ, godot::Path2D *path){
+void game::LevelManager::make_enemy(double time, enemy_typ typ, Color color, godot::Path2D *path, double hp){
   enemy senemy ;
   senemy.path = path;
   senemy.typ = typ ;
+  senemy.coler = color;
+  senemy.hp = hp;
   level_timeline.emplace(time, std::move(senemy));
 }
 

@@ -47,6 +47,7 @@ public:
   godot::Vector2 zoom = godot::Vector2(1,1);
   /// 判定点大小
   double radius = 200;
+  void start_shoot();
   virtual void shoot();
   virtual void shoot_effects();
   void load_bullet_infor();

@@ -170,4 +170,12 @@ namespace health {
   constexpr double scale = 1;
 }
 }
+namespace minion {
+namespace imp {
+  // 贴图缩放
+  constexpr double scale = 2;
+  // 判定点半径
+  constexpr double radius = 20;
+}
+}
 } // namespace conf

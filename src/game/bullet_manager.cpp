@@ -71,10 +71,10 @@ void game::BulletManager::_physics_process(double delta){
 
 void game::BulletManager::_ready(){
   load_bullet_infor();
-  // // 1. 禁用物理帧更新（对应 _physics_process）
-  // set_physics_process(false);
-  // // 2. 禁用闲置帧更新（对应 _process）
-  // set_process(false);
+  // 1. 禁用物理帧更新（对应 _physics_process）
+  set_physics_process(false);
+  // 2. 禁用闲置帧更新（对应 _process）
+  set_process(false);
   pool = BulletPool::get_pool();
   if (!pool) {
     godot::UtilityFunctions::print("BulletManager::_ready pool not found");
@@ -88,6 +88,14 @@ void game::BulletManager::_ready(){
     godot::UtilityFunctions::print("BulletManager::_ready player not found");
   };
 }
+
+void BulletManager::start_shoot(){
+  // 物理帧更新（对应 _physics_process）
+  set_physics_process(true);
+  // 闲置帧更新（对应 _process）
+  set_process(true);
+}
+
 
 BulletManager::BulletManager() {}
 

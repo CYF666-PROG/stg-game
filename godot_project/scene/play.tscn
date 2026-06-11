@@ -4,22 +4,23 @@
 [ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="2_eoxkv"]
 [ext_resource type="Texture2D" uid="uid://c37va5bf5xd7x" path="res://material/ui/heart/0.tres" id="3_8utoj"]
 [ext_resource type="Texture2D" uid="uid://u3s0engr6uke" path="res://material/ui/star/0.tres" id="4_0u7nf"]
-[ext_resource type="SpriteFrames" uid="uid://blrccmj2a27xf" path="res://material/enemy/boos/nitori.tres" id="6_8utoj"]
+[ext_resource type="SpriteFrames" uid="uid://cg2wvy0t7cgdx" path="res://material/enemy/rotate/yellow.tres" id="6_8utoj"]
 [ext_resource type="VideoStream" uid="uid://c8ep3bsg0hgld" path="res://background/level_3.mp4" id="6_eoxkv"]
+[ext_resource type="SpriteFrames" uid="uid://deheedwi72dbe" path="res://material/bullet/pointed/blue.tres" id="7_8utoj"]
 
 [sub_resource type="GDScript" id="GDScript_drhme"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_462ap"]
-size = Vector2(17.75, 1008)
+size = Vector2(17.75, 1061)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5qbti"]
-size = Vector2(17.5, 1008)
+size = Vector2(17.5, 1061)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gvr3l"]
-size = Vector2(864, 17)
+size = Vector2(900, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k01lb"]
-size = Vector2(864, 36)
+size = Vector2(899, 36)
 
 [sub_resource type="Shader" id="Shader_drhme"]
 code = "shader_type canvas_item;
@@ -241,24 +242,128 @@ region = Rect2(0, 18, 64, 61)
 [sub_resource type="CircleShape2D" id="CircleShape2D_462ap"]
 radius = 2.1201477
 
-[sub_resource type="Curve2D" id="Curve2D_462ap"]
-bake_interval = 0.01
+[sub_resource type="Curve2D" id="Curve2D_0u7nf"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 148.65826, -394.1964, -52.55134, -27.407883, 52.55134, 27.407883, 107.53259, 107.67267, -90.463554, 2.9861271, 90.463554, -2.9861271, 241, 95, 0, 0, 0, 0, 664, 99, -61.599995, -58.399998, 61.599995, 58.399998, 876, 153)
+"points": PackedVector2Array(0, 0, 0, 0, 25, 80, -64.56461, -2.239235, 64.56461, 2.239235, 174, 128, -69.78949, 2.6124408, 69.78949, -2.6124408, 490, 132, 0, 0, 0, 0, 1070, 73)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_k3qh1"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 20, 106, 0, 0, 0, 0, 1063, 114)
+}
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_hbhmk"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 18, 134, -77.626816, 5.9712934, 77.626816, -5.9712934, 169, 91, -138.83257, -9.330146, 138.83257, 9.330146, 355, 90, -85.090935, -12.315793, 85.090935, 12.315793, 531, 134, 0, 0, 0, 0, 1060, 149)
 }
 point_count = 5
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_guiot"]
-radius = 12.583495
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_5qbti"]
-radius = 12.583495
-
-[sub_resource type="Curve2D" id="Curve2D_5qbti"]
+[sub_resource type="Curve2D" id="Curve2D_avl1x"]
 _data = {
-"points": PackedVector2Array(-121.45454, -98.181816, 121.45454, 98.181816, 778, -164, 52.42483, -2.562666, -52.42483, 2.562666, 748, 152, 38.795162, 1.6392322, -38.795162, -1.6392322, 632, 147, 46.444912, -8.196161, -46.444912, 8.196161, 526, 161, 55.311146, -5.374959, -55.311146, 5.374959, 384, 158, 19.7034, -61.983627, -19.7034, 61.983627, 252, 239, 75.28, -122.880005, -75.28, 122.880005, 198, 464, 0, 0, 0, 0, -4, 587)
+"points": PackedVector2Array(0, 0, 0, 0, 742, -67, 0.43915558, -102.91284, -0.43915558, 102.91284, 739, 210, 73.18157, -33.94011, -73.18157, 33.94011, 623, 389, 0, 0, 0, 0, 39, 637)
 }
-point_count = 8
+point_count = 4
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fptpc"]
+radius = 9.98
+
+[sub_resource type="Curve2D" id="Curve2D_7tt85"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 810, -71, 2.8185635, -28.009686, -2.8185635, 28.009686, 806, 198, 73.14487, -118.36765, -73.14487, 118.36765, 733, 412, 0, 0, 0, 0, 42, 704)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_v2fcg"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 871, -73, 0.107177734, -248.6182, -0.107177734, 248.6182, 860, 226, 0, 0, 0, 0, 22, 668)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_8utoj"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 164, -93, 0.60105175, -127.42297, -0.60105175, 127.42297, 168, 294, 0, 0, 0, 0, -25, 502)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_oy1xb"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 224, -86, -1.7600001, -117.04001, 1.7600001, 117.04001, 228, 288, -90.64001, -36.960003, 90.64001, 36.960003, 399, 530, 0, 0, 0, 0, 1081, 718)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_fptpc"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 732, -85, -2.9090908, -133.0909, 2.9090908, 133.0909, 733, 269, 0, 0, 0, 0, 965, 461)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_0oqkk"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 783, -65, 2.64, -132.88, -2.64, 132.88, 780, 319, 65.12, -14.960001, -65.12, 14.960001, 567, 486, 0, 0, 0, 0, -4, 583)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_xpuft"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1051, 48, 139.4888, -43.6568, -139.4888, 43.6568, 702, 200, 0, 0, 0, 0, 20, 352)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_wwlet"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 21, 75, -103.576004, -46.464005, 103.576004, 46.464005, 198, 225, 0, 0, 0, 0, 1048, 356)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_85xlx"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 26, 421, -182.952, -10.648001, 182.952, 10.648001, 343, 60, -81.31201, -9.68, 81.31201, 9.68, 737, 170, -26.136003, -25.167995, 26.136003, 25.167995, 876, 210, 0, 0, 0, 0, 1100, 347)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_5cp71"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 26, 421, -182.952, -10.648001, 182.952, 10.648001, 336, 17, -81.31201, -9.68, 81.31201, 9.68, 715, 190, -26.136003, -25.167995, 26.136003, 25.167995, 858, 216, 0, 0, 0, 0, 1100, 347)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_5b4p2"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 26, 421, -182.952, -10.648001, 182.952, 10.648001, 333, 53, -81.31201, -9.68, 81.31201, 9.68, 742, 136, -26.136003, -25.167995, 26.136003, 25.167995, 841, 241, 0, 0, 0, 0, 1100, 347)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_mf64f"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 26, 421, -182.952, -10.648001, 182.952, 10.648001, 331, 39, -81.31201, -9.68, 81.31201, 9.68, 632, 179, -26.136003, -25.167995, 26.136003, 25.167995, 827, 259, 0, 0, 0, 0, 1100, 347)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_wjocg"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 985, 467, 168.432, 12.584001, -168.432, -12.584001, 648, 73, 47.432003, -40.656002, -47.432003, 40.656002, 407, 112, 107.448006, 1.9360001, -107.448006, -1.9360001, 262, 184, 0, 0, 0, 0, 12, 428)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_f7i7t"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 985, 467, 168.432, 12.584001, -168.432, -12.584001, 669, 96, 47.432003, -40.656002, -47.432003, 40.656002, 339, 78, 107.448006, 1.9360001, -107.448006, -1.9360001, 238, 207, 0, 0, 0, 0, 12, 428)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_0se03"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 985, 467, 168.432, 12.584001, -168.432, -12.584001, 647, 122, 47.432003, -40.656002, -47.432003, 40.656002, 411, 152, 107.448006, 1.9360001, -107.448006, -1.9360001, 273, 244, 0, 0, 0, 0, 12, 428)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_b8ae2"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 985, 467, 168.432, 12.584001, -168.432, -12.584001, 644, 43, 47.432003, -40.656002, -47.432003, 40.656002, 383, 93, 107.448006, 1.9360001, -107.448006, -1.9360001, 273, 221, 0, 0, 0, 0, 12, 428)
+}
+point_count = 5
 
 [node name="play" type="Node2D" unique_id=1385972863]
 script = SubResource("GDScript_drhme")
@@ -270,6 +375,8 @@ metadata/_edit_horizontal_guides_ = [36.0, 1044.0, 1024.0, 919.0]
 [node name="EnemyManager" type="EnemyManager" parent="." unique_id=1240991516]
 
 [node name="EffectManager" type="EffectManager" parent="." unique_id=1477197276]
+
+[node name="LevelManager" type="LevelManager" parent="." unique_id=261955755]
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1572236081]
 offset_left = -460.0
@@ -291,7 +398,7 @@ collision_mask = 0
 metadata/_edit_lock_ = true
 
 [node name="Wall_left" type="CollisionShape2D" parent="Wall/Wall_left" unique_id=31628354]
-position = Vector2(63.125, 540)
+position = Vector2(63.125, 530.5)
 shape = SubResource("RectangleShape2D_462ap")
 
 [node name="Wall_right" type="StaticBody2D" parent="Wall" unique_id=610517460]
@@ -300,7 +407,7 @@ collision_mask = 0
 metadata/_edit_lock_ = true
 
 [node name="Wall_right" type="CollisionShape2D" parent="Wall/Wall_right" unique_id=1537857604]
-position = Vector2(944.75, 540)
+position = Vector2(944.75, 530.5)
 shape = SubResource("RectangleShape2D_5qbti")
 
 [node name="Wall_dow" type="StaticBody2D" parent="Wall" unique_id=1135039448]
@@ -318,7 +425,7 @@ collision_mask = 0
 metadata/_edit_lock_ = true
 
 [node name="Wall_up" type="CollisionShape2D" parent="Wall/Wall_up" unique_id=1455672413]
-position = Vector2(504, 18)
+position = Vector2(503.5, 18)
 shape = SubResource("RectangleShape2D_k01lb")
 
 [node name="Player" type="Player" parent="." unique_id=1500520606]
@@ -343,6 +450,7 @@ texture = SubResource("AtlasTexture_drt2y")
 shape = SubResource("CircleShape2D_462ap")
 
 [node name="StatusUi" type="ColorRect" parent="." unique_id=1057809944]
+visible = false
 z_index = 100
 offset_left = 936.0
 offset_right = 1440.0
@@ -462,108 +570,171 @@ position = Vector2(-210, 1185)
 scale = Vector2(1.6500015, 1.6500015)
 sprite_frames = ExtResource("6_8utoj")
 animation = &"normal"
-autoplay = "normal"
-
-[node name="LevelManager" type="LevelManager" parent="." unique_id=261955755]
 
 [node name="move" type="Node2D" parent="." unique_id=1808431910]
 
 [node name="level1" type="Node2D" parent="move" unique_id=1273722686]
+visible = false
 
-[node name="LiftUp" type="Path2D" parent="move/level1" unique_id=1866350514]
-position = Vector2(99, 120)
-curve = SubResource("Curve2D_462ap")
+[node name="left_1" type="Path2D" parent="move/level1" unique_id=673370985]
+curve = SubResource("Curve2D_0u7nf")
 
-[node name="PathFollow2D5" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1502221927]
-position = Vector2(121.24882, -239.27086)
-progress = 157.33813
-rotates = false
+[node name="left_2" type="Path2D" parent="move/level1" unique_id=453216922]
+curve = SubResource("Curve2D_k3qh1")
 
-[node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D5" unique_id=2111494106]
+[node name="left_3" type="Path2D" parent="move/level1" unique_id=332450520]
+curve = SubResource("Curve2D_hbhmk")
+
+[node name="right_up_1" type="Path2D" parent="move/level1" unique_id=2054238295]
+curve = SubResource("Curve2D_avl1x")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level1/right_up_1" unique_id=205289500]
+position = Vector2(739.6356, 125.17964)
+rotation = 1.5805268
+progress = 192.19386
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/right_up_1/PathFollow2D2" unique_id=1023936590]
+target_distance = 78.0
 collision_layer = 16
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D5/Gearbox" unique_id=306005960]
-shape = SubResource("CircleShape2D_guiot")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_1/PathFollow2D2/Gearbox" unique_id=1641763098]
+shape = SubResource("CircleShape2D_fptpc")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1089030392]
-position = Vector2(843.66864, 131.01872)
-progress = 1255.7267
-rotates = false
+[node name="PathFollow2D" type="PathFollow2D" parent="move/level1/right_up_1" unique_id=1085120012]
+position = Vector2(738.99994, 209.99907)
+rotation = 1.5750636
+progress = 277.01624
 
-[node name="Trigger" type="Trigger" parent="move/level1/LiftUp/PathFollow2D" unique_id=462021569]
+[node name="Trigger" type="Trigger" parent="move/level1/right_up_1/PathFollow2D" unique_id=903527575]
 collision_layer = 16
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D/Trigger" unique_id=611677611]
-shape = SubResource("CircleShape2D_5qbti")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_1/PathFollow2D/Trigger" unique_id=1868549962]
+shape = SubResource("CircleShape2D_fptpc")
 
-[node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=2066262182]
-position = Vector2(797.18634, 113.96311)
-progress = 1206.1295
-rotates = false
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level1/right_up_1/PathFollow2D/Trigger" unique_id=1777040643]
+launch_angle = 185.0
+to_launch_texture = ExtResource("7_8utoj")
 
-[node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D3" unique_id=1247720010]
+[node name="Gearbox" type="Gearbox" parent="move/level1/right_up_1/PathFollow2D" unique_id=885194131]
 collision_layer = 16
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D3/Gearbox" unique_id=56358417]
-shape = SubResource("CircleShape2D_5qbti")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_1/PathFollow2D/Gearbox" unique_id=202737093]
+shape = SubResource("CircleShape2D_fptpc")
 
-[node name="PathFollow2D4" type="PathFollow2D" parent="move/level1/LiftUp" unique_id=1186781578]
-position = Vector2(679.13605, 98.99221)
-progress = 1086.8566
-rotates = false
+[node name="right_up_2" type="Path2D" parent="move/level1" unique_id=1338138293]
+curve = SubResource("Curve2D_7tt85")
 
-[node name="Gearbox" type="Gearbox" parent="move/level1/LiftUp/PathFollow2D4" unique_id=1914827745]
-collision_layer = 16
-collision_mask = 4
+[node name="right_up_3" type="Path2D" parent="move/level1" unique_id=1499259678]
+curve = SubResource("Curve2D_v2fcg")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/LiftUp/PathFollow2D4/Gearbox" unique_id=1866062999]
-shape = SubResource("CircleShape2D_5qbti")
+[node name="level2" type="Node2D" parent="move" unique_id=698561520]
 
-[node name="RightUp" type="Path2D" parent="move/level1" unique_id=1479456596]
-position = Vector2(0, -3)
-curve = SubResource("Curve2D_5qbti")
+[node name="left_up" type="Path2D" parent="move/level2" unique_id=1525006800]
+position = Vector2(27, -10)
+curve = SubResource("Curve2D_8utoj")
 
-[node name="PathFollow2D2" type="PathFollow2D" parent="move/level1/RightUp" unique_id=1282914495]
-position = Vector2(797.1312, 107.06766)
-progress = 295.3277
-rotates = false
+[node name="left_up_2" type="Path2D" parent="move/level2" unique_id=693962996]
+position = Vector2(55, -31)
+curve = SubResource("Curve2D_oy1xb")
 
-[node name="Gearbox" type="Gearbox" parent="move/level1/RightUp/PathFollow2D2" unique_id=585733213]
-collision_layer = 16
-collision_mask = 4
+[node name="right_up" type="Path2D" parent="move/level2" unique_id=1067413689]
+position = Vector2(64, 4)
+curve = SubResource("Curve2D_fptpc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D2/Gearbox" unique_id=1974596587]
-shape = SubResource("CircleShape2D_5qbti")
+[node name="right_up_2" type="Path2D" parent="move/level2" unique_id=193942841]
+position = Vector2(-90, -26)
+curve = SubResource("Curve2D_0oqkk")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="move/level1/RightUp" unique_id=596701853]
-position = Vector2(724.54193, 152.63159)
-progress = 387.47382
-rotates = false
+[node name="right" type="Path2D" parent="move/level2" unique_id=1126647102]
+position = Vector2(-3, -22)
+curve = SubResource("Curve2D_xpuft")
 
-[node name="Trigger" type="Trigger" parent="move/level1/RightUp/PathFollow2D" unique_id=1369274462]
-collision_layer = 16
-collision_mask = 4
+[node name="right_2" type="Path2D" parent="move/level2" unique_id=1233268400]
+position = Vector2(9, 16)
+curve = SubResource("Curve2D_xpuft")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1555069584]
-shape = SubResource("CircleShape2D_5qbti")
+[node name="right_3" type="Path2D" parent="move/level2" unique_id=2073287744]
+position = Vector2(1, 63)
+curve = SubResource("Curve2D_xpuft")
 
-[node name="FlowerBullet" type="FlowerBullet" parent="move/level1/RightUp/PathFollow2D/Trigger" unique_id=1680482171]
-process_mode = 4
+[node name="right_4" type="Path2D" parent="move/level2" unique_id=162566254]
+position = Vector2(6, 108)
+curve = SubResource("Curve2D_xpuft")
 
-[node name="PathFollow2D3" type="PathFollow2D" parent="move/level1/RightUp" unique_id=791346286]
-position = Vector2(724.54193, 152.63159)
-progress = 387.47382
-rotates = false
+[node name="left" type="Path2D" parent="move/level2" unique_id=1139440708]
+position = Vector2(-4, -62)
+curve = SubResource("Curve2D_wwlet")
 
-[node name="Gearbox" type="Gearbox" parent="move/level1/RightUp/PathFollow2D3" unique_id=1526009931]
-collision_layer = 16
-collision_mask = 4
+[node name="left_2" type="Path2D" parent="move/level2" unique_id=589010606]
+position = Vector2(-5, 6)
+curve = SubResource("Curve2D_wwlet")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/RightUp/PathFollow2D3/Gearbox" unique_id=1692556614]
-shape = SubResource("CircleShape2D_5qbti")
+[node name="left_3" type="Path2D" parent="move/level2" unique_id=1274109878]
+position = Vector2(-4, 71)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="left_4" type="Path2D" parent="move/level2" unique_id=1140483749]
+position = Vector2(-3, 130)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="left_down" type="Path2D" parent="move/level2" unique_id=1795008661]
+curve = SubResource("Curve2D_85xlx")
+
+[node name="left_down_2" type="Path2D" parent="move/level2" unique_id=768236577]
+curve = SubResource("Curve2D_5cp71")
+
+[node name="left_down_3" type="Path2D" parent="move/level2" unique_id=1681094469]
+curve = SubResource("Curve2D_5b4p2")
+
+[node name="left_down_4" type="Path2D" parent="move/level2" unique_id=1687490373]
+curve = SubResource("Curve2D_mf64f")
+
+[node name="right_down" type="Path2D" parent="move/level2" unique_id=1121035795]
+curve = SubResource("Curve2D_wjocg")
+
+[node name="right_down_2" type="Path2D" parent="move/level2" unique_id=1130559317]
+curve = SubResource("Curve2D_f7i7t")
+
+[node name="right_down_3" type="Path2D" parent="move/level2" unique_id=776665374]
+curve = SubResource("Curve2D_0se03")
+
+[node name="right_down_4" type="Path2D" parent="move/level2" unique_id=1603867124]
+curve = SubResource("Curve2D_b8ae2")
+
+[node name="right_5" type="Path2D" parent="move/level2" unique_id=89783010]
+position = Vector2(-3, -22)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="right_6" type="Path2D" parent="move/level2" unique_id=1464588322]
+position = Vector2(9, 16)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="right_7" type="Path2D" parent="move/level2" unique_id=1149358321]
+position = Vector2(1, 63)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="right_8" type="Path2D" parent="move/level2" unique_id=1632504766]
+position = Vector2(6, 108)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="left_5" type="Path2D" parent="move/level2" unique_id=533657044]
+position = Vector2(-4, -62)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="left_6" type="Path2D" parent="move/level2" unique_id=1191511363]
+position = Vector2(-5, 6)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="left_7" type="Path2D" parent="move/level2" unique_id=1775408016]
+position = Vector2(-4, 71)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="left_8" type="Path2D" parent="move/level2" unique_id=27569492]
+position = Vector2(-3, 130)
+curve = SubResource("Curve2D_wwlet")
 
 [node name="menu" type="Node2D" parent="." unique_id=848301549]
 z_index = 100

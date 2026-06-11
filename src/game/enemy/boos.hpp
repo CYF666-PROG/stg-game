@@ -2,6 +2,8 @@
 
 #include "enemy.hpp"
 #include "../../ui/boss_health.hpp"
+#include "../../ui/card_name.hpp"
+#include "../levelmanager.hpp"
 
 #include "godot_cpp/classes/animated_sprite2d.hpp"
 #include "godot_cpp/variant/vector2.hpp"
@@ -14,6 +16,8 @@ class Boos : public Enemy {
 
 private:
 public:
+  game::LevelManager* level_manager = nullptr;
+  ui::CardName* card_name = nullptr;
   ui::BossHealth* health = nullptr;
   godot::AnimatedSprite2D* anima = nullptr;
   // 符卡切换时无敌帧
@@ -42,7 +46,7 @@ public:
   bool move(godot::Vector2 p_target);
   // 切换符卡
   virtual void next();
-  // 切换符卡时全屏消弹
+  // 切换符卡时全屏消弹 同时清理符卡名
   virtual void clear();
   // 死亡
   virtual void dead() override;
@@ -55,6 +59,7 @@ public:
   virtual void start_5(){};
   virtual void start_6(){};
 public:
+  void set_level(int level);
   void entity_physics_process(double delta) override;
   virtual void hit_bullet() override;
   static void _bind_methods(){};

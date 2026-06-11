@@ -79,7 +79,7 @@ void Boos::next(){
   clear(); // 清楚残留弹幕和残留的发射器
   invincible_frame = 100;
   if (level == 0) {
-    start_1();
+    dead();
   }else if (level == 1) {
     start_2();
   }else if (level == 2) {
@@ -95,6 +95,9 @@ void Boos::next(){
   }
 }
 
+void Boos::set_level(int level){this->level = level;}
+
+
 void Boos::clear(){
   // 全屏消弹
   auto clear = memnew(utility::Clear);
@@ -108,9 +111,14 @@ void Boos::clear(){
       a->queue_free();
     }
   }
+  if (card_name) {
+    card_name->queue_free();
+    card_name = nullptr;
+  }
 }
 
 void Boos::dead(){
+  level_manager->start();
   queue_free();
 }
 
@@ -140,6 +148,12 @@ void Boos::entity_physics_process(double delta){
 void Boos::_ready(){
   // 调用父类的准备
   Enemy::_ready();
+  // 获取关卡管理器单例
+  level_manager = game::LevelManager::get_singleton();
+  if (!level_manager) {
+    UtilityFunctions::print("Boos::_ready level_manager not foud");
+  }
+  level_manager->pause();
   // 创建boos血条
   health = memnew(ui::BossHealth);
   add_child(health);
@@ -150,9 +164,10 @@ void Boos::_ready(){
   auto target_pos = Vector2(478,202);
   move_l = [target_pos](Boos* b){
     if(b->move(target_pos)){
-      b->start_0();
+      UtilityFunctions::print("nitori start_0");
       b->status = shooting;
       b->level = 0;
+      b->start_0();
     };
   };
 }
