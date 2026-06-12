@@ -17,6 +17,9 @@ using namespace godot;
 using namespace game;
 
 void Strafe::shoot(){
+    if (!fire_count) {
+        return; 
+    }
     auto player = get_node<game::Player>("/root/play/Player");
     if(!player) {
       UtilityFunctions::print("Strafe::shoot player not foud");
@@ -99,14 +102,17 @@ void Strafe::shoot(){
         if (current_offset_deg >= half_range) {
             current_offset_deg = half_range;
             sweep_direction = -1.0f; // 调头向左扫
+            fire_count--;
         } else if (current_offset_deg <= -half_range) {
             current_offset_deg = -half_range;
             sweep_direction = 1.0f;  // 调头向右扫
+            fire_count--;
         }
     } else {
         // ↪️ 单向打字机模式（到头了瞬间回到最左边：-30° -> +30° -> 瞬间闪回 -30°）
         if (current_offset_deg > half_range) {
             current_offset_deg = -half_range;
+            fire_count--;
         }
     }
 };

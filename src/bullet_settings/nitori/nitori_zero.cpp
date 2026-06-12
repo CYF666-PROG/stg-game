@@ -192,7 +192,7 @@ void NitoriZero::fire(){
 
   
   // 如果已经发射完成了指定的批次数，直接返回，彻底停止后续的所有发射
-  if (fire_burst_counter >= burst_count) {
+  if (fire_burst_counter >= fire_max_cout) {
       return; 
   }
 

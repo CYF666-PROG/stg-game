@@ -7,6 +7,7 @@
 #include "enemy/minion.hpp"
 #include "enemy/rotate.hpp"
 #include "godot_cpp/classes/global_constants.hpp"
+#include "godot_cpp/core/math_defs.hpp"
 #include "godot_cpp/core/memory.hpp"
 #include "godot_cpp/variant/string.hpp"
 
@@ -14,6 +15,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
+#include <godot_cpp/classes/window.hpp>
 #include <godot_cpp/classes/path_follow2d.hpp>
 
 
@@ -27,6 +29,9 @@ void game::LevelManager::_physics_process(double delta){
   if (godot::Engine::get_singleton()->is_editor_hint()){
     return;
   }
+  if (is_pause) {
+    return;
+  }
   // 检查关卡
   if (level_frame >= level_2_time * 60) {
     level_2();
@@ -37,8 +42,8 @@ void game::LevelManager::_physics_process(double delta){
   }
 
   
-  auto it_end = level_timeline.lower_bound(double(level_frame)/60);
-  for (auto it = level_timeline.begin(); it != it_end;) {
+  auto range = level_timeline.equal_range(level_frame);
+  for (auto it = range.first; it != range.second; ++it) {
     // 先处理boos
     if (it->second.typ == NITORI) {
       auto *current_scene_root = get_tree()->get_current_scene();
@@ -49,6 +54,7 @@ void game::LevelManager::_physics_process(double delta){
       nitori->set_level(it->second.level);
       current_scene_root->add_child(nitori);
       UtilityFunctions::print("make nitori");
+      level_timeline.erase(it);
     }else {
       auto* pf = memnew(godot::PathFollow2D);
       // 先设置禁用旋转，再添加
@@ -60,8 +66,6 @@ void game::LevelManager::_physics_process(double delta){
       min->hp = it->second.hp;
       pf->add_child(min);
     }
-
-    it = level_timeline.erase(it);
   }
   if(!is_pause) level_frame += 1;
 }
@@ -88,6 +92,8 @@ void game::LevelManager::_ready(){
     return;
   }
   level_1();
+  // 设置可见性
+  set_all_children_visible();
 }
 
 void LevelManager::level_1(){
@@ -114,16 +120,16 @@ void LevelManager::level_2(){
   make_enemy(t + 1, BIG_butterfly,red, get_path2d("level2/right_up"),100);
 
   make_enemy(t + 4, IMP,red, get_path2d("level2/left_up_2"),20);
-  make_enemy(t + 4.2, IMP,blue, get_path2d("level2/left_up"),20);
-  make_enemy(t + 5, IMP,blue, get_path2d("level2/right_up"),20);
+  make_enemy(t + 4.2, IMP,blue, get_path2d("level2/left_up_3"),20);
+  make_enemy(t + 5, IMP,blue, get_path2d("level2/right_up_3"),20);
   make_enemy(t + 5.2, IMP,red, get_path2d("level2/right_up_2"),20);
 
 
   make_enemy(t + 7, IMP,red, get_path2d("level2/left_up_2"),20);
-  make_enemy(t + 7.2, IMP,blue, get_path2d("level2/left_up"),20);
-  make_enemy(t + 9, IMP,blue, get_path2d("level2/right_up"),20);
+  make_enemy(t + 7.2, IMP,blue, get_path2d("level2/left_up_3"),20);
+  make_enemy(t + 9, IMP,blue, get_path2d("level2/right_up_3"),20);
   make_enemy(t + 9.2, IMP,red, get_path2d("level2/right_up_2"),20);
-
+  // 左右两侧向中间出怪
   for (double i = 9; i <= 11; i += 0.5) {
     double deat = UtilityFunctions::randf_range(-0.2, 0.2);
     make_enemy(t + deat + i, IMP,blue, get_path2d("level2/right"), 20);
@@ -145,7 +151,7 @@ void LevelManager::level_2(){
     make_enemy(t + deat + i, IMP,yellow, get_path2d("level2/left_4"),20);
   }
   make_enemy(t + 10, IMP,red, get_path2d("level2/left_up_2"),20);
-  make_enemy(t + 10.2, IMP,blue, get_path2d("level2/left_up"),20);
+  make_enemy(t + 10.2, IMP,blue, get_path2d("level2/left_up_3"),20);
   // 左右交替向上出怪
   for (int i = 0; i < 3; i++) {
     double b = i * 4.666;   // 三轮之间所隔时间
@@ -161,7 +167,7 @@ void LevelManager::level_2(){
       if (a == 1) color = blue; 
       if (a == 2) color = red; 
       if (a == 3) color = yellow;
-      make_enemy(i + t, IMP,color, get_path2d(path),20);
+      make_enemy(i + t, IMP,color, get_path2d(path),50);
     }
 
     for (double i = 19+b; i <= 21+b; i += 0.5) {
@@ -176,7 +182,7 @@ void LevelManager::level_2(){
       if (a == 1) color = blue; 
       if (a == 2) color = red; 
       if (a == 3) color = yellow;
-      make_enemy(i + t, IMP,color, get_path2d(path),20);
+      make_enemy(i + t, IMP,color, get_path2d(path),50);
     }
   }
   make_enemy(t + 38, BIG_butterfly,red, get_path2d("level2/left_up"),100);
@@ -345,7 +351,7 @@ void LevelManager::make_boos(double time, enemy_typ typ, int level){
   enemy boos ;
   boos.typ = typ;
   boos.level = level;
-  level_timeline.emplace(time, std::move(boos));
+  level_timeline.emplace(time*60, std::move(boos));
 }
 
 void LevelManager::restart(){
@@ -451,6 +457,44 @@ enemy::Minion* LevelManager::get_minion(enemy_typ typ, Color color){
   return spawn_enemy;
 }
 
+void LevelManager::set_all_children_visible(){
+  // 1. 获取全局场景树
+  Engine* engine = Engine::get_singleton();
+  if (!engine) return;
+
+  SceneTree* tree = Object::cast_to<SceneTree>(engine->get_main_loop());
+  if (!tree) return;
+
+  // 2. 直接精确定位到你想操作的关卡父节点（以图片中的 level2 为例）
+  // 起点是 /root，相对路径写 "play/move/level2"
+  Node* level_node = tree->get_root()->get_node_or_null(NodePath("play/move/level2"));
+  if (!level_node) {
+      UtilityFunctions::print("错误: 找不到路径 /root/play/move/level3");
+      return;
+  }
+
+  // 确保 level2 自身是可见的
+  CanvasItem* level_item = Object::cast_to<CanvasItem>(level_node);
+  if (level_item) {
+      level_item->set_visible(true);
+  }
+
+  // 3. 遍历 level2 下的所有 Path2D 节点并让它们可见
+  int child_count = level_node->get_child_count();
+  for (int i = 0; i < child_count; ++i) {
+      Node* child = level_node->get_child(i);
+      if (!child) continue;
+
+      // Path2D 继承自 Node2D，Node2D 继承自 CanvasItem
+      // 转换为 CanvasItem 即可安全调用 set_visible
+      CanvasItem* path_item = Object::cast_to<CanvasItem>(child);
+      if (path_item) {
+          path_item->set_visible(true);
+      }
+  }
+}
+
+
 void game::LevelManager::make_enemy(
     double time,
     enemy_typ typ,
@@ -470,7 +514,7 @@ void game::LevelManager::make_enemy(double time, enemy_typ typ, Color color, god
   senemy.typ = typ ;
   senemy.coler = color;
   senemy.hp = hp;
-  level_timeline.emplace(time, std::move(senemy));
+  level_timeline.emplace(time*60, std::move(senemy));
 }
 
 LevelManager *game::LevelManager::get_singleton(){

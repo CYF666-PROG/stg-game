@@ -48,8 +48,8 @@ private:
   };
   /// @brief 当前场景根节点
   godot::Node* current_scene = nullptr ;
-  /// 敌人时间表
-  std::multimap<double, enemy> level_timeline;
+  /// 敌人时间表 键为出现帧
+  std::multimap<int, enemy> level_timeline;
   // 关卡计时器 单位为帧
   int level_frame = 0;
   /// @brief 获取move下path2d节点
@@ -58,6 +58,7 @@ private:
   godot::Path2D* get_path2d(godot::String path);
   
 public:
+  void set_all_children_visible();
   game::enemy::Minion* get_minion(enemy_typ typ, Color color);
   /// @brief 
   /// @param time 出场时间

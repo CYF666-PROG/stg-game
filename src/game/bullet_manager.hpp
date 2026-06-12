@@ -36,7 +36,7 @@ public:
   /// 发射次数
   int fire_count = 4;
   /// 发射间隔 帧
-  int fire_interval = 1;
+  int fire_interval = 40;
   // 延迟多少帧
   int fire_delay = 0;
   /// 发射弹幕贴图

@@ -125,7 +125,6 @@ void game::bullet_settings::FlowerBullet::frame_do(double delta){
     };
     shoot();
   }
-  frame += 1;
 }
 
 

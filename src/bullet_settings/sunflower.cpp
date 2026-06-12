@@ -11,12 +11,20 @@ using namespace godot ;
 using namespace game::bullet_settings ;
 
 void Sunflower::shoot(){
-  int cycle = 120 ; // 每隔多少帧一轮
-  if (frame % cycle == 0){
-    outside();
+  if (!fire_count) return;
+
+  int cycle = fire_interval ; // 每隔多少帧一轮
+  int ban = cycle/2;
+  if (ban == 0) {
+    ban = 1;
   }
-  if ((frame+90) % cycle == 0){
+  if ((frame+ban) % cycle == 0){
+    outside();
+    fire_count--;
+  }
+  if ((frame) % cycle == 0){
     inside();
+    fire_count--;
   }
 }
 
@@ -74,8 +82,8 @@ void game::bullet_settings::Sunflower::outside(){
   double count = 10; // 发射轮数
   double degree = 1; // 每轮间隔多少度
   double max = 6 ;// 最大速度
-  double min = 1 ;// 最小速度
-  double plus = 20 ; // 加速帧数
+  double min = 2 ;// 最小速度
+  double plus = 40 ; // 加速帧数
   double stop = 10; // 停顿帧数
   double end = 3 ; // 最终速度
 
