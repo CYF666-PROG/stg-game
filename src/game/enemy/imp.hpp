@@ -12,7 +12,6 @@ class Imp : public Minion{
 private:
 
 public:
-  void set_animation(godot::String path) override;
 
   static void _bind_methods(){}
   void _ready() override ;

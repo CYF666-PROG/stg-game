@@ -96,6 +96,7 @@ void NiToRi::start_1(){
   add_child(nitori_one);
   shoot_l = [nitori_one](Boos* b){
     if(b->frame_status == 0) {
+      nitori_one->start_shoot();
       nitori_one->re_set();
     };
     if (nitori_one->is_end()) {
@@ -129,6 +130,7 @@ void NiToRi::start_2(){
   card_name->setup_and_play(String::utf8(u8"漂溺 '水底粼光，心中痛伤'"));
   auto nitori_two = memnew(game::bullet_settings::nitori::Two);
   add_child(nitori_two);
+  nitori_two->start_shoot();
   status = moveing;
   shoot_l = [](Boos* b){
     if (b->frame_status > 60) {
@@ -158,6 +160,7 @@ void NiToRi::start_3(){
   nitori_one->deflection_deg = 0.2;
   nitori_one->disabled();
   add_child(nitori_one);
+  nitori_one->start_shoot();
   status = moveing;
   shoot_l = [
     nitori_one,
@@ -200,8 +203,9 @@ void NiToRi::start_4(){
   card_name = memnew(ui::CardName);
   get_tree()->get_current_scene()->add_child(card_name);
   card_name->setup_and_play(String::utf8(u8"水符 '河童的幻想大瀑布'"));
-  auto nitori_two = memnew(game::bullet_settings::nitori::Three);
-  add_child(nitori_two);
+  auto nitori_three = memnew(game::bullet_settings::nitori::Three);
+  add_child(nitori_three);
+  nitori_three->start_shoot();
   status = moveing;
   shoot_l = [](Boos* b){
     if (b->frame_status > 60) {
@@ -231,6 +235,7 @@ void NiToRi::start_5(){
   nitori_one->deflection_deg = 0.2;
   nitori_one->disabled();
   add_child(nitori_one);
+  nitori_one->start_shoot();
   status = moveing;
   shoot_l = [
     nitori_one,
@@ -274,6 +279,7 @@ void NiToRi::start_6(){
   card_name->setup_and_play(String::utf8(u8"河童 '水皿旋轮'"));
   auto nitori_four = memnew(game::bullet_settings::nitori::Four);
   add_child(nitori_four);
+  nitori_four->start_shoot();
   nitori_four->disabled();
   status = moveing;
   shoot_l = [

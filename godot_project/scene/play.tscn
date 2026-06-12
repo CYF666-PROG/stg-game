@@ -365,6 +365,96 @@ _data = {
 }
 point_count = 5
 
+[sub_resource type="Curve2D" id="Curve2D_u00bl"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 164, -93, 0.60105175, -127.42297, -0.60105175, 127.42297, 168, 294, 0, 0, 0, 0, -25, 502)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_kfqjy"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 732, -85, -2.9090908, -133.0909, 2.9090908, 133.0909, 733, 269, 0, 0, 0, 0, 965, 461)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_34l1k"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 21, 75, -103.576004, -46.464005, 103.576004, 46.464005, 198, 225, 0, 0, 0, 0, 1048, 356)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_7scxc"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 21, 75, -103.576004, -46.464005, 103.576004, 46.464005, 198, 225, 0, 0, 0, 0, 1048, 356)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_vokh3"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 21, 75, -103.576004, -46.464005, 103.576004, 46.464005, 198, 225, 0, 0, 0, 0, 1048, 356)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_cpj7c"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 21, 75, -103.576004, -46.464005, 103.576004, 46.464005, 198, 225, 0, 0, 0, 0, 1048, 356)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_bosmc"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1051, 48, 139.4888, -43.6568, -139.4888, 43.6568, 702, 200, 0, 0, 0, 0, 20, 352)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_bai6e"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1051, 48, 139.4888, -43.6568, -139.4888, 43.6568, 702, 200, 0, 0, 0, 0, 20, 352)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_usuib"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1051, 48, 139.4888, -43.6568, -139.4888, 43.6568, 702, 200, 0, 0, 0, 0, 20, 352)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_e7jx6"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1051, 48, 139.4888, -43.6568, -139.4888, 43.6568, 702, 200, 0, 0, 0, 0, 20, 352)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_gdriv"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 245, -74, -0.661157, -169.91736, 0.661157, 169.91736, 247, 266, -2.644628, 144.13223, 2.644628, -144.13223, 453, 269, 0, 0, 0, 0, 456, -89)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_q1rih"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 245, -74, -0.661157, -169.91736, 0.661157, 169.91736, 247, 266, -2.644628, 144.13223, 2.644628, -144.13223, 453, 269, 0, 0, 0, 0, 456, -89)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_7y5tp"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 879, -55, 0.79999995, -145.59999, -0.79999995, 145.59999, 878, 317, 1.5999999, 160.79999, -1.5999999, -160.79999, 663, 307, 0, 0, 0, 0, 662, -50)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_0xuic"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 382, -87, 0, 0, 0, 0, 380, 254, 68.31443, 33.902313, -68.31443, -33.902313, 209, 221, 0, 0, 0, 0, 4, 103)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_jrlag"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 382, -87, 0, 0, 0, 0, 380, 254, -132.7778, 55.733894, 132.7778, -55.733894, 584, 193, 0, 0, 0, 0, 852, 80)
+}
+point_count = 4
+
 [node name="play" type="Node2D" unique_id=1385972863]
 script = SubResource("GDScript_drhme")
 metadata/_edit_vertical_guides_ = [72.0]
@@ -574,7 +664,6 @@ animation = &"normal"
 [node name="move" type="Node2D" parent="." unique_id=1808431910]
 
 [node name="level1" type="Node2D" parent="move" unique_id=1273722686]
-visible = false
 
 [node name="left_1" type="Path2D" parent="move/level1" unique_id=673370985]
 curve = SubResource("Curve2D_0u7nf")
@@ -735,6 +824,72 @@ curve = SubResource("Curve2D_wwlet")
 [node name="left_8" type="Path2D" parent="move/level2" unique_id=27569492]
 position = Vector2(-3, 130)
 curve = SubResource("Curve2D_wwlet")
+
+[node name="level3" type="Node2D" parent="move" unique_id=917282495]
+
+[node name="left_up" type="Path2D" parent="move/level3" unique_id=2142648789]
+position = Vector2(27, -10)
+curve = SubResource("Curve2D_u00bl")
+
+[node name="right_up" type="Path2D" parent="move/level3" unique_id=394217490]
+position = Vector2(64, 4)
+curve = SubResource("Curve2D_kfqjy")
+
+[node name="left" type="Path2D" parent="move/level3" unique_id=624308204]
+position = Vector2(-4, -62)
+curve = SubResource("Curve2D_34l1k")
+
+[node name="left_2" type="Path2D" parent="move/level3" unique_id=1794195688]
+position = Vector2(-5, 6)
+curve = SubResource("Curve2D_7scxc")
+
+[node name="left_3" type="Path2D" parent="move/level3" unique_id=1760109792]
+position = Vector2(-4, 71)
+curve = SubResource("Curve2D_vokh3")
+
+[node name="left_4" type="Path2D" parent="move/level3" unique_id=1142294782]
+position = Vector2(-3, 130)
+curve = SubResource("Curve2D_cpj7c")
+
+[node name="right" type="Path2D" parent="move/level3" unique_id=1553842429]
+position = Vector2(-3, -22)
+curve = SubResource("Curve2D_bosmc")
+
+[node name="right_2" type="Path2D" parent="move/level3" unique_id=1751184963]
+position = Vector2(9, 16)
+curve = SubResource("Curve2D_bai6e")
+
+[node name="right_3" type="Path2D" parent="move/level3" unique_id=1920350929]
+position = Vector2(1, 63)
+curve = SubResource("Curve2D_usuib")
+
+[node name="right_4" type="Path2D" parent="move/level3" unique_id=107857638]
+position = Vector2(6, 108)
+curve = SubResource("Curve2D_e7jx6")
+
+[node name="up_1" type="Path2D" parent="move/level3" unique_id=1724866154]
+position = Vector2(-78, 22)
+curve = SubResource("Curve2D_gdriv")
+
+[node name="up_2" type="Path2D" parent="move/level3" unique_id=819361500]
+position = Vector2(41, 24)
+curve = SubResource("Curve2D_q1rih")
+
+[node name="up_3" type="Path2D" parent="move/level3" unique_id=673591359]
+position = Vector2(-166, -12)
+curve = SubResource("Curve2D_7y5tp")
+
+[node name="up_4" type="Path2D" parent="move/level3" unique_id=1519385278]
+position = Vector2(-34, -23)
+curve = SubResource("Curve2D_7y5tp")
+
+[node name="up_down" type="Path2D" parent="move/level3" unique_id=525113406]
+position = Vector2(15, 2)
+curve = SubResource("Curve2D_0xuic")
+
+[node name="up_down_2" type="Path2D" parent="move/level3" unique_id=1443912875]
+position = Vector2(157, 4)
+curve = SubResource("Curve2D_jrlag")
 
 [node name="menu" type="Node2D" parent="." unique_id=848301549]
 z_index = 100

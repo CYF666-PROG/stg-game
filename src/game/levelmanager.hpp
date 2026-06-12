@@ -22,12 +22,15 @@ private:
   enum enemy_typ {
     IMP,
     NITORI,
-    BIG_butterfly
+    BIG_butterfly,
+    Rotate
   };
   enum Color {
     blue,
     red,
     yellow,
+    brown,
+    green,
     pink_green,
     yellow_blue,
     yellow_red,
@@ -48,7 +51,7 @@ private:
   /// 敌人时间表
   std::multimap<double, enemy> level_timeline;
   // 关卡计时器 单位为帧
-  int level_frame = 4400;
+  int level_frame = 0;
   /// @brief 获取move下path2d节点
   /// @param path 相对于move节点的路径 例如 "level1/LiftUp"
   /// @return 
@@ -84,8 +87,12 @@ public:
   void start();
   int now_level = 1;
   void level_1();
+  // 5:30
   double level_2_time = 17;
   void level_2();
+  // 6:45
+  double level_3_time = 75;
+  void level_3();
 
   static LevelManager* get_singleton();
   void restart();

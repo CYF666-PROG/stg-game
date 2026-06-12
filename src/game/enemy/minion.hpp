@@ -32,10 +32,10 @@ public:
   /// 弹幕发射器
 
   // BulletManager transmitter; // 千万不能包含其他注册节点！
-  virtual void set_animation(godot::String path){};
+  virtual void set_animation(godot::String path);
   virtual void dead() override;
   /// 更新动画
-  void update_animation() override;
+  virtual void update_animation() override;
   void update_speed();
   // 根据path2d更新位置
   void update_position();

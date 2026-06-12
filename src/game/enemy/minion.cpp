@@ -109,6 +109,10 @@ void game::enemy::Minion::update_animation()
   }
 }
 
+void Minion::set_animation(godot::String path){
+  animation_path = path;
+};
+
 void game::enemy::Minion::update_speed(){
   godot::Vector2 current_position = get_global_position();
   // 计算两帧之间的位移距离，像素/帧
@@ -169,7 +173,9 @@ void Minion::_on_area_entered(godot::Area2D *other_area){
   }
 };
 
-void Minion::_ready(){}
+void Minion::_ready(){
+  Enemy::_ready();
+}
 
 void game::enemy::Minion::entity_physics_process(double delta) {
   if (hp < 0){

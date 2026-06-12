@@ -8,6 +8,7 @@
 #include "game/enemy/enemy.hpp"
 #include "game/enemy/minion.hpp"
 #include "game/enemy/imp.hpp"
+#include "game/enemy/rotate.hpp"
 #include "game/bullet_manager.hpp"
 #include "bullet_settings/flower_bullet.hpp"
 #include "bullet_settings/rotate_flower.hpp"
@@ -80,6 +81,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(utility::Clear)
   GDREGISTER_CLASS(ui::BossHealth)
   GDREGISTER_CLASS(ui::CardName)
+  GDREGISTER_CLASS(game::enemy::Rotate)
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {

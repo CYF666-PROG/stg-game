@@ -5,10 +5,12 @@
 #include "enemy/boos/nitori.hpp"
 #include "enemy/imp.hpp"
 #include "enemy/minion.hpp"
+#include "enemy/rotate.hpp"
 #include "godot_cpp/classes/global_constants.hpp"
 #include "godot_cpp/core/memory.hpp"
 #include "godot_cpp/variant/string.hpp"
 
+#include <cstdint>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
@@ -29,6 +31,9 @@ void game::LevelManager::_physics_process(double delta){
   if (level_frame >= level_2_time * 60) {
     level_2();
     level_2_time = 99999999;
+  }else if (level_frame >= level_3_time * 60) {
+    level_3();
+    level_3_time = 99999999;
   }
 
   
@@ -82,7 +87,7 @@ void game::LevelManager::_ready(){
     godot::UtilityFunctions::print("错误：当前场景未加载完成或不存在");
     return;
   }
-  // level_1();
+  level_1();
 }
 
 void LevelManager::level_1(){
@@ -205,6 +210,137 @@ void LevelManager::level_2(){
   make_boos(t+57,NITORI,0);
 }
 
+void LevelManager::level_3(){
+  now_level = 3;
+  double t = level_3_time;
+  for (int i = 0;i < 2 ; i++) {
+    double t = level_3_time + double(i) * 6 ;
+    make_enemy(t, BIG_butterfly,red, get_path2d("level3/left_up"),100);
+    for (double j = t;j < t + 1.5 ; j += 0.2) {
+      String path ;
+      int a = UtilityFunctions::randi_range(1, 8);
+      if (a == 1) path = "level3/left";
+      if (a == 2) path = "level3/left_2";
+      if (a == 3) path = "level3/left_3";
+      if (a == 4) path = "level3/left_4";
+      if (a == 5) path = "level3/right";
+      if (a == 6) path = "level3/right_2";
+      if (a == 7) path = "level3/right_3";
+      if (a == 8) path = "level3/right_4";
+      Color color;
+      a = UtilityFunctions::randi_range(1, 3);
+      if (a == 1) color = blue; 
+      if (a == 2) color = red; 
+      if (a == 3) color = yellow;
+      make_enemy(j, IMP,color, get_path2d(path),20);
+    }
+    make_enemy(t + 3, BIG_butterfly,red, get_path2d("level3/right_up"),100);
+    for (double j = t+3;j < t + 1.5 + 3 ; j += 0.2) {
+      String path ;
+      int a = UtilityFunctions::randi_range(1, 8);
+      if (a == 1) path = "level3/left";
+      if (a == 2) path = "level3/left_2";
+      if (a == 3) path = "level3/left_3";
+      if (a == 4) path = "level3/left_4";
+      if (a == 5) path = "level3/right";
+      if (a == 6) path = "level3/right_2";
+      if (a == 7) path = "level3/right_3";
+      if (a == 8) path = "level3/right_4";
+      Color color;
+      a = UtilityFunctions::randi_range(1, 3);
+      if (a == 1) color = blue; 
+      if (a == 2) color = red; 
+      if (a == 3) color = yellow;
+      make_enemy(j, IMP,color, get_path2d(path),20);
+    } 
+  }// 10.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 14.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_4"),20);
+  }// 16.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 17.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_2"),20);
+  }// 19.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 20.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_1"),20);
+  }// 22.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 23.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_3"),20);
+  }// 25.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 26.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_1"),20);
+  }// 28.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 29.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_2"),20);
+  }// 31.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 32.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_4"),20);
+  }// 34.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 35.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_1"),20);
+  }// 37.5
+  make_enemy(t + 39.5, BIG_butterfly,red, get_path2d("level3/up_down"),100);
+  make_enemy(t + 39.5, BIG_butterfly,red, get_path2d("level3/up_down_2"),100);
+
+  make_boos(t + 44.5, NITORI, 1);
+}
+
+
 void LevelManager::make_boos(double time, enemy_typ typ, int level){
   enemy boos ;
   boos.typ = typ;
@@ -290,13 +426,30 @@ enemy::Minion* LevelManager::get_minion(enemy_typ typ, Color color){
         break;
     }
     spawn_enemy = imp;
+  }else if (typ == Rotate) {
+    auto rot = memnew(game::enemy::Rotate);
+    switch (color) {
+      case blue:
+        rot->set_animation("res://material/enemy/rotate/blue.tres");
+        break;
+      case green:
+        rot->set_animation("res://material/enemy/rotate/green.tres");
+        break;
+      case yellow:
+        rot->set_animation("res://material/enemy/rotate/yellow.tres");
+        break;
+      case brown:
+        rot->set_animation("res://material/enemy/rotate/brown.tres");
+        break;
+    }
+    spawn_enemy = rot;
   }
   // --- 3. 安全防御与返回 ---
   if (spawn_enemy == nullptr) {
     godot::UtilityFunctions::print("LevelManager: Unknown enemy type requested!");
   }
   return spawn_enemy;
-  }
+}
 
 void game::LevelManager::make_enemy(
     double time,

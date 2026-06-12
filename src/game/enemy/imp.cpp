@@ -12,12 +12,10 @@
 using namespace godot;
 using namespace game::enemy;
 
-void Imp::set_animation(godot::String path){
-  animation_path = path;
-};
+
 
 void Imp::_ready(){
-  game::Enemy::_ready();
+  Minion::_ready();
   set_coll_sprite_frames(animation_path, conf::minion::imp::radius, conf::minion::imp::scale);
   set_position(start_position);
 }

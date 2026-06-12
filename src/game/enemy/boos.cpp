@@ -162,12 +162,16 @@ void Boos::_ready(){
   }
   set_global_position(Vector2(141,-118));
   auto target_pos = Vector2(478,202);
-  move_l = [target_pos](Boos* b){
+  move_l = [target_pos, level = level](Boos* b){
     if(b->move(target_pos)){
       UtilityFunctions::print("nitori start_0");
       b->status = shooting;
-      b->level = 0;
-      b->start_0();
+      b->level = level;
+      if (level == 1) {
+        b->start_1();
+      }else {
+        b->start_0();
+      }
     };
   };
 }
