@@ -51,7 +51,7 @@ private:
   /// 敌人时间表 键为出现帧
   std::multimap<int, enemy> level_timeline;
   // 关卡计时器 单位为帧
-  int level_frame = 7160;
+  int level_frame = 0;
   /// @brief 获取move下path2d节点
   /// @param path 相对于move节点的路径 例如 "level1/LiftUp"
   /// @return 

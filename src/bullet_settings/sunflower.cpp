@@ -38,7 +38,8 @@ void game::bullet_settings::Sunflower::inside(){
   double plus = 20 ; // 加速帧数
   double stop = 10; // 停顿帧数
   double end = 3 ; // 最终速度
-
+  // 音效
+  audio_manager->play("bong00");
   double rotation_offset = this->rotation_offset;
   double benchmark_rad = 0; // 基准方向
   for (int i = 0; i < count; i++){

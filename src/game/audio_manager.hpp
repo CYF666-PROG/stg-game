@@ -22,6 +22,14 @@ class AudioManager : public godot::Node {
     GDCLASS(AudioManager, Node);
 
 private:
+    // ─── 新增 BGM 相关私有成员 ───
+    godot::AudioStreamPlayer* bgm_player = nullptr;
+    
+    // BGM 注册表：只存 StringName -> AudioStream 即可
+    godot::HashMap<godot::StringName, godot::Ref<godot::AudioStream>> bgm_registry;
+    
+    // 记录当前播放的 BGM 名字，方便逻辑判断
+    godot::StringName current_bgm_name = "";
     static AudioManager *singleton;
     // 🌟 新增：记录每个音效最后一次分配给哪一个播放器
     godot::Dictionary last_assigned_player;
@@ -45,7 +53,24 @@ public:
 
     static AudioManager *get_audio();
     void _ready() override;
+    
+    /// @brief 播放指定名称的背景音乐
+    /// @param bgm_name 注册过的 BGM 名字
+    /// @param loop 是否循环播放（Godot4 中通常在资源本身设置循环，但代码可以双重保险）
+    void play_bgm(const godot::StringName &bgm_name, bool loop = true);
+    
+    /// @brief 停止当前背景音乐
+    void stop_bgm();
 
+    /// @brief 暂停背景音乐
+    void pause_bgm();
+    /// @brief 调节背景音乐音量
+    /// @param volume_db 音量（分贝，0.0 为原音，负数变小）
+    void set_bgm_volume(double volume_db);
+    /// @brief 恢复播放背景音乐
+    void resume_bgm();
+
+    
     // 核心播放接口
     void play(const godot::StringName &sound_name);
     void fire_bullet();                     

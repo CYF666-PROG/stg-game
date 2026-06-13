@@ -482,13 +482,12 @@ layer = 200
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1572236081]
 offset_left = -460.0
 offset_top = 36.0
-offset_right = 1332.0
-offset_bottom = 1044.0
+offset_right = 1365.7778
+offset_bottom = 1063.0
 stream = ExtResource("6_eoxkv")
 volume_db = -20.0
 autoplay = true
 expand = true
-metadata/_edit_lock_ = true
 
 [node name="Wall" type="Node2D" parent="." unique_id=1728563001]
 metadata/_edit_lock_ = true
@@ -664,6 +663,26 @@ texture = ExtResource("4_0u7nf")
 [node name="7" type="Sprite2D" parent="StatusUi/card" unique_id=1834098274]
 position = Vector2(322, 251)
 texture = ExtResource("4_0u7nf")
+
+[node name="ColorRect" type="ColorRect" parent="StatusUi" unique_id=529390725]
+layout_mode = 0
+offset_left = -935.0
+offset_bottom = 36.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="StatusUi" unique_id=1292247982]
+layout_mode = 0
+offset_left = -939.0
+offset_right = -864.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="StatusUi" unique_id=1243974419]
+layout_mode = 0
+offset_left = -935.0
+offset_top = 1062.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
 
 [node name="move" type="Node2D" parent="." unique_id=1808431910]
 

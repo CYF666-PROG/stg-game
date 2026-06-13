@@ -18,9 +18,9 @@ private:
   /// 中弹后无敌时间
   int invincible_frame = 0;
   /// 5个为一颗心
-  int hp = 1500000;
+  int hp = 40;
   /// 5个为一张符卡
-  int card = 17;
+  int card = 40;
   void hited();
   void hit_bullet() override;
   void move();

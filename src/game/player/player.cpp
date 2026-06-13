@@ -214,22 +214,22 @@ void game::Player::check_orb(){
     }else{
       auto* tran = memnew(player::Transmitter_1(player::Transmitter_1::orb_Typ::Blue));
       tran->player = this;
-      tran->set_position(Vector2(28,-80));
+      tran->set_position(Vector2(64,-49));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(-28,-80));
+      tran->set_position(Vector2(-64,-49));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(79,-15));
+      tran->set_position(Vector2(25,-76));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(-79,-15));
+      tran->set_position(Vector2(-25,-76));
       add_child(tran);
     }
   }else{
@@ -259,11 +259,11 @@ void game::Player::check_orb(){
       add_child(tran);
     }else{
       auto* tran = memnew(player::Transmitter_1(player::Transmitter_1::orb_Typ::Blue));
-      tran->set_position(Vector2(48,64));
+      tran->set_position(Vector2(22,79));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
-      tran->set_position(Vector2(-48,64));
+      tran->set_position(Vector2(-22,79));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);

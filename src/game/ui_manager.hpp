@@ -1,5 +1,6 @@
 #pragma once
 
+#include "audio_manager.hpp"
 #include "godot_cpp/classes/animated_sprite2d.hpp"
 #include "godot_cpp/classes/atlas_texture.hpp"
 #include "godot_cpp/classes/color_rect.hpp"
@@ -22,6 +23,7 @@ private:
   static UiManager* the_ui_manager;
   game::Player* player = nullptr;
   godot::ColorRect* status_ui = nullptr;
+  game::AudioManager* audio = nullptr;
   std::vector<godot::Ref<godot::AtlasTexture>> hearts_tex;
   std::vector<godot::Ref<godot::AtlasTexture>> star_tex;
   std::vector<godot::Sprite2D*> hearts;

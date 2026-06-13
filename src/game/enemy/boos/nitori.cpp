@@ -56,7 +56,8 @@ void NiToRi::_ready(){
 
 void NiToRi::start_0(){
   level = 0;
-  hp = 100;
+  hp = 1000;
+  max_hp = 1000;
   // 特效
   audio->play("card_start");
   boss_magic->deploy();
@@ -117,7 +118,11 @@ void NiToRi::start_0(){
 
 void NiToRi::start_1(){
   level = 1;
-  hp = 100;
+  hp = 1000;
+  max_hp = 1000;
+  // 播放BGM
+  audio->play_bgm("boss_nitori",true);
+  audio->set_bgm_volume(-20);
   auto nitori_one = memnew(game::bullet_settings::NitoriOne);
   add_child(nitori_one);
   // 先设置等待
@@ -166,7 +171,8 @@ void NiToRi::start_1(){
 
 void NiToRi::start_2(){
   level = 2;
-  hp = 100;
+  hp = 1000;
+  max_hp = 1000;
   card_name = memnew(ui::CardName);
   get_tree()->get_current_scene()->add_child(card_name);
   card_name->setup_and_play(String::utf8(u8"漂溺 '水底粼光，心中痛伤'"));
@@ -217,7 +223,8 @@ void NiToRi::start_3(){
   // 处理上一张卡结束音效
   audio->play("bong00");
   level = 3;
-  hp = 100;
+  hp = 1000;
+  max_hp = 1000;
   auto nitori_one = memnew(game::bullet_settings::NitoriOne);
   nitori_one->count = 20 ;
   nitori_one->deflection_deg = 0.2;
@@ -262,7 +269,8 @@ void NiToRi::start_3(){
 
 void NiToRi::start_4(){
   level = 4;
-  hp = 100;
+  hp = 1000;
+  max_hp = 1000;
   card_name = memnew(ui::CardName);
   get_tree()->get_current_scene()->add_child(card_name);
   card_name->setup_and_play(String::utf8(u8"水符 '河童的幻想大瀑布'"));
@@ -313,7 +321,8 @@ void NiToRi::start_5(){
   // 处理上一张卡结束音效
   audio->play("bong00");
   level = 5;
-  hp = 100;
+  hp = 1000;
+  max_hp = 1000;
   auto nitori_one = memnew(game::bullet_settings::NitoriOne);
   nitori_one->count = 20 ;
   nitori_one->deflection_deg = 0.2;
@@ -357,7 +366,8 @@ void NiToRi::start_5(){
 }
 void NiToRi::start_6(){
   level = 6;
-  hp = 100;
+  hp = 1000;
+  max_hp = 1000;
   card_name = memnew(ui::CardName);
   get_tree()->get_current_scene()->add_child(card_name);
   card_name->setup_and_play(String::utf8(u8"河童 '水皿旋轮'"));

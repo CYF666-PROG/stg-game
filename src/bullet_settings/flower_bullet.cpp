@@ -39,17 +39,11 @@ void FlowerBullet::shoot(){
   if (count > 1) {
       speed_step = (max - min) / (count - 1);
   }
-
-  // 先行检查游戏场景树
-  godot::SceneTree* tree = get_tree();
-  if (!tree) {
-      godot::UtilityFunctions::print("tree error");
-      return;
-  }
-  godot::Node* current_scene = tree->get_current_scene();
-  if (!current_scene) {
-      godot::UtilityFunctions::print("current_scene error");
-      return;
+  // 音效
+  if (direction_count == 1 && count == 1) {
+    audio_manager->play("fast");
+  }else {
+    audio_manager->play("bong00");
   }
 
   // 1. 外层循环：控制不同的发射角度（以 base_angle 为中心对称发射）

@@ -16,8 +16,9 @@ class Boos : public Enemy {
   GDCLASS(Boos, Enemy);
 
 private:
-  double befor_hp = 100;
+  double befor_hp = 5000;
 public:
+  double max_hp = 5000;
   game::enemy::BossMagic* boss_magic = nullptr;
   game::LevelManager* level_manager = nullptr;
   ui::CardName* card_name = nullptr;

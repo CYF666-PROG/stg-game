@@ -170,6 +170,7 @@ void Boos::dead(){
       b->queue_free();
     }
   };
+  audio->stop_bgm();
 }
 
 void Boos::hit_bullet(){
@@ -215,7 +216,7 @@ void Boos::update_animation(){
 void Boos::entity_physics_process(double delta){
   if (befor_hp > 0 && hp <= 0) next();
   // 更新血条
-  health->update_health(hp, 100);
+  health->update_health(hp, max_hp);
   // 更新动画
   update_animation();
   // 方便lamb知道自己这个动作持续了多少帧

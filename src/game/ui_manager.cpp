@@ -1,4 +1,5 @@
 #include "ui_manager.hpp"
+#include "audio_manager.hpp"
 #include "bullet_pool.hpp"
 #include "effect_manager.hpp"
 #include "godot_cpp/classes/animated_sprite2d.hpp"
@@ -182,6 +183,11 @@ void UiManager::pause(){
   if (!pause || !dead) {
     return;
   }
+  if (!audio) {
+    return;
+  }
+  // 暂停BGM
+  audio->pause_bgm();
   pause->set_visible(true);
   dead->set_visible(false);
   // 暂停场景根节点
@@ -210,6 +216,11 @@ void UiManager::play(){
   if (!play) {
     return;
   }
+  if (!audio) {
+    return;
+  }
+  // 开始BGM
+  audio->resume_bgm();
   status_typ = PLAYING;
   menu_node->set_global_position(Vector2(-936,0));
   // 恢复根节点
@@ -221,6 +232,9 @@ void UiManager::play(){
 
 
 void UiManager::_physics_process(double delta){
+  if (!audio) {
+    audio = game::AudioManager::get_audio();
+  }
   auto keyboard = input::KeyBoard::get_singleton();
   if (!keyboard) return;
   // 切换游戏状态
