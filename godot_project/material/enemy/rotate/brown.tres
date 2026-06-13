@@ -1,0 +1,18 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://c2qdxbmwddct3"]
+
+[ext_resource type="Texture2D" uid="uid://bm458cglssxi5" path="res://material/enemy/boos/boss1.png" id="1_fdfom"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hquka"]
+atlas = ExtResource("1_fdfom")
+region = Rect2(144, 1511, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hquka")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 5.0
+}]

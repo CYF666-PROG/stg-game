@@ -3,6 +3,7 @@
 #include "minion.hpp"
 
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/classes/sprite_frames.hpp> 
 
 namespace game::enemy{
 /// @brief 小妖精
@@ -12,10 +13,10 @@ private:
 
 public:
   static void _bind_methods(){}
-  virtual void _on_area_entered(godot::Area2D *other_area) override;
-  void entity_physics_process(double delta) override ;
   void _ready() override ;
   Imp();
+  /// 动画路径
+  Imp(godot::String path);
   virtual ~Imp();
 };
 

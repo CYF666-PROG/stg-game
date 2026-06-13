@@ -1,0 +1,81 @@
+#include "card_name.hpp"
+#include "godot_cpp/classes/label.hpp"
+#include "godot_cpp/core/memory.hpp"
+
+#include <godot_cpp/classes/font.hpp> 
+#include <godot_cpp/classes/tween.hpp>
+#include <godot_cpp/classes/property_tweener.hpp>
+#include <godot_cpp/classes/global_constants.hpp>
+
+using namespace ui;
+using namespace godot;
+
+void CardName::_bind_methods() {
+  ClassDB::bind_method(D_METHOD("setup_and_play", "text"), &CardName::setup_and_play);
+}
+
+CardName::CardName() {}
+CardName::~CardName() {}
+
+void CardName::_ready() {
+  label_node = memnew(Label);
+  add_child(label_node);
+  set_z_index(100);
+}
+
+void CardName::setup_and_play(const String &p_text) {
+  if (!label_node) return;
+
+  label_node->set_text(p_text);
+  // 设置字体大小
+  label_node->add_theme_font_size_override("font_size", 32);
+  // 测量字符的像素宽高
+  Ref<Font> font = label_node->get_theme_font("font");
+  int font_size = label_node->get_theme_font_size("font_size");
+  
+  Vector2 text_real_size = Vector2(0, 0);
+  if (font.is_valid()) {
+    text_real_size = font->get_string_size(p_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size);
+  }
+
+  // 加上内边距
+  float final_width = text_real_size.x + 20.0f;
+  float final_height = text_real_size.y + 10.0f;
+
+  Vector2 strict_size = Vector2(final_width, final_height);
+  label_node->set_custom_minimum_size(strict_size);
+  label_node->set_size(strict_size);
+  set_custom_minimum_size(strict_size);
+  set_size(strict_size);
+
+  // 修正坐标
+  double exact_x = SCREEN_RIGHT_BOTTOM.x - final_width - margin;
+  
+  // 如果字长到连屏幕都塞不下了，强制让 X 等于边距
+  if (exact_x < margin) {
+    exact_x = margin;
+  }
+  // 起始点
+  Vector2 real_start_pos = Vector2(
+    exact_x,
+    SCREEN_RIGHT_BOTTOM.y - final_height - margin
+  );
+  // 结束点
+  Vector2 real_end_pos = Vector2(
+    exact_x,
+    SCREEN_LEFT_TOP.y + margin
+  );
+  // 设置位置并播放动画
+  set_position(real_start_pos);
+  set_modulate(Color(1.0f, 1.0f, 1.0f, 0.0f));
+
+  Ref<Tween> tween = create_tween();
+  if (tween.is_valid()) {
+    tween->set_parallel(true);
+    tween->tween_property(this, "position", real_end_pos, duration)
+      ->set_trans(Tween::TRANS_CUBIC)
+      ->set_ease(Tween::EASE_OUT);
+
+    tween->tween_property(this, "modulate:a", 1.0f, duration * 0.3);
+  }
+}

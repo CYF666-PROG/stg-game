@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://to46ef76nrj5"]
+
+[ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="1_vy1ke"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7li4e"]
+atlas = ExtResource("1_vy1ke")
+region = Rect2(3, 178, 27, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_08qq2"]
+atlas = ExtResource("1_vy1ke")
+region = Rect2(35, 178, 27, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wca0"]
+atlas = ExtResource("1_vy1ke")
+region = Rect2(67, 178, 27, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjc0e"]
+atlas = ExtResource("1_vy1ke")
+region = Rect2(99, 178, 27, 30)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7li4e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_08qq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8wca0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hjc0e")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 8.0
+}]

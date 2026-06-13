@@ -1,0 +1,430 @@
+#include "nitori.hpp"
+#include "../../../conf/bullet.hpp"
+#include "../../../bullet_settings/nitori/nitori_zero.hpp"
+#include "../../../bullet_settings/nitori/nitori_one.hpp"
+#include "../../../bullet_settings/nitori/two.hpp"
+#include "../../../bullet_settings/nitori/three.hpp"
+#include "../../../bullet_settings/nitori/four.hpp"
+#include "../../../ui/card_name.hpp"
+
+#include "godot_cpp/classes/animated_sprite2d.hpp"
+#include "godot_cpp/classes/rectangle_shape2d.hpp"
+#include "godot_cpp/classes/ref.hpp"
+#include "godot_cpp/classes/resource_loader.hpp"
+#include "godot_cpp/classes/sprite_frames.hpp"
+#include "godot_cpp/core/memory.hpp"
+#include "godot_cpp/variant/string.hpp"
+#include "godot_cpp/variant/utility_functions.hpp"
+#include "godot_cpp/variant/vector2.hpp"
+#include <godot_cpp/classes/scene_tree.hpp>
+
+#include <vector>
+
+using namespace game::boos;
+using namespace godot;
+
+void NiToRi::_ready(){
+  //  调用父类的准备
+  Boos::_ready();
+  // 加载NiToRi贴图
+  String path = String(conf::boos::nitori::path.c_str());
+  double scale = conf::boos::nitori::scale;
+  // 获取资源加载器的单例
+  ResourceLoader* loader = ResourceLoader::get_singleton();
+  Ref<SpriteFrames> spr = loader->load(path);
+  if (spr.is_null()){
+    UtilityFunctions::print("not fond ",path);
+  }
+  anima = memnew(AnimatedSprite2D);
+  anima->set_sprite_frames(spr);
+  anima->set_scale(Vector2(1,1) * scale);
+  add_child(anima);
+  // 设置默认动画
+  anima->play("normal", 1.0, true);
+  // 设置碰撞
+  CollisionShape2D* collision_shape = memnew(CollisionShape2D);
+  Ref<RectangleShape2D> rect_shape;
+  rect_shape.instantiate();
+  rect_shape->set_size(godot::Vector2(64, 38)); // 设置宽高
+  collision_shape->set_shape(rect_shape);
+  add_child(collision_shape);
+}
+
+void NiToRi::start_0(){
+  level = 0;
+  hp = 1000;
+  max_hp = 1000;
+  // 特效
+  audio->play("card_start");
+  boss_magic->deploy();
+  // 添加card_name
+  card_name = memnew(ui::CardName);
+  get_tree()->get_current_scene()->add_child(card_name);
+  card_name->setup_and_play(String::utf8(u8"光学'水相伪装'"));
+  auto nitori_zero = memnew(game::bullet_settings::NitoriZero);
+  add_child(nitori_zero);
+  // 先设置等待
+  status = waiting;
+  wait_l = [
+    status = 0  // 等候阶段
+  ](Boos* b) mutable{
+    if (b->frame_status == 0) {
+      status++;
+    }
+    if (status == 1) {  // 符卡开始时等待
+      if (b->frame_status >= 60) {
+        b->status = shooting;
+        return;
+      }
+    }else if (status == 2) { // 非符结束等待
+      if (b->frame_status >= 60) {
+        b->status = moveing;
+        return;
+      }
+    }else {
+      b->status = shooting;
+    }
+  };
+  shoot_l = [nitori_zero](Boos* b){
+    if(b->frame_status == 0) {
+      nitori_zero->start_shoot();
+      nitori_zero->re_set();
+    };
+    if (nitori_zero->is_end()) {
+      b->status = moveing;
+    }
+    b->frame_status++;
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(577,154));
+  poss.push_back(Vector2(428,124));
+  poss.push_back(Vector2(435,166));
+  poss.push_back(Vector2(411,204));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+  };
+}
+
+void NiToRi::start_1(){
+  level = 1;
+  hp = 1000;
+  max_hp = 1000;
+  // 播放BGM
+  audio->play_bgm("boss_nitori",true);
+  audio->set_bgm_volume(-20);
+  auto nitori_one = memnew(game::bullet_settings::NitoriOne);
+  add_child(nitori_one);
+  // 先设置等待
+  status = waiting;
+  wait_l = [
+    status = 0  // 等候阶段
+  ](Boos* b) mutable{
+    if (b->frame_status == 0) {
+      status++;
+    }
+    if (status == 1) {  // 符卡开始时等待
+      if (b->frame_status >= 60) {
+        b->status = shooting;
+        return;
+      }
+    }else {
+      b->status = shooting;
+    }
+  };
+  shoot_l = [nitori_one](Boos* b){
+    if(b->frame_status == 0) {
+      nitori_one->start_shoot();
+      nitori_one->re_set();
+    };
+    if (nitori_one->is_end()) {
+      b->status = moveing;
+    }
+    b->frame_status++;
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(577,154));
+  poss.push_back(Vector2(428,124));
+  poss.push_back(Vector2(435,166));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+    b->frame_status++;
+  };
+};
+
+void NiToRi::start_2(){
+  level = 2;
+  hp = 1000;
+  max_hp = 1000;
+  card_name = memnew(ui::CardName);
+  get_tree()->get_current_scene()->add_child(card_name);
+  card_name->setup_and_play(String::utf8(u8"漂溺 '水底粼光，心中痛伤'"));
+  // 特效
+  audio->play("card_start");
+  boss_magic->deploy();
+  auto nitori_two = memnew(game::bullet_settings::nitori::Two);
+  add_child(nitori_two);
+  nitori_two->start_shoot();
+  // 先设置等待
+  status = waiting;
+  wait_l = [
+    status = 0  // 等候阶段
+  ](Boos* b) mutable{
+    if (b->frame_status == 0) {
+      status++;
+    }
+    if (status == 1) {  // 符卡开始时等待
+      if (b->frame_status >= 60) {
+        b->status = moveing;
+        return;
+      }
+    }else {
+      b->status = moveing;
+    }
+  };
+  shoot_l = [](Boos* b){
+    if (b->frame_status > 60) {
+      b->status = moveing;
+    }
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(478,202));
+  poss.push_back(Vector2(693,177));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+  };
+};
+
+void NiToRi::start_3(){
+  // 处理上一张卡结束音效
+  audio->play("bong00");
+  level = 3;
+  hp = 1000;
+  max_hp = 1000;
+  auto nitori_one = memnew(game::bullet_settings::NitoriOne);
+  nitori_one->count = 20 ;
+  nitori_one->deflection_deg = 0.2;
+  nitori_one->disabled();
+  add_child(nitori_one);
+  nitori_one->start_shoot();
+  status = moveing;
+  shoot_l = [
+    nitori_one,
+    a = 1,               // 控制向左偏还是向右偏
+    count = 0           // 当前将要发射几轮 初始是禁用所以要设为-1
+  ](Boos* b) mutable{
+    if(b->frame_status == 0){
+      count = 0;
+    }
+    if (nitori_one->is_end()) {
+      count++;
+      if (count > 4) {
+        b->status = moveing;
+        return;
+      }
+      if (count % 2 == 0) {
+        nitori_one->deflection_deg *= -1;
+      }
+      nitori_one->re_set();
+    }
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(478,202));
+  poss.push_back(Vector2(693,177));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+  };
+};
+
+void NiToRi::start_4(){
+  level = 4;
+  hp = 1000;
+  max_hp = 1000;
+  card_name = memnew(ui::CardName);
+  get_tree()->get_current_scene()->add_child(card_name);
+  card_name->setup_and_play(String::utf8(u8"水符 '河童的幻想大瀑布'"));
+  // 特效
+  audio->play("card_start");
+  boss_magic->deploy();
+  auto nitori_three = memnew(game::bullet_settings::nitori::Three);
+  add_child(nitori_three);
+  nitori_three->start_shoot();
+  // 先设置等待
+  status = waiting;
+  wait_l = [
+    status = 0  // 等候阶段
+  ](Boos* b) mutable{
+    if (b->frame_status == 0) {
+      status++;
+    }
+    if (status == 1) {  // 符卡开始时等待
+      if (b->frame_status >= 60) {
+        b->status = moveing;
+        return;
+      }
+    }else {
+      b->status = moveing;
+    }
+  };
+  shoot_l = [](Boos* b){
+    if (b->frame_status > 60) {
+      b->status = moveing;
+    }
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(478,202));
+  poss.push_back(Vector2(693,177));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+  };
+};
+
+void NiToRi::start_5(){
+  // 处理上一张卡结束音效
+  audio->play("bong00");
+  level = 5;
+  hp = 1000;
+  max_hp = 1000;
+  auto nitori_one = memnew(game::bullet_settings::NitoriOne);
+  nitori_one->count = 20 ;
+  nitori_one->deflection_deg = 0.2;
+  nitori_one->disabled();
+  add_child(nitori_one);
+  nitori_one->start_shoot();
+  status = moveing;
+  shoot_l = [
+    nitori_one,
+    a = 1,               // 控制向左偏还是向右偏
+    count = 0           // 当前将要发射几轮 初始是禁用所以要设为-1
+  ](Boos* b) mutable{
+    if(b->frame_status == 0){
+      count = 0;
+    }
+    if (nitori_one->is_end()) {
+      count++;
+      if (count > 4) {
+        b->status = moveing;
+        return;
+      }
+      if (count % 2 == 0) {
+        nitori_one->deflection_deg *= -1;
+      }
+      nitori_one->re_set();
+    }
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(478,202));
+  poss.push_back(Vector2(693,177));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      pos_index = (pos_index+1) % poss.size();
+      b->status = shooting;
+      return;
+    }
+  };
+}
+void NiToRi::start_6(){
+  level = 6;
+  hp = 1000;
+  max_hp = 1000;
+  card_name = memnew(ui::CardName);
+  get_tree()->get_current_scene()->add_child(card_name);
+  card_name->setup_and_play(String::utf8(u8"河童 '水皿旋轮'"));
+  // 设置弹设
+  auto nitori_four = memnew(game::bullet_settings::nitori::Four);
+  add_child(nitori_four);
+  nitori_four->start_shoot();
+  nitori_four->disabled();
+  // 特效
+  audio->play("card_start");
+  boss_magic->deploy();
+  // 先设置等待
+  status = waiting;
+  wait_l = [
+    status = 0  // 等候阶段
+  ](Boos* b) mutable{
+    if (b->frame_status == 0) {
+      status++;
+    }
+    if (status == 1) {  // 符卡开始时等待
+      if (b->frame_status >= 60) {
+        b->status = moveing;
+        return;
+      }
+    }else if (status == 2) { // 结束时等待
+      if (b->frame_status >= 80) {
+        b->audio->play("boos_end");
+        b->queue_free();
+        return;
+      }
+    }else {
+      b->status = moveing;
+    }
+  };
+  shoot_l = [
+    nitori_four,
+    a = 0 // 当前将要第几轮射击 用于控制在第1轮射击后 开始向玩家射击
+  ](Boos* b) mutable {
+    if (b->frame_status == 0) {
+      a++;
+      nitori_four->re_set();
+    }
+    if (a >= 2) {
+      nitori_four->run_to_shoot_player();
+    }
+    if (nitori_four->is_end()) {
+      b->status = moveing;
+      return;
+    }
+  };
+  std::vector<Vector2> poss;
+  poss.push_back(Vector2(478,202));
+  poss.push_back(Vector2(693,177));
+  move_l = [
+    poss, // 位置数组
+    pos_index = 0
+  ](Boos* b) mutable {
+    if (b->move(poss[pos_index])) {
+      pos_index = (pos_index+1) % poss.size();
+      if (b->frame_status > 20) b->status = shooting;
+      return;
+    }
+  };
+};

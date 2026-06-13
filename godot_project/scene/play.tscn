@@ -1,0 +1,2761 @@
+[gd_scene format=3 uid="uid://b35bipt1yp8rc"]
+
+[ext_resource type="Texture2D" uid="uid://bfou2gkp40yng" path="res://material/player/p1/playerImage.png" id="1_ydei8"]
+[ext_resource type="Texture2D" uid="uid://bbxkxsq81w3vj" path="res://material/image/etama2.png" id="2_eoxkv"]
+[ext_resource type="Texture2D" uid="uid://c37va5bf5xd7x" path="res://material/ui/heart/0.tres" id="3_8utoj"]
+[ext_resource type="Texture2D" uid="uid://u3s0engr6uke" path="res://material/ui/star/0.tres" id="4_0u7nf"]
+[ext_resource type="VideoStream" uid="uid://c8ep3bsg0hgld" path="res://background/level_3.mp4" id="6_eoxkv"]
+[ext_resource type="SpriteFrames" uid="uid://deheedwi72dbe" path="res://material/bullet/pointed/blue.tres" id="7_8utoj"]
+[ext_resource type="SpriteFrames" uid="uid://dh2ymw218wa7w" path="res://material/bullet/pointed/pink.tres" id="8_0u7nf"]
+[ext_resource type="SpriteFrames" uid="uid://dp2j0e6oslahh" path="res://material/bullet/pointed/red.tres" id="9_hbhmk"]
+[ext_resource type="SpriteFrames" uid="uid://b351xc814ocj4" path="res://material/bullet/pointed/yellow.tres" id="10_avl1x"]
+[ext_resource type="SpriteFrames" uid="uid://c84w0s238vx2y" path="res://material/bullet/ring/blue.tres" id="11_avl1x"]
+[ext_resource type="SpriteFrames" uid="uid://bihsfsmlolfia" path="res://material/bullet/circle/blue.tres" id="11_fptpc"]
+[ext_resource type="SpriteFrames" uid="uid://daw0nxio0nx81" path="res://material/bullet/ellipse/blue.tres" id="12_fptpc"]
+[ext_resource type="SpriteFrames" uid="uid://fum0wjlkoe4d" path="res://material/bullet/ellipse/s_pink.tres" id="12_oy1xb"]
+[ext_resource type="SpriteFrames" uid="uid://bkrqs0f7vmk4i" path="res://material/bullet/ellipse/red.tres" id="13_0oqkk"]
+[ext_resource type="SpriteFrames" uid="uid://b5eyvsrs6bk6v" path="res://material/bullet/ellipse/green.tres" id="14_xpuft"]
+
+[sub_resource type="GDScript" id="GDScript_drhme"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_462ap"]
+size = Vector2(17.75, 1061)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5qbti"]
+size = Vector2(17.5, 1061)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gvr3l"]
+size = Vector2(900, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k01lb"]
+size = Vector2(899, 36)
+
+[sub_resource type="Shader" id="Shader_drhme"]
+code = "shader_type canvas_item;
+
+void fragment() {
+    vec4 tex_color = texture(TEXTURE, UV);
+    
+    // 🌟 如果红绿蓝三个通道的值都很低（接近纯黑），就把透明度设为 0
+    if (tex_color.r < 0.06 && tex_color.g < 0.06 && tex_color.b < 0.06) {
+        discard; // 丢弃这一块的像素，直接变完全透明
+    }
+    
+    COLOR = tex_color;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5qbti"]
+shader = SubResource("Shader_drhme")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_guiot"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(160, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_42d7r"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(192, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sypnp"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(224, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ppd22"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3cebx"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tytcy"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(64, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_462ap"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(96, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qbti"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(128, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvr3l"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(160, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k01lb"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(192, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cb6ix"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(224, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0g8r3"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(160, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_123pn"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(192, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3u7g2"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(224, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f08rc"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(0, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxisf"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(32, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_su6sf"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(64, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nl3on"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(96, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpuhk"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(128, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssc4f"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(0, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0fja"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(32, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_el7ve"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(64, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yfstv"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(96, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bapa2"]
+atlas = ExtResource("1_ydei8")
+region = Rect2(128, 96, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_42d7r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_guiot")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_42d7r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sypnp")
+}],
+"loop": true,
+"name": &"left",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ppd22")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3cebx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tytcy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_462ap")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qbti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvr3l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k01lb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cb6ix")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0g8r3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_123pn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3u7g2")
+}],
+"loop": true,
+"name": &"right",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f08rc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxisf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_su6sf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nl3on")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpuhk")
+}],
+"loop": false,
+"name": &"to_left",
+"speed": 60.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ssc4f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0fja")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_el7ve")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yfstv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bapa2")
+}],
+"loop": false,
+"name": &"to_right",
+"speed": 60.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drt2y"]
+atlas = ExtResource("2_eoxkv")
+region = Rect2(0, 18, 64, 61)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_462ap"]
+radius = 2.1201477
+
+[sub_resource type="Curve2D" id="Curve2D_0u7nf"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 25, 80, -64.56461, -2.239235, 64.56461, 2.239235, 174, 128, -69.78949, 2.6124408, 69.78949, -2.6124408, 490, 132, 0, 0, 0, 0, 1070, 73)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_k3qh1"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 20, 106, 0, 0, 0, 0, 1063, 114)
+}
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_hbhmk"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 18, 134, -77.626816, 5.9712934, 77.626816, -5.9712934, 169, 91, -138.83257, -9.330146, 138.83257, 9.330146, 355, 90, -85.090935, -12.315793, 85.090935, 12.315793, 531, 134, 0, 0, 0, 0, 1060, 149)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_avl1x"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 742, -67, 0.43915558, -102.91284, -0.43915558, 102.91284, 739, 210, 73.18157, -33.94011, -73.18157, 33.94011, 623, 389, 0, 0, 0, 0, 39, 637)
+}
+point_count = 4
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fptpc"]
+radius = 9.98
+
+[sub_resource type="Curve2D" id="Curve2D_7tt85"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 810, -71, 2.8185635, -28.009686, -2.8185635, 28.009686, 806, 198, 73.14487, -118.36765, -73.14487, 118.36765, 733, 412, 0, 0, 0, 0, 42, 704)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_v2fcg"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 871, -73, 0.107177734, -248.6182, -0.107177734, 248.6182, 860, 226, 0, 0, 0, 0, 22, 668)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_8utoj"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 164, -93, 0.60105175, -127.42297, -0.60105175, 127.42297, 168, 294, 0, 0, 0, 0, -25, 502)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_oy1xb"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 224, -86, -1.7600001, -117.04001, 1.7600001, 117.04001, 228, 288, -90.64001, -36.960003, 90.64001, 36.960003, 399, 530, 0, 0, 0, 0, 1081, 718)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_fptpc"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 732, -85, -2.9090908, -133.0909, 2.9090908, 133.0909, 733, 269, 0, 0, 0, 0, 965, 461)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_0oqkk"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 783, -65, 2.64, -132.88, -2.64, 132.88, 780, 319, 65.12, -14.960001, -65.12, 14.960001, 567, 486, 0, 0, 0, 0, -4, 583)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_xpuft"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1051, 48, 139.4888, -43.6568, -139.4888, 43.6568, 702, 200, 0, 0, 0, 0, 20, 352)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_wwlet"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 21, 75, -103.576004, -46.464005, 103.576004, 46.464005, 198, 225, 0, 0, 0, 0, 1048, 356)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_85xlx"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 40, 473, -182.952, -10.648001, 182.952, 10.648001, 343, 60, -81.31201, -9.68, 81.31201, 9.68, 737, 170, -26.136003, -25.167995, 26.136003, 25.167995, 876, 210, 0, 0, 0, 0, 1100, 347)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_5cp71"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 20, 400, -182.952, -10.648001, 182.952, 10.648001, 336, 17, -81.31201, -9.68, 81.31201, 9.68, 715, 190, -26.136003, -25.167995, 26.136003, 25.167995, 858, 216, 0, 0, 0, 0, 1100, 347)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_5b4p2"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 30, 435, -182.952, -10.648001, 182.952, 10.648001, 333, 53, -81.31201, -9.68, 81.31201, 9.68, 742, 136, -26.136003, -25.167995, 26.136003, 25.167995, 841, 241, 0, 0, 0, 0, 1100, 347)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_mf64f"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 14, 365, -182.952, -10.648001, 182.952, 10.648001, 331, 39, -81.31201, -9.68, 81.31201, 9.68, 632, 179, -26.136003, -25.167995, 26.136003, 25.167995, 827, 259, 0, 0, 0, 0, 1100, 347)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_wjocg"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 985, 467, 168.432, 12.584001, -168.432, -12.584001, 648, 73, 47.432003, -40.656002, -47.432003, 40.656002, 407, 112, 107.448006, 1.9360001, -107.448006, -1.9360001, 262, 184, 0, 0, 0, 0, 12, 428)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_f7i7t"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 985, 467, 168.432, 12.584001, -168.432, -12.584001, 669, 96, 47.432003, -40.656002, -47.432003, 40.656002, 339, 78, 107.448006, 1.9360001, -107.448006, -1.9360001, 238, 207, 0, 0, 0, 0, 12, 428)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_0se03"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 985, 467, 168.432, 12.584001, -168.432, -12.584001, 647, 122, 47.432003, -40.656002, -47.432003, 40.656002, 411, 152, 107.448006, 1.9360001, -107.448006, -1.9360001, 273, 244, 0, 0, 0, 0, 12, 428)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_b8ae2"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 985, 467, 168.432, 12.584001, -168.432, -12.584001, 644, 43, 47.432003, -40.656002, -47.432003, 40.656002, 383, 93, 107.448006, 1.9360001, -107.448006, -1.9360001, 273, 221, 0, 0, 0, 0, 12, 428)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_u00bl"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 164, -93, 0.60105175, -127.42297, -0.60105175, 127.42297, 168, 294, 0, 0, 0, 0, -25, 502)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_kfqjy"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 732, -85, -2.9090908, -133.0909, 2.9090908, 133.0909, 733, 269, 0, 0, 0, 0, 965, 461)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_34l1k"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 21, 75, -103.576004, -46.464005, 103.576004, 46.464005, 198, 225, 0, 0, 0, 0, 1048, 356)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_7scxc"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 21, 75, -103.576004, -46.464005, 103.576004, 46.464005, 198, 225, 0, 0, 0, 0, 1048, 356)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_vokh3"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 21, 75, -103.576004, -46.464005, 103.576004, 46.464005, 198, 225, 0, 0, 0, 0, 1048, 356)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_cpj7c"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 21, 75, -103.576004, -46.464005, 103.576004, 46.464005, 198, 225, 0, 0, 0, 0, 1048, 356)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_bosmc"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1051, 48, 139.4888, -43.6568, -139.4888, 43.6568, 702, 200, 0, 0, 0, 0, 20, 352)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_bai6e"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1051, 48, 139.4888, -43.6568, -139.4888, 43.6568, 702, 200, 0, 0, 0, 0, 20, 352)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_usuib"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1051, 48, 139.4888, -43.6568, -139.4888, 43.6568, 702, 200, 0, 0, 0, 0, 20, 352)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_e7jx6"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1051, 48, 139.4888, -43.6568, -139.4888, 43.6568, 702, 200, 0, 0, 0, 0, 20, 352)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_gdriv"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 245, -74, -0.661157, -169.91736, 0.661157, 169.91736, 247, 266, -2.644628, 144.13223, 2.644628, -144.13223, 453, 269, 0, 0, 0, 0, 456, -89)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_q1rih"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 245, -74, -0.661157, -169.91736, 0.661157, 169.91736, 247, 266, -2.644628, 144.13223, 2.644628, -144.13223, 453, 269, 0, 0, 0, 0, 456, -89)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_7y5tp"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 879, -55, 0.79999995, -145.59999, -0.79999995, 145.59999, 878, 317, 1.5999999, 160.79999, -1.5999999, -160.79999, 663, 307, 0, 0, 0, 0, 662, -50)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_0xuic"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 382, -87, 0, 0, 0, 0, 380, 254, 68.31443, 33.902313, -68.31443, -33.902313, 209, 221, 0, 0, 0, 0, 4, 103)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_jrlag"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 382, -87, 0, 0, 0, 0, 380, 254, -132.7778, 55.733894, 132.7778, -55.733894, 584, 193, 0, 0, 0, 0, 852, 80)
+}
+point_count = 4
+
+[node name="play" type="Node2D" unique_id=1385972863]
+script = SubResource("GDScript_drhme")
+metadata/_edit_vertical_guides_ = [72.0]
+metadata/_edit_horizontal_guides_ = [36.0, 1044.0, 1024.0, 919.0]
+
+[node name="BulletPool" type="BulletPool" parent="." unique_id=1638380432]
+
+[node name="EnemyManager" type="EnemyManager" parent="." unique_id=1240991516]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=92944677]
+layer = 200
+
+[node name="LevelManager" type="LevelManager" parent="CanvasLayer" unique_id=261955755]
+
+[node name="EffectManager" type="EffectManager" parent="." unique_id=1477197276]
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1572236081]
+offset_left = -460.0
+offset_top = 36.0
+offset_right = 1365.7778
+offset_bottom = 1063.0
+stream = ExtResource("6_eoxkv")
+volume_db = -20.0
+autoplay = true
+expand = true
+
+[node name="Wall" type="Node2D" parent="." unique_id=1728563001]
+metadata/_edit_lock_ = true
+
+[node name="Wall_left" type="StaticBody2D" parent="Wall" unique_id=1341216460]
+collision_layer = 32
+collision_mask = 0
+metadata/_edit_lock_ = true
+
+[node name="Wall_left" type="CollisionShape2D" parent="Wall/Wall_left" unique_id=31628354]
+position = Vector2(63.125, 530.5)
+shape = SubResource("RectangleShape2D_462ap")
+
+[node name="Wall_right" type="StaticBody2D" parent="Wall" unique_id=610517460]
+collision_layer = 32
+collision_mask = 0
+metadata/_edit_lock_ = true
+
+[node name="Wall_right" type="CollisionShape2D" parent="Wall/Wall_right" unique_id=1537857604]
+position = Vector2(944.75, 530.5)
+shape = SubResource("RectangleShape2D_5qbti")
+
+[node name="Wall_dow" type="StaticBody2D" parent="Wall" unique_id=1135039448]
+collision_layer = 32
+collision_mask = 0
+metadata/_edit_lock_ = true
+
+[node name="Wall_dow" type="CollisionShape2D" parent="Wall/Wall_dow" unique_id=413685184]
+position = Vector2(504, 1052.5)
+shape = SubResource("RectangleShape2D_gvr3l")
+
+[node name="Wall_up" type="StaticBody2D" parent="Wall" unique_id=1113499453]
+collision_layer = 32
+collision_mask = 0
+metadata/_edit_lock_ = true
+
+[node name="Wall_up" type="CollisionShape2D" parent="Wall/Wall_up" unique_id=1455672413]
+position = Vector2(503.5, 18)
+shape = SubResource("RectangleShape2D_k01lb")
+
+[node name="Player" type="Player" parent="." unique_id=1500520606]
+position = Vector2(506, 970)
+scale = Vector2(1.415, 1.415)
+collision_mask = 33
+
+[node name="animation" type="AnimatedSprite2D" parent="Player" unique_id=990967266]
+material = SubResource("ShaderMaterial_5qbti")
+position = Vector2(4.7683716e-07, 0)
+scale = Vector2(1.75, 1.75)
+sprite_frames = SubResource("SpriteFrames_42d7r")
+animation = &"to_left"
+autoplay = "normal"
+
+[node name="point" type="Sprite2D" parent="Player" unique_id=1503524100]
+position = Vector2(-0.076812744, 0.06970995)
+scale = Vector2(1.443, 1.443)
+texture = SubResource("AtlasTexture_drt2y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1946849589]
+shape = SubResource("CircleShape2D_462ap")
+
+[node name="StatusUi" type="ColorRect" parent="." unique_id=1057809944]
+z_index = 100
+offset_left = 936.0
+offset_right = 1440.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
+
+[node name="heart" type="Node2D" parent="StatusUi" unique_id=1902708117]
+
+[node name="Label" type="Label" parent="StatusUi/heart" unique_id=1192442507]
+offset_left = 17.0
+offset_top = 163.0
+offset_right = 78.0
+offset_bottom = 201.0
+theme_override_colors/font_color = Color(0.59442014, 0.00025846213, 0.59441596, 1)
+theme_override_font_sizes/font_size = 25
+text = "残机"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="StatusUi/heart" unique_id=495682062]
+offset_left = 17.0
+offset_top = 191.0
+offset_right = 78.0
+offset_bottom = 229.0
+theme_override_colors/font_color = Color(0.59442014, 0.00025846213, 0.59441596, 1)
+theme_override_font_sizes/font_size = 12
+text = "Lives"
+horizontal_alignment = 1
+
+[node name="0" type="Sprite2D" parent="StatusUi/heart" unique_id=323160569]
+position = Vector2(98, 182)
+texture = ExtResource("3_8utoj")
+
+[node name="1" type="Sprite2D" parent="StatusUi/heart" unique_id=160360630]
+position = Vector2(130, 182)
+texture = ExtResource("3_8utoj")
+
+[node name="2" type="Sprite2D" parent="StatusUi/heart" unique_id=1783289251]
+position = Vector2(162, 182)
+texture = ExtResource("3_8utoj")
+
+[node name="3" type="Sprite2D" parent="StatusUi/heart" unique_id=1968892082]
+position = Vector2(194, 182)
+texture = ExtResource("3_8utoj")
+
+[node name="4" type="Sprite2D" parent="StatusUi/heart" unique_id=555582326]
+position = Vector2(226, 182)
+texture = ExtResource("3_8utoj")
+
+[node name="5" type="Sprite2D" parent="StatusUi/heart" unique_id=559897167]
+position = Vector2(258, 182)
+texture = ExtResource("3_8utoj")
+
+[node name="6" type="Sprite2D" parent="StatusUi/heart" unique_id=842231575]
+position = Vector2(290, 182)
+texture = ExtResource("3_8utoj")
+
+[node name="7" type="Sprite2D" parent="StatusUi/heart" unique_id=387888012]
+position = Vector2(322, 182)
+texture = ExtResource("3_8utoj")
+
+[node name="card" type="Node2D" parent="StatusUi" unique_id=1496480682]
+
+[node name="Label" type="Label" parent="StatusUi/card" unique_id=385812421]
+offset_left = 17.0
+offset_top = 232.0
+offset_right = 78.0
+offset_bottom = 270.0
+theme_override_colors/font_color = Color(0.59442014, 0.00025846213, 0.59441596, 1)
+theme_override_font_sizes/font_size = 25
+text = "符卡"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="StatusUi/card" unique_id=512336557]
+offset_left = 17.0
+offset_top = 261.0
+offset_right = 78.0
+offset_bottom = 299.0
+theme_override_colors/font_color = Color(0.59442014, 0.00025846213, 0.59441596, 1)
+theme_override_font_sizes/font_size = 12
+text = "Spell Cards"
+horizontal_alignment = 1
+
+[node name="0" type="Sprite2D" parent="StatusUi/card" unique_id=535815229]
+position = Vector2(98, 251)
+texture = ExtResource("4_0u7nf")
+
+[node name="1" type="Sprite2D" parent="StatusUi/card" unique_id=2113102863]
+position = Vector2(130, 251)
+texture = ExtResource("4_0u7nf")
+
+[node name="2" type="Sprite2D" parent="StatusUi/card" unique_id=1556353499]
+position = Vector2(162, 251)
+texture = ExtResource("4_0u7nf")
+
+[node name="3" type="Sprite2D" parent="StatusUi/card" unique_id=325223188]
+position = Vector2(194, 251)
+texture = ExtResource("4_0u7nf")
+
+[node name="4" type="Sprite2D" parent="StatusUi/card" unique_id=401395229]
+position = Vector2(226, 251)
+texture = ExtResource("4_0u7nf")
+
+[node name="5" type="Sprite2D" parent="StatusUi/card" unique_id=1829043202]
+position = Vector2(258, 251)
+texture = ExtResource("4_0u7nf")
+
+[node name="6" type="Sprite2D" parent="StatusUi/card" unique_id=572686752]
+position = Vector2(290, 251)
+texture = ExtResource("4_0u7nf")
+
+[node name="7" type="Sprite2D" parent="StatusUi/card" unique_id=1834098274]
+position = Vector2(322, 251)
+texture = ExtResource("4_0u7nf")
+
+[node name="ColorRect" type="ColorRect" parent="StatusUi" unique_id=529390725]
+layout_mode = 0
+offset_left = -935.0
+offset_bottom = 36.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="StatusUi" unique_id=1292247982]
+layout_mode = 0
+offset_left = -939.0
+offset_right = -864.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="StatusUi" unique_id=1243974419]
+layout_mode = 0
+offset_left = -935.0
+offset_top = 1062.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
+
+[node name="move" type="Node2D" parent="." unique_id=1808431910]
+
+[node name="level1" type="Node2D" parent="move" unique_id=1273722686]
+
+[node name="left_1" type="Path2D" parent="move/level1" unique_id=673370985]
+curve = SubResource("Curve2D_0u7nf")
+
+[node name="left_2" type="Path2D" parent="move/level1" unique_id=453216922]
+curve = SubResource("Curve2D_k3qh1")
+
+[node name="left_3" type="Path2D" parent="move/level1" unique_id=332450520]
+curve = SubResource("Curve2D_hbhmk")
+
+[node name="right_up_1" type="Path2D" parent="move/level1" unique_id=2054238295]
+curve = SubResource("Curve2D_avl1x")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level1/right_up_1" unique_id=205289500]
+position = Vector2(742, -67)
+rotation = 1.5855055
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/right_up_1/PathFollow2D2" unique_id=1023936590]
+target_speed = 300.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_1/PathFollow2D2/Gearbox" unique_id=1641763098]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="move/level1/right_up_1" unique_id=1085120012]
+position = Vector2(738.99994, 209.99907)
+rotation = 1.5750636
+progress = 277.01624
+
+[node name="Trigger" type="Trigger" parent="move/level1/right_up_1/PathFollow2D" unique_id=903527575]
+count = 20
+fire_rate = 0.5
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_1/PathFollow2D/Trigger" unique_id=1868549962]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level1/right_up_1/PathFollow2D/Trigger" unique_id=1777040643]
+rad = 15.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 18
+fire_interval = 20
+to_launch_texture = ExtResource("7_8utoj")
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/right_up_1/PathFollow2D" unique_id=885194131]
+delay = 6.0
+target_speed = 200.0
+target_distance = 10.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_1/PathFollow2D/Gearbox" unique_id=202737093]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level1/right_up_1/PathFollow2D" unique_id=1962732910]
+target_speed = 0.0
+target_distance = 74.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_1/PathFollow2D/Gearbox2" unique_id=1687512962]
+position = Vector2(-64.99848, 0.27730602)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_up_2" type="Path2D" parent="move/level1" unique_id=1338138293]
+curve = SubResource("Curve2D_7tt85")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level1/right_up_2" unique_id=577179645]
+position = Vector2(810, -71)
+rotation = 1.5756989
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/right_up_2/PathFollow2D2" unique_id=154582770]
+target_speed = 300.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_2/PathFollow2D2/Gearbox" unique_id=1538858127]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="move/level1/right_up_2" unique_id=836656413]
+position = Vector2(807.23315, 169.90933)
+rotation = 1.5980226
+progress = 240.90784
+
+[node name="Trigger" type="Trigger" parent="move/level1/right_up_2/PathFollow2D" unique_id=112577803]
+count = 20
+fire_rate = 0.5
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_2/PathFollow2D/Trigger" unique_id=1197532088]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level1/right_up_2/PathFollow2D/Trigger" unique_id=277769451]
+rad = 15.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 18
+fire_interval = 20
+to_launch_texture = ExtResource("7_8utoj")
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/right_up_2/PathFollow2D" unique_id=1957852211]
+delay = 6.0
+target_speed = 200.0
+target_distance = 10.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_2/PathFollow2D/Gearbox" unique_id=1452711241]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level1/right_up_2/PathFollow2D" unique_id=1552422175]
+target_speed = 0.0
+target_distance = 74.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_2/PathFollow2D/Gearbox2" unique_id=1647296694]
+position = Vector2(-64.99848, 0.27730602)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_up_3" type="Path2D" parent="move/level1" unique_id=1499259678]
+curve = SubResource("Curve2D_v2fcg")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="move/level1/right_up_3" unique_id=429117397]
+position = Vector2(860.0243, 209.15576)
+rotation = 1.5732671
+progress = 282.5424
+
+[node name="Trigger" type="Trigger" parent="move/level1/right_up_3/PathFollow2D" unique_id=660176295]
+count = 20
+fire_rate = 0.5
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_3/PathFollow2D/Trigger" unique_id=1723114246]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level1/right_up_3/PathFollow2D/Trigger" unique_id=1595134042]
+rad = 15.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 18
+fire_interval = 20
+to_launch_texture = ExtResource("7_8utoj")
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/right_up_3/PathFollow2D" unique_id=617072802]
+delay = 6.0
+target_speed = 200.0
+target_distance = 10.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_3/PathFollow2D/Gearbox" unique_id=1364980648]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level1/right_up_3/PathFollow2D" unique_id=1216899599]
+target_speed = 0.0
+target_distance = 74.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_3/PathFollow2D/Gearbox2" unique_id=412191624]
+position = Vector2(-64.99848, 0.27730602)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level1/right_up_3" unique_id=900053829]
+position = Vector2(871, -73)
+rotation = 1.7837244
+
+[node name="Gearbox" type="Gearbox" parent="move/level1/right_up_3/PathFollow2D2" unique_id=1998716641]
+target_speed = 300.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level1/right_up_3/PathFollow2D2/Gearbox" unique_id=1740764265]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="level2" type="Node2D" parent="move" unique_id=698561520]
+
+[node name="left_up" type="Path2D" parent="move/level2" unique_id=1525006800]
+position = Vector2(27, -10)
+curve = SubResource("Curve2D_8utoj")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/left_up" unique_id=95051875]
+position = Vector2(164, -93)
+rotation = 1.5530729
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_up/PathFollow2D2" unique_id=1080471418]
+target_speed = 300.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up/PathFollow2D2/Gearbox" unique_id=299578897]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_up" unique_id=1557384131]
+position = Vector2(168.02779, 249.61763)
+rotation = 1.5682197
+progress = 342.6397
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_up/PathFollow2D3" unique_id=1386931215]
+target_speed = 0.0
+target_distance = 98.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up/PathFollow2D3/Gearbox" unique_id=1963638117]
+position = Vector2(-75.62003, 0.83294183)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_up/PathFollow2D3" unique_id=1984306635]
+collision_layer = 16
+collision_mask = 4
+
+[node name="RotateFlower" type="RotateFlower" parent="move/level2/left_up/PathFollow2D3/Trigger" unique_id=686844519]
+fire_count = 6
+fire_interval = 20
+to_launch_texture = ExtResource("8_0u7nf")
+scale = Vector2(1.0000001, 1.0000001)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up/PathFollow2D3/Trigger" unique_id=225074495]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/left_up/PathFollow2D3" unique_id=591821798]
+delay = 6.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up/PathFollow2D3/Gearbox2" unique_id=2146579643]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="left_up_2" type="Path2D" parent="move/level2" unique_id=693962996]
+position = Vector2(55, -31)
+curve = SubResource("Curve2D_oy1xb")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/left_up_2" unique_id=2122186148]
+position = Vector2(224, -86)
+rotation = 1.5620792
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_up_2/PathFollow2D2" unique_id=263017788]
+target_speed = 300.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up_2/PathFollow2D2/Gearbox" unique_id=2061362739]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_up_2" unique_id=846085832]
+position = Vector2(227.55914, 256.62595)
+rotation = 1.5575385
+progress = 342.6397
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_up_2/PathFollow2D3" unique_id=800393741]
+target_speed = 0.0
+target_distance = 98.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up_2/PathFollow2D3/Gearbox" unique_id=1047434368]
+position = Vector2(-75.62003, 0.83294183)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_up_2/PathFollow2D3" unique_id=88756819]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up_2/PathFollow2D3/Trigger" unique_id=855972607]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/left_up_2/PathFollow2D3/Trigger" unique_id=1485508]
+rad = 15.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 10
+fire_interval = 20
+to_launch_texture = ExtResource("9_hbhmk")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/left_up_2/PathFollow2D3" unique_id=1576357785]
+delay = 3.333
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up_2/PathFollow2D3/Gearbox2" unique_id=59769815]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="left_up_3" type="Path2D" parent="move/level2" unique_id=1092838412]
+position = Vector2(27, -10)
+curve = SubResource("Curve2D_8utoj")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/left_up_3" unique_id=2106855258]
+position = Vector2(164, -93)
+rotation = 1.5530729
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_up_3/PathFollow2D2" unique_id=31778102]
+target_speed = 300.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up_3/PathFollow2D2/Gearbox" unique_id=38364320]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_up_3" unique_id=186086534]
+position = Vector2(168.02779, 249.61763)
+rotation = 1.5682197
+progress = 342.6397
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_up_3/PathFollow2D3" unique_id=1692521793]
+target_speed = 0.0
+target_distance = 98.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up_3/PathFollow2D3/Gearbox" unique_id=1466358990]
+position = Vector2(-75.62003, 0.83294183)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_up_3/PathFollow2D3" unique_id=1010491512]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up_3/PathFollow2D3/Trigger" unique_id=1756303162]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/left_up_3/PathFollow2D3/Trigger" unique_id=1893595177]
+rad = 15.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 10
+fire_interval = 20
+to_launch_texture = ExtResource("8_0u7nf")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/left_up_3/PathFollow2D3" unique_id=1761354694]
+delay = 3.333
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_up_3/PathFollow2D3/Gearbox2" unique_id=1071525136]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_up" type="Path2D" parent="move/level2" unique_id=1067413689]
+position = Vector2(64, 4)
+curve = SubResource("Curve2D_fptpc")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/right_up" unique_id=1244881459]
+position = Vector2(732, -85)
+rotation = 1.5794382
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_up/PathFollow2D2" unique_id=1124197460]
+target_speed = 300.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up/PathFollow2D2/Gearbox" unique_id=308066817]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_up" unique_id=1586882870]
+position = Vector2(732.7671, 257.6339)
+rotation = 1.5515969
+progress = 342.6397
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_up/PathFollow2D3" unique_id=1633239446]
+target_speed = 0.0
+target_distance = 98.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up/PathFollow2D3/Gearbox" unique_id=115102271]
+position = Vector2(-75.62003, 0.83294183)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_up/PathFollow2D3" unique_id=1110409640]
+collision_layer = 16
+collision_mask = 4
+
+[node name="RotateFlower" type="RotateFlower" parent="move/level2/right_up/PathFollow2D3/Trigger" unique_id=1310380736]
+fire_count = 6
+fire_interval = 20
+to_launch_texture = ExtResource("8_0u7nf")
+scale = Vector2(1.0000001, 1.0000001)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up/PathFollow2D3/Trigger" unique_id=1321847587]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/right_up/PathFollow2D3" unique_id=1652133279]
+delay = 6.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up/PathFollow2D3/Gearbox2" unique_id=1384278468]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_up_2" type="Path2D" parent="move/level2" unique_id=193942841]
+position = Vector2(-90, -26)
+curve = SubResource("Curve2D_0oqkk")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/right_up_2" unique_id=192324101]
+position = Vector2(783, -65)
+rotation = 1.5722299
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_up_2/PathFollow2D2" unique_id=1088553723]
+target_speed = 300.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up_2/PathFollow2D2/Gearbox" unique_id=1252019941]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_up_2" unique_id=922069960]
+position = Vector2(780.70123, 277.63348)
+rotation = 1.5853697
+progress = 342.6397
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_up_2/PathFollow2D3" unique_id=852816]
+target_speed = 0.0
+target_distance = 98.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up_2/PathFollow2D3/Gearbox" unique_id=1208700206]
+position = Vector2(-75.62003, 0.83294183)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_up_2/PathFollow2D3" unique_id=65596147]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up_2/PathFollow2D3/Trigger" unique_id=1961011931]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/right_up_2/PathFollow2D3/Trigger" unique_id=1569175892]
+rad = 15.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 10
+fire_interval = 20
+to_launch_texture = ExtResource("7_8utoj")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/right_up_2/PathFollow2D3" unique_id=244992533]
+delay = 3.333
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up_2/PathFollow2D3/Gearbox2" unique_id=566076938]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_up_3" type="Path2D" parent="move/level2" unique_id=2043890235]
+position = Vector2(64, 4)
+curve = SubResource("Curve2D_fptpc")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/right_up_3" unique_id=204406396]
+position = Vector2(732, -85)
+rotation = 1.5794382
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_up_3/PathFollow2D2" unique_id=343672136]
+target_speed = 300.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up_3/PathFollow2D2/Gearbox" unique_id=503582303]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_up_3" unique_id=1114267440]
+position = Vector2(732.7671, 257.6339)
+rotation = 1.5515969
+progress = 342.6397
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_up_3/PathFollow2D3" unique_id=1073559173]
+target_speed = 0.0
+target_distance = 98.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up_3/PathFollow2D3/Gearbox" unique_id=1255246872]
+position = Vector2(-75.62003, 0.83294183)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_up_3/PathFollow2D3" unique_id=696456430]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up_3/PathFollow2D3/Trigger" unique_id=1917752945]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/right_up_3/PathFollow2D3/Trigger" unique_id=467445600]
+rad = 15.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 10
+fire_interval = 20
+to_launch_texture = ExtResource("10_avl1x")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/right_up_3/PathFollow2D3" unique_id=1198720166]
+delay = 3.333
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_up_3/PathFollow2D3/Gearbox2" unique_id=1526310119]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right" type="Path2D" parent="move/level2" unique_id=1126647102]
+position = Vector2(-3, -22)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right" unique_id=61363598]
+position = Vector2(914.51556, 114.2533)
+rotation = 2.7097788
+progress = 151.72789
+
+[node name="Trigger" type="Trigger" parent="move/level2/right/PathFollow2D3" unique_id=2003514329]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right/PathFollow2D3/Trigger" unique_id=713141481]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/right/PathFollow2D3/Trigger" unique_id=892847075]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="right_2" type="Path2D" parent="move/level2" unique_id=1233268400]
+position = Vector2(9, 16)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_2" unique_id=1911953414]
+position = Vector2(772.7718, 174.94644)
+rotation = 2.7723854
+progress = 305.9396
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_2/PathFollow2D3" unique_id=1243926600]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_2/PathFollow2D3/Trigger" unique_id=775262214]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/right_2/PathFollow2D3/Trigger" unique_id=113328029]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="right_3" type="Path2D" parent="move/level2" unique_id=2073287744]
+position = Vector2(1, 63)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_3" unique_id=290003472]
+position = Vector2(887.78375, 126.43262)
+rotation = 2.7185333
+progress = 181.10153
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_3/PathFollow2D3" unique_id=47895600]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_3/PathFollow2D3/Trigger" unique_id=1034414466]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/right_3/PathFollow2D3/Trigger" unique_id=550160146]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="right_4" type="Path2D" parent="move/level2" unique_id=162566254]
+position = Vector2(6, 108)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_4" unique_id=1918260971]
+position = Vector2(857.5795, 139.83586)
+rotation = 2.729614
+progress = 214.14691
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_4/PathFollow2D3" unique_id=758997196]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_4/PathFollow2D3/Trigger" unique_id=175871786]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/right_4/PathFollow2D3/Trigger" unique_id=1940072074]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left" type="Path2D" parent="move/level2" unique_id=1139440708]
+position = Vector2(-4, -62)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left" unique_id=1437670128]
+position = Vector2(246.27841, 239.7912)
+rotation = 0.23848861
+progress = 284.87854
+
+[node name="Trigger" type="Trigger" parent="move/level2/left/PathFollow2D3" unique_id=1812338207]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left/PathFollow2D3/Trigger" unique_id=2110540374]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/left/PathFollow2D3/Trigger" unique_id=800707558]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_2" type="Path2D" parent="move/level2" unique_id=589010606]
+position = Vector2(-5, 6)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_2" unique_id=2044517756]
+position = Vector2(114.91895, 172.78018)
+rotation = 0.67982423
+progress = 135.92244
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_2/PathFollow2D3" unique_id=1645836436]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_2/PathFollow2D3/Trigger" unique_id=499444840]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/left_2/PathFollow2D3/Trigger" unique_id=35494593]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_3" type="Path2D" parent="move/level2" unique_id=1274109878]
+position = Vector2(-4, 71)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_3" unique_id=1104398738]
+position = Vector2(138.67209, 190.75203)
+rotation = 0.61417574
+progress = 165.71365
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_3/PathFollow2D3" unique_id=83379792]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_3/PathFollow2D3/Trigger" unique_id=1161861547]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/left_3/PathFollow2D3/Trigger" unique_id=1693280240]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_4" type="Path2D" parent="move/level2" unique_id=1140483749]
+position = Vector2(-3, 130)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_4" unique_id=813390734]
+position = Vector2(176.56917, 214.38394)
+rotation = 0.4966086
+progress = 210.40048
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_4/PathFollow2D3" unique_id=1870841364]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_4/PathFollow2D3/Trigger" unique_id=603274229]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/left_4/PathFollow2D3/Trigger" unique_id=1210705968]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_down" type="Path2D" parent="move/level2" unique_id=1795008661]
+curve = SubResource("Curve2D_85xlx")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/left_down" unique_id=694796829]
+position = Vector2(40, 473)
+rotation = -1.2946678
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_down/PathFollow2D2" unique_id=1754012370]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down/PathFollow2D2/Gearbox" unique_id=471961303]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_down" unique_id=1526891089]
+position = Vector2(396.5146, 65.43798)
+rotation = 0.14360204
+progress = 595.2063
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_down/PathFollow2D3" unique_id=37364485]
+target_speed = 0.0
+target_distance = 75.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down/PathFollow2D3/Gearbox" unique_id=1361240994]
+position = Vector2(-49.783165, 1.7039788)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_down/PathFollow2D3" unique_id=1159048577]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down/PathFollow2D3/Trigger" unique_id=1373814571]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Strafe" type="Strafe" parent="move/level2/left_down/PathFollow2D3/Trigger" unique_id=1444127056]
+fire_count = 2
+to_launch_texture = ExtResource("11_fptpc")
+fire_type = 2
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/left_down/PathFollow2D3" unique_id=21642952]
+delay = 2.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down/PathFollow2D3/Gearbox2" unique_id=2099740744]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="left_down_2" type="Path2D" parent="move/level2" unique_id=768236577]
+curve = SubResource("Curve2D_5cp71")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/left_down_2" unique_id=1398546265]
+position = Vector2(20, 400)
+rotation = -1.2448632
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_down_2/PathFollow2D2" unique_id=34847261]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_2/PathFollow2D2/Gearbox" unique_id=1688346533]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_down_2" unique_id=808717088]
+position = Vector2(714.1829, 189.89198)
+rotation = 0.12937428
+progress = 944.8896
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_down_2/PathFollow2D3" unique_id=1611693385]
+target_speed = 0.0
+target_distance = 75.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_2/PathFollow2D3/Gearbox" unique_id=2127595825]
+position = Vector2(-51.209198, -12.388827)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_down_2/PathFollow2D3" unique_id=1686454074]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_2/PathFollow2D3/Trigger" unique_id=402254556]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Strafe" type="Strafe" parent="move/level2/left_down_2/PathFollow2D3/Trigger" unique_id=2096194590]
+fire_count = 2
+to_launch_texture = ExtResource("11_fptpc")
+fire_type = 2
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/left_down_2/PathFollow2D3" unique_id=1832490120]
+delay = 2.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_2/PathFollow2D3/Gearbox2" unique_id=1029013253]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="left_down_3" type="Path2D" parent="move/level2" unique_id=1681094469]
+curve = SubResource("Curve2D_5b4p2")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/left_down_3" unique_id=1160137812]
+position = Vector2(30, 435)
+rotation = -1.2740823
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_down_3/PathFollow2D2" unique_id=1758204414]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_3/PathFollow2D2/Gearbox" unique_id=27529428]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_down_3" unique_id=315580384]
+position = Vector2(554.0012, 89.29108)
+rotation = 0.24695642
+progress = 740.1428
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_down_3/PathFollow2D3" unique_id=1877102847]
+target_speed = 0.0
+target_distance = 75.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_3/PathFollow2D3/Gearbox" unique_id=842490804]
+position = Vector2(-52.142635, 0.42138863)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_down_3/PathFollow2D3" unique_id=278202545]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_3/PathFollow2D3/Trigger" unique_id=922752190]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Strafe" type="Strafe" parent="move/level2/left_down_3/PathFollow2D3/Trigger" unique_id=1555715382]
+fire_count = 2
+to_launch_texture = ExtResource("11_fptpc")
+fire_type = 2
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/left_down_3/PathFollow2D3" unique_id=135927713]
+delay = 2.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_3/PathFollow2D3/Gearbox2" unique_id=1588946167]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="left_down_4" type="Path2D" parent="move/level2" unique_id=1687490373]
+curve = SubResource("Curve2D_mf64f")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/left_down_4" unique_id=1959819934]
+position = Vector2(14, 365)
+rotation = -1.191856
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_down_4/PathFollow2D2" unique_id=1813744590]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_4/PathFollow2D2/Gearbox" unique_id=1696229381]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_down_4" unique_id=532400877]
+position = Vector2(606.1921, 171.96034)
+rotation = 0.40347672
+progress = 791.2461
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/left_down_4/PathFollow2D3" unique_id=1621909087]
+target_speed = 0.0
+target_distance = 75.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_4/PathFollow2D3/Gearbox" unique_id=269965863]
+position = Vector2(-53.853294, -8.49901)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_down_4/PathFollow2D3" unique_id=1235620269]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_4/PathFollow2D3/Trigger" unique_id=1993675561]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Strafe" type="Strafe" parent="move/level2/left_down_4/PathFollow2D3/Trigger" unique_id=447778332]
+fire_count = 2
+to_launch_texture = ExtResource("11_fptpc")
+fire_type = 2
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/left_down_4/PathFollow2D3" unique_id=1007987261]
+delay = 2.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_down_4/PathFollow2D3/Gearbox2" unique_id=1054679980]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_down" type="Path2D" parent="move/level2" unique_id=1121035795]
+curve = SubResource("Curve2D_wjocg")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/right_down" unique_id=1420526280]
+position = Vector2(985, 467)
+rotation = -1.9869384
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_down/PathFollow2D2" unique_id=1695313954]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down/PathFollow2D2/Gearbox" unique_id=1895949028]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_down" unique_id=249256477]
+position = Vector2(575.3173, 68.70925)
+rotation = -3.1047935
+progress = 608.68866
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_down/PathFollow2D3" unique_id=991080825]
+target_speed = 0.0
+target_distance = 75.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down/PathFollow2D3/Gearbox" unique_id=500734384]
+position = Vector2(-49.783165, 1.7039788)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_down/PathFollow2D3" unique_id=542913240]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down/PathFollow2D3/Trigger" unique_id=1612717128]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Strafe" type="Strafe" parent="move/level2/right_down/PathFollow2D3/Trigger" unique_id=811753237]
+fire_count = 2
+to_launch_texture = ExtResource("11_fptpc")
+fire_type = 2
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/right_down/PathFollow2D3" unique_id=1761924166]
+delay = 2.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down/PathFollow2D3/Gearbox2" unique_id=343860023]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_down_2" type="Path2D" parent="move/level2" unique_id=1130559317]
+curve = SubResource("Curve2D_f7i7t")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/right_down_2" unique_id=530028599]
+position = Vector2(985, 467)
+rotation = -1.9613674
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_down_2/PathFollow2D2" unique_id=2128903808]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_2/PathFollow2D2/Gearbox" unique_id=1599528769]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_down_2" unique_id=1547676014]
+position = Vector2(268.2049, 204.42374)
+rotation = 2.920532
+progress = 995.799
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_down_2/PathFollow2D3" unique_id=1946686522]
+target_speed = 0.0
+target_distance = 25.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_2/PathFollow2D3/Gearbox" unique_id=415005274]
+position = Vector2(-10.307447, 1.1926994)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_down_2/PathFollow2D3" unique_id=1313245421]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_2/PathFollow2D3/Trigger" unique_id=1762854486]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Strafe" type="Strafe" parent="move/level2/right_down_2/PathFollow2D3/Trigger" unique_id=2081158150]
+fire_count = 2
+to_launch_texture = ExtResource("11_fptpc")
+fire_type = 2
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/right_down_2/PathFollow2D3" unique_id=211731887]
+delay = 2.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_2/PathFollow2D3/Gearbox2" unique_id=1579539839]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_down_3" type="Path2D" parent="move/level2" unique_id=776665374]
+curve = SubResource("Curve2D_0se03")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/right_down_3" unique_id=169977138]
+position = Vector2(985, 467)
+rotation = -2.0424974
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_down_3/PathFollow2D2" unique_id=1181807669]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_3/PathFollow2D2/Gearbox" unique_id=1944610199]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_down_3" unique_id=359832416]
+position = Vector2(417.82422, 146.27713)
+rotation = 2.4566605
+progress = 735.3839
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_down_3/PathFollow2D3" unique_id=1549750548]
+target_speed = 0.0
+target_distance = 75.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_3/PathFollow2D3/Gearbox" unique_id=1576457782]
+position = Vector2(-48.021744, -7.8795433)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_down_3/PathFollow2D3" unique_id=487138933]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_3/PathFollow2D3/Trigger" unique_id=2010599271]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Strafe" type="Strafe" parent="move/level2/right_down_3/PathFollow2D3/Trigger" unique_id=1679557672]
+fire_count = 2
+to_launch_texture = ExtResource("11_fptpc")
+fire_type = 2
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/right_down_3/PathFollow2D3" unique_id=433834078]
+delay = 2.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_3/PathFollow2D3/Gearbox2" unique_id=1741541620]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_down_4" type="Path2D" parent="move/level2" unique_id=1603867124]
+curve = SubResource("Curve2D_b8ae2")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level2/right_down_4" unique_id=1208875637]
+position = Vector2(985, 467)
+rotation = -1.9679558
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_down_4/PathFollow2D2" unique_id=1804931860]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_4/PathFollow2D2/Gearbox" unique_id=879203031]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_down_4" unique_id=388385831]
+position = Vector2(373.1155, 103.82557)
+rotation = 2.1909692
+progress = 850.7649
+
+[node name="Gearbox" type="Gearbox" parent="move/level2/right_down_4/PathFollow2D3" unique_id=797017195]
+target_speed = 0.0
+target_distance = 68.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_4/PathFollow2D3/Gearbox" unique_id=1561965178]
+position = Vector2(-45.940372, -11.286933)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_down_4/PathFollow2D3" unique_id=1852379298]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_4/PathFollow2D3/Trigger" unique_id=697714595]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Strafe" type="Strafe" parent="move/level2/right_down_4/PathFollow2D3/Trigger" unique_id=1114986936]
+fire_count = 2
+to_launch_texture = ExtResource("11_fptpc")
+fire_type = 2
+
+[node name="Gearbox2" type="Gearbox" parent="move/level2/right_down_4/PathFollow2D3" unique_id=1944321355]
+delay = 2.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_down_4/PathFollow2D3/Gearbox2" unique_id=1130739626]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_5" type="Path2D" parent="move/level2" unique_id=89783010]
+position = Vector2(-3, -22)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_5" unique_id=1310097973]
+position = Vector2(883.549, 128.33557)
+rotation = 2.7200036
+progress = 185.74518
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_5/PathFollow2D3" unique_id=747028904]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_5/PathFollow2D3/Trigger" unique_id=306904923]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/right_5/PathFollow2D3/Trigger" unique_id=1144922469]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="right_6" type="Path2D" parent="move/level2" unique_id=1464588322]
+position = Vector2(9, 16)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_6" unique_id=219216659]
+position = Vector2(720.10486, 194.10928)
+rotation = 2.816605
+progress = 361.98712
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_6/PathFollow2D3" unique_id=889100761]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_6/PathFollow2D3/Trigger" unique_id=792350771]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/right_6/PathFollow2D3/Trigger" unique_id=1109368705]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="right_7" type="Path2D" parent="move/level2" unique_id=1149358321]
+position = Vector2(1, 63)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_7" unique_id=1611714496]
+position = Vector2(849.95465, 143.15413)
+rotation = 2.732661
+progress = 222.46225
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_7/PathFollow2D3" unique_id=1451188615]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_7/PathFollow2D3/Trigger" unique_id=2046459343]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/right_7/PathFollow2D3/Trigger" unique_id=81747528]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="right_8" type="Path2D" parent="move/level2" unique_id=1632504766]
+position = Vector2(6, 108)
+curve = SubResource("Curve2D_xpuft")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/right_8" unique_id=381259423]
+position = Vector2(782.12836, 171.29329)
+rotation = 2.7664127
+progress = 295.89636
+
+[node name="Trigger" type="Trigger" parent="move/level2/right_8/PathFollow2D3" unique_id=1734323638]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/right_8/PathFollow2D3/Trigger" unique_id=18671218]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/right_8/PathFollow2D3/Trigger" unique_id=1127484811]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_5" type="Path2D" parent="move/level2" unique_id=533657044]
+position = Vector2(-4, -62)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_5" unique_id=545686707]
+position = Vector2(160.4415, 205.08281)
+rotation = 0.548806
+progress = 191.78096
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_5/PathFollow2D3" unique_id=1085260673]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_5/PathFollow2D3/Trigger" unique_id=620274704]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/left_5/PathFollow2D3/Trigger" unique_id=1514936861]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_6" type="Path2D" parent="move/level2" unique_id=1191511363]
+position = Vector2(-5, 6)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_6" unique_id=1735316746]
+position = Vector2(322.80927, 255.8379)
+rotation = 0.18529084
+progress = 363.08047
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_6/PathFollow2D3" unique_id=356535169]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_6/PathFollow2D3/Trigger" unique_id=1618464317]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/left_6/PathFollow2D3/Trigger" unique_id=548990914]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_7" type="Path2D" parent="move/level2" unique_id=1775408016]
+position = Vector2(-4, 71)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_7" unique_id=828794248]
+position = Vector2(166.83414, 208.90376)
+rotation = 0.5285164
+progress = 199.22876
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_7/PathFollow2D3" unique_id=1291647783]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_7/PathFollow2D3/Trigger" unique_id=62171729]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/left_7/PathFollow2D3/Trigger" unique_id=1470297302]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_8" type="Path2D" parent="move/level2" unique_id=27569492]
+position = Vector2(-3, 130)
+curve = SubResource("Curve2D_wwlet")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level2/left_8" unique_id=2124820113]
+position = Vector2(257.15036, 242.35977)
+rotation = 0.22603975
+progress = 296.05023
+
+[node name="Trigger" type="Trigger" parent="move/level2/left_8/PathFollow2D3" unique_id=1977240312]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level2/left_8/PathFollow2D3/Trigger" unique_id=1159245336]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level2/left_8/PathFollow2D3/Trigger" unique_id=1289217468]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="level3" type="Node2D" parent="move" unique_id=917282495]
+
+[node name="left_up" type="Path2D" parent="move/level3" unique_id=2142648789]
+position = Vector2(27, -10)
+curve = SubResource("Curve2D_u00bl")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level3/left_up" unique_id=1237445455]
+position = Vector2(164, -93)
+rotation = 1.5530729
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/left_up/PathFollow2D2" unique_id=1666482683]
+target_speed = 500.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/left_up/PathFollow2D2/Gearbox" unique_id=1859008885]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/left_up" unique_id=229627070]
+position = Vector2(168.02779, 249.61763)
+rotation = 1.5682197
+progress = 342.6397
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/left_up/PathFollow2D3" unique_id=14105899]
+target_speed = 0.0
+target_distance = 101.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/left_up/PathFollow2D3/Gearbox" unique_id=635587030]
+position = Vector2(-78.61745, -0.17478496)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level3/left_up/PathFollow2D3" unique_id=291281423]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/left_up/PathFollow2D3/Trigger" unique_id=473313094]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Sunflower" type="Sunflower" parent="move/level3/left_up/PathFollow2D3/Trigger" unique_id=1299373354]
+fire_interval = 60
+to_launch_texture = ExtResource("9_hbhmk")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level3/left_up/PathFollow2D3" unique_id=1809403323]
+delay = 4.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/left_up/PathFollow2D3/Gearbox2" unique_id=322072995]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="right_up" type="Path2D" parent="move/level3" unique_id=394217490]
+position = Vector2(64, 4)
+curve = SubResource("Curve2D_kfqjy")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level3/right_up" unique_id=1960676231]
+position = Vector2(732, -85)
+rotation = 1.5794382
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/right_up/PathFollow2D2" unique_id=250494239]
+target_speed = 500.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/right_up/PathFollow2D2/Gearbox" unique_id=784562812]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/right_up" unique_id=95704795]
+position = Vector2(732.28033, 227.85902)
+rotation = 1.5569872
+progress = 312.8617
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/right_up/PathFollow2D3" unique_id=2041587418]
+target_speed = 0.0
+target_distance = 101.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/right_up/PathFollow2D3/Gearbox" unique_id=1398079449]
+position = Vector2(-78.61745, -0.17478496)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level3/right_up/PathFollow2D3" unique_id=329283910]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/right_up/PathFollow2D3/Trigger" unique_id=2144032224]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Sunflower" type="Sunflower" parent="move/level3/right_up/PathFollow2D3/Trigger" unique_id=973789442]
+fire_interval = 60
+to_launch_texture = ExtResource("9_hbhmk")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level3/right_up/PathFollow2D3" unique_id=529612130]
+delay = 4.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/right_up/PathFollow2D3/Gearbox2" unique_id=8828552]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="left" type="Path2D" parent="move/level3" unique_id=624308204]
+position = Vector2(-4, -62)
+curve = SubResource("Curve2D_34l1k")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/left" unique_id=1872347127]
+position = Vector2(141.72466, 192.88449)
+rotation = 0.60532975
+progress = 169.43755
+
+[node name="Trigger" type="Trigger" parent="move/level3/left/PathFollow2D3" unique_id=2088946768]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/left/PathFollow2D3/Trigger" unique_id=2087901447]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/left/PathFollow2D3/Trigger" unique_id=1012538706]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_2" type="Path2D" parent="move/level3" unique_id=1794195688]
+position = Vector2(-5, 6)
+curve = SubResource("Curve2D_7scxc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/left_2" unique_id=1620022502]
+position = Vector2(359.4547, 262.46643)
+rotation = 0.17329745
+progress = 400.3195
+
+[node name="Trigger" type="Trigger" parent="move/level3/left_2/PathFollow2D3" unique_id=377931252]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/left_2/PathFollow2D3/Trigger" unique_id=2128823244]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/left_2/PathFollow2D3/Trigger" unique_id=1061456830]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_3" type="Path2D" parent="move/level3" unique_id=1760109792]
+position = Vector2(-4, 71)
+curve = SubResource("Curve2D_vokh3")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/left_3" unique_id=575747802]
+position = Vector2(199.95265, 225.84792)
+rotation = 0.3993731
+progress = 236.4678
+
+[node name="Trigger" type="Trigger" parent="move/level3/left_3/PathFollow2D3" unique_id=1291966818]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/left_3/PathFollow2D3/Trigger" unique_id=1059319655]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/left_3/PathFollow2D3/Trigger" unique_id=89158032]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="left_4" type="Path2D" parent="move/level3" unique_id=1142294782]
+position = Vector2(-3, 130)
+curve = SubResource("Curve2D_cpj7c")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/left_4" unique_id=1254457762]
+position = Vector2(106.22448, 165.58513)
+rotation = 0.70260775
+progress = 124.6412
+
+[node name="Trigger" type="Trigger" parent="move/level3/left_4/PathFollow2D3" unique_id=824678045]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/left_4/PathFollow2D3/Trigger" unique_id=896837906]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/left_4/PathFollow2D3/Trigger" unique_id=473681627]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="right" type="Path2D" parent="move/level3" unique_id=1553842429]
+position = Vector2(-3, -22)
+curve = SubResource("Curve2D_bosmc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/right" unique_id=1406400798]
+position = Vector2(886.7017, 126.91954)
+rotation = 2.7189083
+progress = 182.28944
+
+[node name="Trigger" type="Trigger" parent="move/level3/right/PathFollow2D3" unique_id=208362710]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/right/PathFollow2D3/Trigger" unique_id=78061090]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/right/PathFollow2D3/Trigger" unique_id=1286042258]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="right_2" type="Path2D" parent="move/level3" unique_id=1751184963]
+position = Vector2(9, 16)
+curve = SubResource("Curve2D_bai6e")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/right_2" unique_id=1565147065]
+position = Vector2(733.98944, 189.32063)
+rotation = 2.8027198
+progress = 347.30026
+
+[node name="Trigger" type="Trigger" parent="move/level3/right_2/PathFollow2D3" unique_id=330069582]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/right_2/PathFollow2D3/Trigger" unique_id=1510310586]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/right_2/PathFollow2D3/Trigger" unique_id=1081020431]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="right_3" type="Path2D" parent="move/level3" unique_id=1920350929]
+position = Vector2(1, 63)
+curve = SubResource("Curve2D_usuib")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/right_3" unique_id=1283169041]
+position = Vector2(856.68866, 140.22499)
+rotation = 2.7299635
+progress = 215.11884
+
+[node name="Trigger" type="Trigger" parent="move/level3/right_3/PathFollow2D3" unique_id=2106187040]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/right_3/PathFollow2D3/Trigger" unique_id=1309601143]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/right_3/PathFollow2D3/Trigger" unique_id=1325087123]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="right_4" type="Path2D" parent="move/level3" unique_id=107857638]
+position = Vector2(6, 108)
+curve = SubResource("Curve2D_e7jx6")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/right_4" unique_id=27451885]
+position = Vector2(726.64734, 191.87975)
+rotation = 2.809808
+progress = 355.07565
+
+[node name="Trigger" type="Trigger" parent="move/level3/right_4/PathFollow2D3" unique_id=100585100]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/right_4/PathFollow2D3/Trigger" unique_id=2011888049]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/right_4/PathFollow2D3/Trigger" unique_id=1021465357]
+rad = 15.0
+count = 1
+direction_count = 1
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("11_avl1x")
+fire_type = 1
+
+[node name="up_1" type="Path2D" parent="move/level3" unique_id=1724866154]
+position = Vector2(-78, 22)
+curve = SubResource("Curve2D_gdriv")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level3/up_1" unique_id=829555869]
+position = Vector2(245, -74)
+rotation = 1.5629249
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/up_1/PathFollow2D2" unique_id=690087856]
+target_speed = 350.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_1/PathFollow2D2/Gearbox" unique_id=902788187]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/up_1" unique_id=296735647]
+position = Vector2(246.05759, 80.61766)
+rotation = 1.5647031
+progress = 154.6222
+
+[node name="Trigger" type="Trigger" parent="move/level3/up_1/PathFollow2D3" unique_id=1560861104]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_1/PathFollow2D3/Trigger" unique_id=1987160361]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/up_1/PathFollow2D3/Trigger" unique_id=1874723147]
+rad = 10.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("12_oy1xb")
+
+[node name="up_2" type="Path2D" parent="move/level3" unique_id=819361500]
+position = Vector2(41, 24)
+curve = SubResource("Curve2D_q1rih")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level3/up_2" unique_id=113165911]
+position = Vector2(245, -74)
+rotation = 1.5629249
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/up_2/PathFollow2D2" unique_id=313623250]
+target_speed = 350.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_2/PathFollow2D2/Gearbox" unique_id=1397284130]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/up_2" unique_id=750900725]
+position = Vector2(246.05759, 80.61766)
+rotation = 1.5647031
+progress = 154.6222
+
+[node name="Trigger" type="Trigger" parent="move/level3/up_2/PathFollow2D3" unique_id=745543403]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_2/PathFollow2D3/Trigger" unique_id=639695679]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/up_2/PathFollow2D3/Trigger" unique_id=2087040352]
+rad = 10.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("13_0oqkk")
+
+[node name="up_3" type="Path2D" parent="move/level3" unique_id=673591359]
+position = Vector2(-166, -12)
+curve = SubResource("Curve2D_7y5tp")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level3/up_3" unique_id=1204726082]
+position = Vector2(879, -55)
+rotation = 1.5716798
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/up_3/PathFollow2D2" unique_id=55464318]
+target_speed = 350.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_3/PathFollow2D2/Gearbox" unique_id=2125433103]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/up_3" unique_id=558986017]
+position = Vector2(878.7514, 99.61937)
+rotation = 1.5729829
+progress = 154.6222
+
+[node name="Trigger" type="Trigger" parent="move/level3/up_3/PathFollow2D3" unique_id=899500183]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_3/PathFollow2D3/Trigger" unique_id=1625999780]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/up_3/PathFollow2D3/Trigger" unique_id=1506594284]
+rad = 10.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("14_xpuft")
+
+[node name="up_4" type="Path2D" parent="move/level3" unique_id=1519385278]
+position = Vector2(-34, -23)
+curve = SubResource("Curve2D_7y5tp")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level3/up_4" unique_id=1790004593]
+position = Vector2(879, -55)
+rotation = 1.5716798
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/up_4/PathFollow2D2" unique_id=1094631676]
+target_speed = 350.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_4/PathFollow2D2/Gearbox" unique_id=869941697]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/up_4" unique_id=615581567]
+position = Vector2(878.7514, 99.61937)
+rotation = 1.5729829
+progress = 154.6222
+
+[node name="Trigger" type="Trigger" parent="move/level3/up_4/PathFollow2D3" unique_id=1648898186]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_4/PathFollow2D3/Trigger" unique_id=1651202401]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="FlowerBullet" type="FlowerBullet" parent="move/level3/up_4/PathFollow2D3/Trigger" unique_id=1810698504]
+rad = 10.0
+count = 1
+direction_count = 7
+launch_angle = 185.0
+fire_count = 8
+fire_interval = 30
+to_launch_texture = ExtResource("12_fptpc")
+
+[node name="up_down" type="Path2D" parent="move/level3" unique_id=525113406]
+position = Vector2(15, 2)
+curve = SubResource("Curve2D_0xuic")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level3/up_down" unique_id=896810558]
+position = Vector2(382, -87)
+rotation = 1.5766613
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/up_down/PathFollow2D2" unique_id=2040472309]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_down/PathFollow2D2/Gearbox" unique_id=1954756642]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/up_down" unique_id=1348899984]
+position = Vector2(380.1653, 225.812)
+rotation = 1.5766613
+progress = 312.8617
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/up_down/PathFollow2D3" unique_id=1713267722]
+target_speed = 0.0
+target_distance = 101.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_down/PathFollow2D3/Gearbox" unique_id=1945335973]
+position = Vector2(-75.81559, -0.39004356)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level3/up_down/PathFollow2D3" unique_id=1227423528]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_down/PathFollow2D3/Trigger" unique_id=298790836]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Sunflower" type="Sunflower" parent="move/level3/up_down/PathFollow2D3/Trigger" unique_id=1384834796]
+fire_interval = 60
+to_launch_texture = ExtResource("9_hbhmk")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level3/up_down/PathFollow2D3" unique_id=725978159]
+delay = 4.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_down/PathFollow2D3/Gearbox2" unique_id=688964645]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="up_down_2" type="Path2D" parent="move/level3" unique_id=1443912875]
+position = Vector2(157, 4)
+curve = SubResource("Curve2D_jrlag")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="move/level3/up_down_2" unique_id=38334826]
+position = Vector2(382, -87)
+rotation = 1.5766613
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/up_down_2/PathFollow2D2" unique_id=597369862]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_down_2/PathFollow2D2/Gearbox" unique_id=2049884907]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="move/level3/up_down_2" unique_id=564142627]
+position = Vector2(382, -87)
+rotation = 1.5766613
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/up_down_2/PathFollow2D3" unique_id=585998954]
+target_speed = 400.0
+target_distance = 1.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_down_2/PathFollow2D3/Gearbox" unique_id=172420882]
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="PathFollow2D4" type="PathFollow2D" parent="move/level3/up_down_2" unique_id=1301723832]
+position = Vector2(380.1653, 225.812)
+rotation = 1.5766613
+progress = 312.8617
+
+[node name="Gearbox" type="Gearbox" parent="move/level3/up_down_2/PathFollow2D4" unique_id=315348498]
+target_speed = 0.0
+target_distance = 101.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_down_2/PathFollow2D4/Gearbox" unique_id=380590133]
+position = Vector2(-75.81559, -0.39004356)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Trigger" type="Trigger" parent="move/level3/up_down_2/PathFollow2D4" unique_id=485773570]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_down_2/PathFollow2D4/Trigger" unique_id=1582912617]
+position = Vector2(11.382261, 0.057113647)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="Sunflower" type="Sunflower" parent="move/level3/up_down_2/PathFollow2D4/Trigger" unique_id=600047287]
+fire_interval = 60
+to_launch_texture = ExtResource("9_hbhmk")
+
+[node name="Gearbox2" type="Gearbox" parent="move/level3/up_down_2/PathFollow2D4" unique_id=171808712]
+delay = 4.0
+target_speed = 200.0
+target_distance = 30.0
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move/level3/up_down_2/PathFollow2D4/Gearbox2" unique_id=1890815860]
+position = Vector2(11.382263, 0.05711466)
+shape = SubResource("CircleShape2D_fptpc")
+
+[node name="menu" type="Node2D" parent="." unique_id=848301549]
+z_index = 100
+position = Vector2(-936, 0)
+
+[node name="ColorRect" type="ColorRect" parent="menu" unique_id=1685888236]
+offset_left = 72.0
+offset_top = 36.0
+offset_right = 936.0
+offset_bottom = 1044.0
+color = Color(0, 0, 0, 0.58431375)
+
+[node name="pause" type="Label" parent="menu" unique_id=1948241814]
+offset_left = 87.0
+offset_top = 255.0
+offset_right = 371.0
+offset_bottom = 353.0
+theme_override_font_sizes/font_size = 50
+text = "一時停止"
+
+[node name="dead" type="Label" parent="menu" unique_id=545511552]
+offset_left = 87.0
+offset_top = 255.0
+offset_right = 371.0
+offset_bottom = 353.0
+theme_override_font_sizes/font_size = 50
+text = "満身創痍"
+
+[node name="continue" type="Label" parent="menu" unique_id=1958510949]
+offset_left = 224.0
+offset_top = 386.0
+offset_right = 354.0
+offset_bottom = 461.0
+theme_override_font_sizes/font_size = 40
+text = "继续游戏"
+
+[node name="exit" type="Label" parent="menu" unique_id=1989050398]
+offset_left = 224.0
+offset_top = 479.0
+offset_right = 354.0
+offset_bottom = 554.0
+theme_override_font_sizes/font_size = 40
+text = "退出游戏"
+
+[node name="retry" type="Label" parent="menu" unique_id=404838469]
+offset_left = 224.0
+offset_top = 565.0
+offset_right = 384.0
+offset_bottom = 640.0
+theme_override_font_sizes/font_size = 40
+text = "重新开始"

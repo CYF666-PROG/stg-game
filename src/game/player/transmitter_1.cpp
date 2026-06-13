@@ -1,0 +1,119 @@
+#include "transmitter_1.hpp"
+#include "../../conf/bullet.hpp"
+
+#include <godot_cpp/classes/resource_loader.hpp>
+#include <godot_cpp/classes/sprite2d.hpp>
+
+
+using namespace godot;
+
+using namespace game::player;
+
+void game::player::Transmitter_1::_ready(){
+  godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
+  texture = loader->load(bullet_path);
+  if (!texture.is_valid()) {
+    godot::UtilityFunctions::print(bullet_path, " load erro");
+    return;
+  }
+  // 设置阴阳玉贴图
+  Ref<godot::AtlasTexture> ying_yang_texture = loader->load(path);
+  if (ying_yang_texture.is_valid()){
+    spr = memnew(Sprite2D);
+    spr->set_texture(ying_yang_texture);
+    spr->set_scale(Vector2(1,1) * scale);
+    add_child(spr);
+  }else 
+    UtilityFunctions::print(path, " load erro");
+  // 设置弹幕池 键盘输入
+  pool = game::BulletPool::get_pool();
+  keyboard = input::KeyBoard::get_singleton();
+}
+
+void Transmitter_1::frame_do(double delta){
+  //更新阴阳玉旋转
+  spr->set_rotation(spr->get_rotation() + 0.2);
+  if (!keyboard){
+    UtilityFunctions::print("Transmitter_1: keyboard not found");
+    return;
+  }
+  if(keyboard->is_shoot) shoot();
+}
+
+void Transmitter_1::shoot(){
+  // 检查自机是否刚中弹
+  if (player && player->invincible_frame > 40) {
+    return;
+  }
+  // 添加子弹
+  if (!pool){
+    UtilityFunctions::print("Transmitter_1: pool not found");
+    pool = game::BulletPool::get_pool();
+    return;
+  }
+  auto linear_behavior = [](BulletPool::Bullet& b){
+    b.rotation = conf::bullet::player_1::rotation_offset;
+    b.velocity = Vector2(0, -1) * (80 + UtilityFunctions::randf_range(-5,5));
+  };
+  pool->spawn(
+    get_global_position() + Vector2(-10,0),
+    linear_behavior,
+    texture,
+    "normal",
+    bullet_radius,
+    4,
+    0,
+    Vector2(1,1) * bullet_scale,
+    bullet_anchor
+  );
+  pool->spawn(
+    get_global_position() + Vector2(10,0),
+    linear_behavior,
+    texture,
+    "normal",
+    bullet_radius,
+    4,
+    0,
+    Vector2(1,1) * bullet_scale,
+    bullet_anchor
+  );
+}
+
+game::player::Transmitter_1::Transmitter_1(orb_Typ orb_typ, bullet_Typ bullet_typ){
+  if (orb_typ == Red){
+    path = String(conf::player::red_yin_yang_orb::path.c_str());
+    scale = conf::player::red_yin_yang_orb::scale;
+  }else if (orb_typ == Pink){
+    path = String(conf::player::pink_yin_yang_orb::path.c_str());
+    scale = conf::player::pink_yin_yang_orb::scale;
+  }else{
+    path = String(conf::player::blue_yin_yang_orb::path.c_str());
+    scale = conf::player::blue_yin_yang_orb::scale;
+  }
+  if (bullet_typ == fast_bullet_1){
+    bullet_path = String(conf::bullet::player_1::path.c_str());
+    bullet_anchor = Vector2(conf::bullet::player_1::anchor_x,
+                            conf::bullet::player_1::anchor_y);
+    bullet_rotation_offset = conf::bullet::player_1::rotation_offset;
+    bullet_scale = conf::bullet::player_1::scale;
+    bullet_radius = conf::bullet::player_1::radius;
+  }else if (bullet_typ == fast_bullet_2){
+    bullet_path = String(conf::bullet::player_2::path.c_str());
+    bullet_anchor = Vector2(conf::bullet::player_2::anchor_x,
+                            conf::bullet::player_2::anchor_y);
+    bullet_rotation_offset = conf::bullet::player_2::rotation_offset;
+    bullet_scale = conf::bullet::player_2::scale;
+    bullet_radius = conf::bullet::player_2::radius;
+  }else{
+    bullet_path = String(conf::bullet::player_3::path.c_str());
+    bullet_anchor = Vector2(conf::bullet::player_3::anchor_x,
+                            conf::bullet::player_3::anchor_y);
+    bullet_rotation_offset = conf::bullet::player_3::rotation_offset;
+    bullet_scale = conf::bullet::player_3::scale;
+    bullet_radius = conf::bullet::player_3::radius;
+  }
+}
+
+Transmitter_1::~Transmitter_1(){}
+
+void Transmitter_1::_bind_methods(){}

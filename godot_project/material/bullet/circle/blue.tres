@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bihsfsmlolfia"]
+
+[ext_resource type="Texture2D" uid="uid://iwi70ukxfly3" path="res://material/bullet/circle/a_blue.tres" id="1_xboxv"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xboxv")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 5.0
+}]

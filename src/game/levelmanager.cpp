@@ -1,62 +1,535 @@
 #include "levelmanager.hpp"
 #include "../utility/move.hpp"
-#include "../utility/move/circle.hpp"
+#include "enemy/boos/nitori.hpp"
 #include "enemy/imp.hpp"
+#include "enemy/minion.hpp"
+#include "enemy/rotate.hpp"
+#include "godot_cpp/classes/global_constants.hpp"
+#include "godot_cpp/core/memory.hpp"
+#include "godot_cpp/variant/string.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
+#include <godot_cpp/classes/scene_tree.hpp>
+#include <godot_cpp/classes/window.hpp>
+#include <godot_cpp/classes/path_follow2d.hpp>
 
 
 using namespace game;
+using namespace godot;
 
+LevelManager* LevelManager::singleton = nullptr;
 
-  
 void game::LevelManager::_physics_process(double delta){
   /// 检查是否在编辑器
   if (godot::Engine::get_singleton()->is_editor_hint()){
     return;
   }
+  if (is_pause) {
+    return;
+  }
+  if (is_end) {
+    process_game_over_fade(delta, "res://scene/thanks.tscn", 0.2f);
+  }
+  // 检查关卡
+  if (level_frame >= level_2_time * 60) {
+    level_2();
+    level_2_time = 99999999;
+  }else if (level_frame >= level_3_time * 60) {
+    level_3();
+    level_3_time = 99999999;
+  }
 
-  auto it_end = level_timeline.lower_bound(double(level_frame)/60);
-  for (auto it = level_timeline.begin(); it != it_end;) {
-    if (it->second.typ == IMP){
-      game::enemy::Imp* add = memnew(game::enemy::Imp);
-      add->moves = std::move(it->second.moves);
-      add->start_position = it->second.start_position;
-      add_child(add);
-      it = level_timeline.erase(it); 
+  
+  auto range = level_timeline.equal_range(level_frame);
+  for (auto it = range.first; it != range.second; ++it) {
+    // 先处理boos
+    if (it->second.typ == NITORI) {
+      auto *current_scene_root = get_tree()->get_current_scene();
+      if (!current_scene_root) {
+        UtilityFunctions::print("LevelManager::_physics_process scene_root not foud");
+      }
+      auto nitori = memnew(game::boos::NiToRi);
+      nitori->set_level(it->second.level);
+      current_scene_root->add_child(nitori);
+      UtilityFunctions::print("make nitori");
+      level_timeline.erase(it);
+    }else {
+      auto* pf = memnew(godot::PathFollow2D);
+      // 先设置禁用旋转，再添加
+      pf->set_rotates(false);
+      pf->set_loop(false);
+      it->second.path->add_child(pf);
+      auto min = get_minion(it->second.typ,it->second.coler);
+      min->path_follow = pf;
+      min->hp = it->second.hp;
+      pf->add_child(min);
     }
   }
-  level_frame += 1;
+  if (level_frame >= 7200) {
+    is_end = true;
+  }
+  if(!is_pause) level_frame += 1;
 }
+
+void LevelManager::pause(){is_pause = true;}
+void LevelManager::start(){is_pause = false;}
 
 void game::LevelManager::_bind_methods(){}
 
 void game::LevelManager::_ready(){
-  enemy add;
-  std::vector<std::unique_ptr<utility::Move>> moves ;
-  std::unique_ptr<utility::Move> yuan = std::make_unique<utility::move::Circle>(3,20,10,-1,0,utility::move::Circle::TYP::Vertical);
-  yuan->start_time = 0; yuan->end_time = 5 ;
-  moves.push_back(std::move(yuan));
-  std::unique_ptr<utility::Move> zhi_xian = std::make_unique<utility::Move>(200,-1,0);
-  zhi_xian->start_time = 0; zhi_xian->end_time = 5;
-  moves.push_back(std::move(zhi_xian));
-  make_enemy(0.5, IMP, godot::Vector2(1000,500), std::move(moves));
+  singleton = this;
+  godot::UtilityFunctions::print("LevelManager _ready");
+  // 1. 获取场景树
+  godot::SceneTree* tree = get_tree();
+  if (!tree) {
+    godot::UtilityFunctions::print("错误：无法获取 SceneTree");
+    return;
+  }
+  // 2. 获取当前活动的主场景根节点
+  // 无论当前关卡叫什么名字，它返回的都是当前关卡的最顶层节点
+  current_scene = tree->get_current_scene();
+  if (!current_scene) {
+    godot::UtilityFunctions::print("错误：当前场景未加载完成或不存在");
+    return;
+  }
+  level_1();
+  // 设置可见性
+  set_all_children_visible();
 }
 
-LevelManager::LevelManager() {}
+void LevelManager::level_1(){
+  now_level = 1;
+  for (double time = 2.5; time <= 8; time += 0.5) {
+    double deat = UtilityFunctions::randf_range(-0.5, 0.5);
+    make_enemy(time + deat, IMP,blue, get_path2d("level1/left_1"), 20);
+    deat = UtilityFunctions::randf_range(-0.5, 0.5);
+    make_enemy(time + deat, IMP,red, get_path2d("level1/left_2"), 20);
+    deat = UtilityFunctions::randf_range(-0.5, 0.5);
+    make_enemy(time + deat, IMP,yellow, get_path2d("level1/left_3"),20);
+  }
+  make_enemy(3, IMP,red, get_path2d("level1/right_up_1"),20);
+  make_enemy(3.2, IMP,blue, get_path2d("level1/right_up_2"),20);
+  make_enemy(3.4, IMP,blue, get_path2d("level1/right_up_3"),20);
+}
 
-LevelManager::~LevelManager(){}
+void LevelManager::level_2(){
+  now_level = 2;
+  // level_2开始的秒
+  double t = level_2_time;
+
+  make_enemy(t + 1, BIG_butterfly,red, get_path2d("level2/left_up"),100);
+  make_enemy(t + 1, BIG_butterfly,red, get_path2d("level2/right_up"),100);
+
+  make_enemy(t + 4, IMP,red, get_path2d("level2/left_up_2"),20);
+  make_enemy(t + 4.2, IMP,blue, get_path2d("level2/left_up_3"),20);
+  make_enemy(t + 5, IMP,blue, get_path2d("level2/right_up_3"),20);
+  make_enemy(t + 5.2, IMP,red, get_path2d("level2/right_up_2"),20);
+
+
+  make_enemy(t + 7, IMP,red, get_path2d("level2/left_up_2"),20);
+  make_enemy(t + 7.2, IMP,blue, get_path2d("level2/left_up_3"),20);
+  make_enemy(t + 9, IMP,blue, get_path2d("level2/right_up_3"),20);
+  make_enemy(t + 9.2, IMP,red, get_path2d("level2/right_up_2"),20);
+  // 左右两侧向中间出怪
+  for (double i = 9; i <= 11; i += 0.5) {
+    double deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,blue, get_path2d("level2/right"), 20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,red, get_path2d("level2/right_2"), 20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,yellow, get_path2d("level2/right_3"),20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,yellow, get_path2d("level2/right_4"),20);
+  }
+  for (double i = 11; i <= 13; i += 0.5) {
+    double deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,blue, get_path2d("level2/left"), 20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,red, get_path2d("level2/left_2"), 20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,yellow, get_path2d("level2/left_3"),20);
+    deat = UtilityFunctions::randf_range(-0.2, 0.2);
+    make_enemy(t + deat + i, IMP,yellow, get_path2d("level2/left_4"),20);
+  }
+  make_enemy(t + 10, IMP,red, get_path2d("level2/left_up_2"),20);
+  make_enemy(t + 10.2, IMP,blue, get_path2d("level2/left_up_3"),20);
+  // 左右交替向上出怪
+  for (int i = 0; i < 3; i++) {
+    double b = i * 4.666;   // 三轮之间所隔时间
+    for (double i = 17+b; i <= 19+b; i += 0.5) {
+      String path ;
+      int a = UtilityFunctions::randi_range(1, 4);
+      if (a == 1) path = "level2/left_down";
+      if (a == 2) path = "level2/left_down_2";
+      if (a == 3) path = "level2/left_down_3";
+      if (a == 4) path = "level2/left_down_4";
+      Color color;
+      a = UtilityFunctions::randi_range(1, 3);
+      if (a == 1) color = blue; 
+      if (a == 2) color = red; 
+      if (a == 3) color = yellow;
+      make_enemy(i + t, IMP,color, get_path2d(path),50);
+    }
+
+    for (double i = 19+b; i <= 21+b; i += 0.5) {
+      String path ;
+      int a = UtilityFunctions::randi_range(1, 4);
+      if (a == 1) path = "level2/right_down";
+      if (a == 2) path = "level2/right_down_2";
+      if (a == 3) path = "level2/right_down_3";
+      if (a == 4) path = "level2/right_down_4";
+      Color color;
+      a = UtilityFunctions::randi_range(1, 3);
+      if (a == 1) color = blue; 
+      if (a == 2) color = red; 
+      if (a == 3) color = yellow;
+      make_enemy(i + t, IMP,color, get_path2d(path),50);
+    }
+  }
+  make_enemy(t + 38, BIG_butterfly,red, get_path2d("level2/left_up"),100);
+  make_enemy(t + 38, BIG_butterfly,red, get_path2d("level2/right_up"),100);
+  for (double i = 50; i <= 55; i += 0.2) {
+    String path ;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) path = "level2/left_5";
+    if (a == 2) path = "level2/left_6";
+    if (a == 3) path = "level2/left_7";
+    if (a == 4) path = "level2/left_8";
+    Color color;
+    a = UtilityFunctions::randi_range(1, 3);
+    if (a == 1) color = blue; 
+    if (a == 2) color = red; 
+    if (a == 3) color = yellow;
+    make_enemy(i + t, IMP,color, get_path2d(path),20);
+
+    a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) path = "level2/right_5";
+    if (a == 2) path = "level2/right_6";
+    if (a == 3) path = "level2/right_7";
+    if (a == 4) path = "level2/right_8";
+    a = UtilityFunctions::randi_range(1, 3);
+    if (a == 1) color = blue; 
+    if (a == 2) color = red; 
+    if (a == 3) color = yellow;
+    make_enemy(i + t, IMP,color, get_path2d(path),20);
+
+  }
+  make_boos(t+57,NITORI,0);
+}
+
+void LevelManager::level_3(){
+  now_level = 3;
+  double t = level_3_time;
+  for (int i = 0;i < 2 ; i++) {
+    double t = level_3_time + double(i) * 6 ;
+    make_enemy(t, BIG_butterfly,red, get_path2d("level3/left_up"),100);
+    for (double j = t;j < t + 1.5 ; j += 0.2) {
+      String path ;
+      int a = UtilityFunctions::randi_range(1, 8);
+      if (a == 1) path = "level3/left";
+      if (a == 2) path = "level3/left_2";
+      if (a == 3) path = "level3/left_3";
+      if (a == 4) path = "level3/left_4";
+      if (a == 5) path = "level3/right";
+      if (a == 6) path = "level3/right_2";
+      if (a == 7) path = "level3/right_3";
+      if (a == 8) path = "level3/right_4";
+      Color color;
+      a = UtilityFunctions::randi_range(1, 3);
+      if (a == 1) color = blue; 
+      if (a == 2) color = red; 
+      if (a == 3) color = yellow;
+      make_enemy(j, IMP,color, get_path2d(path),20);
+    }
+    make_enemy(t + 3, BIG_butterfly,red, get_path2d("level3/right_up"),100);
+    for (double j = t+3;j < t + 1.5 + 3 ; j += 0.2) {
+      String path ;
+      int a = UtilityFunctions::randi_range(1, 8);
+      if (a == 1) path = "level3/left";
+      if (a == 2) path = "level3/left_2";
+      if (a == 3) path = "level3/left_3";
+      if (a == 4) path = "level3/left_4";
+      if (a == 5) path = "level3/right";
+      if (a == 6) path = "level3/right_2";
+      if (a == 7) path = "level3/right_3";
+      if (a == 8) path = "level3/right_4";
+      Color color;
+      a = UtilityFunctions::randi_range(1, 3);
+      if (a == 1) color = blue; 
+      if (a == 2) color = red; 
+      if (a == 3) color = yellow;
+      make_enemy(j, IMP,color, get_path2d(path),20);
+    } 
+  }// 10.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 14.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_4"),20);
+  }// 16.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 17.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_2"),20);
+  }// 19.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 20.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_1"),20);
+  }// 22.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 23.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_3"),20);
+  }// 25.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 26.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_1"),20);
+  }// 28.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 29.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_2"),20);
+  }// 31.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 32.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_4"),20);
+  }// 34.5
+  for (int i = 0; i < 7; i++) {
+    double t1 = t + 35.5 + double(i) * 0.285;
+    Color color;
+    int a = UtilityFunctions::randi_range(1, 4);
+    if (a == 1) color = blue; 
+    if (a == 2) color = green; 
+    if (a == 3) color = yellow;
+    if (a == 4) color = brown;
+    make_enemy(t1, Rotate, color, get_path2d("level3/up_1"),20);
+  }// 37.5
+  make_enemy(t + 39.5, BIG_butterfly,red, get_path2d("level3/up_down"),100);
+  make_enemy(t + 39.5, BIG_butterfly,red, get_path2d("level3/up_down_2"),100);
+
+  make_boos(t + 44.5, NITORI, 1);
+}
+
+
+void LevelManager::make_boos(double time, enemy_typ typ, int level){
+  enemy boos ;
+  boos.typ = typ;
+  boos.level = level;
+  level_timeline.emplace(time*60, std::move(boos));
+}
+
+void LevelManager::restart(){
+  godot::SceneTree *tree = get_tree();
+  if (tree) {
+    // 调用引擎内置方法重新加载当前场景
+    godot::Error err = tree->reload_current_scene();
+    
+    if (err != godot::OK) {
+      godot::UtilityFunctions::printerr( err);
+    }
+  }
+};
+
+LevelManager::LevelManager() {
+    // 当 Godot 实例化 Autoload 时，把实例赋给静态指针
+  if (singleton == nullptr) {
+      singleton = this;
+  }
+}
+
+LevelManager::~LevelManager(){
+if (singleton == this) {
+  singleton = nullptr;
+}
+}
+
+godot::Path2D *game::LevelManager::get_path2d(godot::String path){
+  // 根据相对路径寻找 Path2D
+  godot::Node* target_node = current_scene->get_node_or_null("move/" + path);
+  if (!target_node) {
+    godot::UtilityFunctions::print("not found", path);
+    return nullptr;
+  }
+  auto* path_obj = godot::Object::cast_to<godot::Path2D>(target_node);
+  if (!path_obj){
+    godot::UtilityFunctions::print("not found", path);
+  } 
+  return path_obj;
+}
+
+enemy::Minion* LevelManager::get_minion(enemy_typ typ, Color color){
+  game::enemy::Minion* spawn_enemy = nullptr;
+  if (typ == IMP) {
+    auto imp = memnew(game::enemy::Imp);
+    switch (color) {
+      case blue:
+        imp->set_animation("res://material/enemy/imp/hat/blue.tres");
+        break;
+      case red:
+        imp->set_animation("res://material/enemy/imp/hat/red.tres");
+        break;
+      case yellow:
+        imp->set_animation("res://material/enemy/imp/hat/yellow.tres");
+        break;
+      case pink_green:
+        imp->set_animation("res://material/enemy/imp/pink_green.tres");
+        break;
+      case yellow_blue:
+        imp->set_animation("res://material/enemy/imp/yellow_blue.tres");
+        break;
+      case yellow_red:
+        imp->set_animation("res://material/enemy/imp/yellow_red.tres");
+        break;
+    }
+    spawn_enemy = imp;
+  }else if (typ == BIG_butterfly) {
+    auto imp = memnew(game::enemy::Imp);
+    switch (color) {
+      case red:
+        imp->set_animation("res://material/enemy/big_butterfly/red.tres");
+        break;
+    }
+    spawn_enemy = imp;
+  }else if (typ == Rotate) {
+    auto rot = memnew(game::enemy::Rotate);
+    switch (color) {
+      case blue:
+        rot->set_animation("res://material/enemy/rotate/blue.tres");
+        break;
+      case green:
+        rot->set_animation("res://material/enemy/rotate/green.tres");
+        break;
+      case yellow:
+        rot->set_animation("res://material/enemy/rotate/yellow.tres");
+        break;
+      case brown:
+        rot->set_animation("res://material/enemy/rotate/brown.tres");
+        break;
+    }
+    spawn_enemy = rot;
+  }
+  if (spawn_enemy == nullptr) {
+    godot::UtilityFunctions::print("LevelManager: Unknown enemy type requested!");
+  }
+  return spawn_enemy;
+}
+
+void LevelManager::set_all_children_visible(){
+  Engine* engine = Engine::get_singleton();
+  if (!engine) return;
+  auto* tree = Object::cast_to<SceneTree>(engine->get_main_loop());
+  if (!tree) return;
+
+  Node* level_node = tree->get_root()->get_node_or_null(NodePath("play/move/level2"));
+  if (!level_node) {
+    UtilityFunctions::print("not find /root/play/move/level3");
+    return;
+  }
+
+  auto* level_item = Object::cast_to<CanvasItem>(level_node);
+  if (level_item) {
+    level_item->set_visible(true);
+  }
+
+  int child_count = level_node->get_child_count();
+  for (int i = 0; i < child_count; ++i) {
+    Node* child = level_node->get_child(i);
+    if (!child) continue;
+
+    auto* path_item = Object::cast_to<CanvasItem>(child);
+    if (path_item) {
+      path_item->set_visible(true);
+    }
+  }
+}
+
+void LevelManager::process_game_over_fade(double delta, godot::String target_scene, float fade_speed) {
+  is_game_over_fading = true;
+
+  fade_alpha += fade_speed * static_cast<float>(delta);
+
+  if (fade_alpha >= 1.0f) {
+    fade_alpha = 1.0f;
+    
+    godot::SceneTree* tree = get_tree();
+    if (tree != nullptr) {
+      tree->change_scene_to_file(target_scene);
+    }
+    return; // 切换场景后当前节点会被销毁！！！！！！！！
+  }
+
+  queue_redraw();
+}
+
+void LevelManager::_draw() {
+  if (is_game_over_fading && fade_alpha > 0.0f) {
+    godot::Vector2 screen_size = get_viewport_rect().size;
+    godot::Rect2 rect = godot::Rect2(godot::Vector2(0, 0), screen_size);
+    godot::Color fade_color = godot::Color(0.0f, 0.0f, 0.0f, fade_alpha);
+    draw_rect(rect, fade_color);
+  }
+}
 
 void game::LevelManager::make_enemy(
-  double time,
-  enemy_typ typ, 
-  godot::Vector2 start_position, 
-  std::vector<std::unique_ptr<utility::Move>> moves
+    double time,
+    enemy_typ typ,
+    godot::Path2D *path,
+    std::vector<std::unique_ptr<utility::Move>> moves
 ) {
   enemy senemy ;
   senemy.moves = std::move(moves) ;
-  senemy.start_position = start_position;
+  senemy.path = path;
   senemy.typ = typ ;
   level_timeline.emplace(time, std::move(senemy));
+}
+
+void game::LevelManager::make_enemy(double time, enemy_typ typ, Color color, godot::Path2D *path, double hp){
+  enemy senemy ;
+  senemy.path = path;
+  senemy.typ = typ ;
+  senemy.coler = color;
+  senemy.hp = hp;
+  level_timeline.emplace(time*60, std::move(senemy));
+}
+
+LevelManager *game::LevelManager::get_singleton(){
+  return singleton;
 }

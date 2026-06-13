@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://curnyudviufy1"]
+
+[ext_resource type="Texture2D" uid="uid://btw67lksm1ssf" path="res://material/player/p1/p1_fast_bullet_2.tres" id="1_wl650"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_wl650")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://tsvekll2qdgk"]
+
+[ext_resource type="Texture2D" uid="uid://deld63ywk5qtl" path="res://material/ui/heart/Sign.png" id="1_hpdar"]
+
+[resource]
+atlas = ExtResource("1_hpdar")
+region = Rect2(34, 42, 32, 33)

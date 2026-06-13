@@ -1,0 +1,363 @@
+#include "player.hpp"
+#include "godot_cpp/classes/resource_loader.hpp"
+#include "godot_cpp/core/math_defs.hpp"
+#include "godot_cpp/variant/string.hpp"
+#include "godot_cpp/variant/vector2.hpp"
+#include "godot_cpp/variant/vector2i.hpp"
+#include "transmitter_1.hpp"
+#include "skill.hpp"
+#include "../ui_manager.hpp"
+#include "../effect_manager.hpp"
+#include "../../conf/bullet.hpp"
+
+#include <godot_cpp/variant/utility_functions.hpp>
+#include <godot_cpp/classes/sprite2d.hpp>
+#include <godot_cpp/classes/animated_sprite2d.hpp>
+
+using namespace godot;
+using namespace game ;
+
+void game::Player::update_animation(){
+  auto* animation = Object::cast_to<AnimatedSprite2D>(get_node_or_null("animation"));
+  if (!animation){
+    UtilityFunctions::print("not fond animation");
+    return;
+  }
+  String current_anim = animation->get_animation();
+  if (!animation->is_playing()) {
+    // 正向起步结束 进入持续向右
+    if (current_anim == "to_left" && animation->get_frame() != 0) {
+      animation->play("left");
+      current_anim = "left";
+    } 
+    else if (current_anim == "to_right" && animation->get_frame() != 0) {
+      animation->play("right");
+      current_anim = "right";
+    }
+    // 反向刹车结束 此时动画停在第 0 帧，进入静止状态
+    else if ((current_anim == "to_left" || current_anim == "to_right") && animation->get_frame() == 0) {
+      animation->play("normal");
+      current_anim = "normal";
+    }
+  }
+
+  // 状态机：根据速度方向控制起步和倒带停止
+  if (!keyboard->is_left && !keyboard->is_right) {    // 静止状态
+    if (current_anim == "left") {
+      // 从左边停下 倒带播放 to_left
+      animation->play_backwards("to_left");
+    } 
+    else if (current_anim == "right") {
+      // 从右边停下 倒带播放 to_right
+      animation->play_backwards("to_right");
+    }
+    else if (current_anim != "to_left" && current_anim != "to_right" && current_anim != "normal") {
+      // 默认动画
+      animation->play("normal");
+    }
+  } 
+  else if (keyboard->is_left) { // 向左移动
+    // 直接打断其他，触发向左起步
+    if (current_anim != "to_left" && current_anim != "left") {
+      animation->set_frame(0); // 确保从头正向播放
+      animation->play("to_left");
+    }
+  } 
+  else if (keyboard->is_right) {  // 向右移动
+    if (current_anim != "to_right" && current_anim != "right") {
+      animation->set_frame(0); // 确保从头正向播放
+      animation->play("to_right");
+    }
+  }
+}
+
+void Player::entity_physics_process(double date){
+  move();
+  update_animation();
+  if(keyboard->is_shoot) shoot();
+  if(keyboard->is_skill && !cooldown) skill();
+  if (invincible_frame) --invincible_frame;
+  if (cooldown) --cooldown;
+}
+
+void Player::move(){
+  // 中弹后从板底缓缓上升
+  if (invincible_frame && invincible_frame > 40) {
+    if (invincible_frame == 120) {
+      set_global_position(Vector2(504,1200));
+    }
+    if (invincible_frame <= 100) {
+      auto pos = get_global_position();
+      pos.y -= 3.8;
+      set_global_position(pos);
+    }
+    return;
+  }
+  // 获取判定点贴图
+  auto point = get_node<Sprite2D>("point");
+  if (!point){
+    UtilityFunctions::print("Player::update point not find");
+    return;
+  }
+  if (!keyboard){
+    godot::UtilityFunctions::print("Player::update() keyboard nullptr");
+    return;
+  }
+  auto pos = get_global_position();
+  // 低速
+  if (keyboard->is_slow){
+    point->set_visible(true);
+    point->set_rotation(point->get_rotation() + 0.02);
+    if (keyboard->is_left){
+      pos.x += -5;
+    }else if (keyboard->is_right){
+      pos.x += 5;
+    }else{
+      pos.x += 0;
+    }
+    if (keyboard->is_up){
+      pos.y += -5;
+    }else if (keyboard->is_down){
+      pos.y += 5;
+    }else{
+      pos.y += 0;
+    }
+  }else{ // 高速
+    point->set_visible(false);
+    if (keyboard->is_left){
+      pos.x += -10;
+    }else if (keyboard->is_right){
+      pos.x += 10;
+    }else{
+      pos.x += 0;
+    }
+    if (keyboard->is_up){
+      pos.y += -10;
+    }else if (keyboard->is_down){
+      pos.y += 10;
+    }else{
+      pos.y += 0;
+    }
+  }
+  // 检查状态是否改变
+  if (is_slow != keyboard->is_slow){
+    check_orb();
+    is_slow = keyboard->is_slow;
+  }
+  //检查碰撞
+  godot::TypedArray<godot::Node2D> hit_array = get_overlapping_bodies();
+  for (int i = 0; i < hit_array.size(); i++){
+    auto* body = godot::Object::cast_to<godot::Node2D>(hit_array[i]);
+    if (!body){
+      continue;
+    }
+    if (body->get_name().to_lower().contains("wall_left")&&keyboard->is_left){
+      pos.x = get_global_position().x ;
+    }else if (body->get_name().to_lower().contains("wall_right")&&keyboard->is_right){
+      pos.x = get_global_position().x ;
+    }else if (body->get_name().to_lower().contains("wall_up")&&keyboard->is_up){
+      pos.y = get_global_position().y ;
+    }else if (body->get_name().to_lower().contains("wall_dow")&&keyboard->is_down){
+      pos.y = get_global_position().y ;
+    }
+  }
+  set_global_position(pos);
+}
+
+void game::Player::shoot(){}
+
+void game::Player::check_orb(){
+  // 先删掉所有阴阳玉
+  auto arr = get_children();
+  for (auto it : arr){
+    auto tran = Object::cast_to<game::player::Transmitter_1>(it);
+    if (!tran) continue;
+    tran->queue_free();
+  }
+  // 创建阴阳玉
+  if (keyboard->is_slow){
+    if (orb_count == 1){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
+      tran->set_position(Vector2(0,-80));
+      add_child(tran);
+    }else if (orb_count == 2){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(28,-80));
+      tran->player = this;
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
+      tran->set_position(Vector2(-28,-80));
+      add_child(tran);
+    }else if (orb_count == 3){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
+      tran->set_position(Vector2(0,-80));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
+      tran->set_position(Vector2(72,-35));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
+      tran->set_position(Vector2(-72,35));
+      add_child(tran);
+    }else{
+      auto* tran = memnew(player::Transmitter_1(player::Transmitter_1::orb_Typ::Blue));
+      tran->player = this;
+      tran->set_position(Vector2(64,-49));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
+      tran->set_position(Vector2(-64,-49));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
+      tran->set_position(Vector2(25,-76));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->player = this;
+      tran->set_position(Vector2(-25,-76));
+      add_child(tran);
+    }
+  }else{
+    if (orb_count == 1){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(0,-80));
+      add_child(tran);
+    }else if (orb_count == 2){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-60,0));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(60,0));
+      add_child(tran);
+    }else if (orb_count == 3){
+      auto* tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(0,-80));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-60,0));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-60,0));
+      add_child(tran);
+    }else{
+      auto* tran = memnew(player::Transmitter_1(player::Transmitter_1::orb_Typ::Blue));
+      tran->set_position(Vector2(22,79));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-22,79));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(80,0));
+      add_child(tran);
+
+      tran = memnew(game::player::Transmitter_1);
+      tran->set_position(Vector2(-80,0));
+      add_child(tran);
+    }
+  }
+}
+
+void Player::skill(){
+  if (card < 5) return;
+  card -= 5;
+  auto ui = game::UiManager::get_ui_manager();
+  if (ui) {
+    ui->check_player();
+  }
+  cooldown = 300;
+  int count = 4;
+  double r = 0.0;
+  for (int i = 0; i <count; ++i) {
+    add_child(memnew(player::Skill(r)));
+    r += 2*Math_PI/double(count);
+  }
+}
+
+void Player::hit_bullet(){
+  if (invincible_frame) return;
+  invincible_frame = 120;
+  hp -= 5;
+  auto ui = UiManager::get_ui_manager();
+  if (ui){
+    ui->check_player();
+  }
+  // 处理原地留下判定点特效
+  // 获取判定点资源
+  godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
+  godot::Ref<SpriteFrames> point = loader->load(String(conf::player::point::path.c_str()));
+  if (!point.is_valid()) {
+    godot::UtilityFunctions::print(String(conf::player::point::path.c_str()), " load erro");
+    return;
+  }
+  auto eff = game::EffectManager::get_singleton();
+  if (!eff){
+    godot::UtilityFunctions::print("Player::hit_bullet EffectManager not fond");
+    return;
+  }
+  auto lam = [](EffectManager::EffectInstance &eff, int f)->bool{
+    if (f > 60) return false;
+    eff.scale = Vector2(1,1) * conf::player::point::scale;
+    eff.rotation += 0.05;
+    return true;
+  };
+  eff->spawn_effect(
+    point, 
+    get_global_position(),
+    "normal",
+    1.0,
+    lam
+  );
+  if (hp < 0) {
+    ui->dead();
+  }
+  // 添加音效
+  audio->play("player_dead");
+}
+
+void Player::_bind_methods(){
+  godot::ClassDB::bind_method(godot::D_METHOD("set_bullet_texture", "tex"), &game::Player::set_bullet_texture);
+  godot::ClassDB::bind_method(godot::D_METHOD("get_bullet_texture"), &game::Player::get_bullet_texture);
+  ADD_PROPERTY(godot::PropertyInfo(godot::Variant::OBJECT, "bullet_texture", godot::PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_bullet_texture", "get_bullet_texture");
+}
+
+void Player::_ready(){
+  // 清除所有碰撞层
+  set_collision_layer(0);
+  set_collision_mask(0);
+  // 设置自身为第一层
+  set_collision_layer_value(1, true);
+  // 检测第四层
+  set_collision_mask_value(1, true);
+  set_collision_mask_value(6, true);
+  // 检查一下阴阳玉状态
+  check_orb();
+  auto ui = UiManager::get_ui_manager();
+  if (ui) {
+    ui->check_player();
+  }
+  // 获取音频管理器
+  audio = AudioManager::get_audio();
+  if (!audio) {
+    UtilityFunctions::print("Player::_ready AudioManager not foud");
+  }
+}
+
+game::Player::Player(){
+  godot::UtilityFunctions::print("Player::Player()",keyboard);
+}
+game::Player::~Player(){}

@@ -11,16 +11,27 @@ config_version=5
 [application]
 
 config/name="stg_game"
-run/main_scene="uid://b35bipt1yp8rc"
+run/main_scene="uid://c6kdcdi2wgurb"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout=""
+
+[autoload]
+
+MyKeyBoard="*uid://cy4w7oybf01fs"
+MyUiManager="*uid://05tt6okpfghi"
+MyAudioManager="*uid://cf2u0v6sk1xxh"
 
 [display]
 
 window/size/viewport_width=1440
 window/size/viewport_height=1080
 window/size/mode=2
-window/size/initial_position_type=3
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 
 [physics]
 

@@ -35,4 +35,4 @@ public:
   Circle(double spead, double d, double time, double x, double y, TYP typ = Normal);
   virtual ~Circle();
 };
-} // namespace utility::move
+}
