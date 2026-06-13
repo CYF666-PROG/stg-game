@@ -33,9 +33,7 @@ void game::bullet_settings::NitoriOne::sector(){
     return;
   }
   // 加载尖头弹
-  // 1. 获取资源加载器的单例
   ResourceLoader* loader = ResourceLoader::get_singleton();
-  // 2. 直接加载资源并进行安全强转
   Ref<SpriteFrames> spr = loader->load("res://material/bullet/pointed/blue.tres");
   if (spr.is_null()){
     UtilityFunctions::print("not fond ","res://material/bullet/pointed/blue.tres");

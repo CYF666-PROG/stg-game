@@ -25,7 +25,7 @@ void Rotate::update_animation(){
   }
   double speed = Math::deg_to_rad(20.0);  // 旋转速度 度/帧
 
-  // 让动画节点自己旋转
+  // 动画节点旋转
   double new_rot = animation->get_rotation() + speed;
   animation->set_rotation(new_rot);
 };

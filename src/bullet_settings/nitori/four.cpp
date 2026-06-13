@@ -77,35 +77,32 @@ void Four::shoot_player(){
     }
   };
 
-  // 7. 直接压入弹幕池（没有循环，只生一颗）
   pool->spawn(
-      spawn_pos,
-      linear_behavior,
-      rice_tex,  
-      "normal",
-      rice_radius,
-      1,
-      10,
-      Vector2(1,1) * rice_scale
-  );
+    spawn_pos,
+    linear_behavior,
+    rice_tex,  
+    "normal",
+    rice_radius,
+    1,
+    10,
+    Vector2(1,1) * rice_scale
+);
 }
 
 void Four::shoot_rings() {
-  // 基础参数本地化引用
-  int b_count = this->b_count;              // 假设为 30
+  int b_count = this->b_count;
   float base_radius = this->target_radius;  // 基础停顿半径
   float base_speed2 = this->stage2_max_speed; // 基础扩散速度
-  int base_stop_duration = this->stop_duration_frames; // 基础停顿时间（基准值）
+  int base_stop_duration = this->stop_duration_frames; // 基础停顿时间
 
-  // 计算单个子弹间距的“半缝隙弧度”（用于同组内完美插缝）
+  // 计算单个子弹间距的“半缝隙弧度” 同组内插缝
   double half_gap_rad = Math_PI / (double)b_count; 
 
-  // =================================================================
-  // ⏱️ 时间轴核心逻辑：每组环间隔 10 帧发出，动态扣减蓄力时间以实现同时爆发
-  // =================================================================
+
+  // 时间轴核心逻辑：每组环间隔发出
   
   switch (ring_frame_count) {
-    // ------ 🔹 第一组：内圈组合（第 5 帧发射） ------
+    // 第一组
     case 25:
       // 环 1-1：正常发射，基准蓄力时间
       shoot_ring(0.0, base_radius, base_speed2, base_stop_duration);
@@ -113,12 +110,12 @@ void Four::shoot_rings() {
       shoot_ring(half_gap_rad, base_radius, base_speed2 + 1.0f, base_stop_duration);
       break;
         
-    // ------ 🔹 第二组：中圈组合（第 15 帧发射，间隔 10 帧） ------
+    //第二组：中圈组合
     case 15: 
       {
         double group2_offset = Math::deg_to_rad(15.0); 
         float radius_g2 = base_radius + 40.0f;
-        // 🌟 核心：因为晚发了 10 帧，所以蓄力时间必须缩短 10 帧
+        // 晚发了 10 帧，所以延迟时间缩短 10 帧
         int g2_stop_duration = base_stop_duration - 10;
 
         // 环 2-1
@@ -128,12 +125,12 @@ void Four::shoot_rings() {
       }
       break;
 
-    // ------ 🔹 第三组：外圈组合（第 25 帧发射，再间隔 10 帧） ------
+    // 第三组：外圈
     case 5: 
       {
         double group3_offset = Math::deg_to_rad(30.0);
         float radius_g3 = base_radius + 80.0f;
-        // 🌟 核心：因为比第一组晚发了 20 帧，所以蓄力时间必须缩短 20 帧
+        // 晚发了 10 帧，所以延迟时间缩短 10 帧
         int g3_stop_duration = base_stop_duration - 20;
 
         // 环 3-1
@@ -144,7 +141,6 @@ void Four::shoot_rings() {
       break;
 
     default:
-      // 其他帧直接放行
       break;
   }
 }
@@ -160,22 +156,20 @@ void Four::shoot_ring(
   // 发射中心点
   Vector2 center_pos = get_global_position();
 
-  // 基础参数本地化引用
   int b_count = this->b_count;
   float orbit_linear_speed = this->orbit_linear_speed; 
   double ellipse_rotation_offset = this->ellipse_rotation_offset;
 
-  // 分流独立速度与加速帧数
+  // 独立速度与加速帧数
   float stage1_max_speed = this->stage1_max_speed;
-  float stage2_accel_frames = 300; // 你代码中的 300 帧
+  float stage2_accel_frames = 300;
 
-  // 🌟 将初始偏移角度从“角度制”转换为“弧度制”
 
   // 一次性发射 b_count 颗，均匀分布在 360 度
   for (int i = 0; i < b_count; ++i) {
     double fraction = (double)i / (double)b_count;
     
-    // 🌟 核心改动：在原先均匀分布的角度上，加上整体的基础偏移角
+    // 在原先均匀分布的角度上，加上整体的基础偏移角
     double initial_angle_rad = (fraction * Math_PI * 2.0) + base_offset_rad; 
 
     auto orbit_behavior = [
@@ -190,12 +184,12 @@ void Four::shoot_ring(
       ellipse_rotation_offset,
       stage = 0,               
       current_radius = 0.0f,   
-      current_angle = initial_angle_rad, // 会直接继承带偏移的初始角度
+      current_angle = initial_angle_rad, // 会继承带偏移的初始角度
       stop_start_frame = 0,
       rotation_speed_rad = Math::deg_to_rad(rotation_speed_deg)
     ](BulletPool::Bullet& b) mutable {
 
-      // --- 状态 0：从中心向外发射，使用 stage1_max_speed 平滑减速靠岸 ---
+      // 0：从中心向外发射，使用 stage1_max_speed 平滑减速
       if (stage == 0) {
         current_radius = center_pos.distance_to(b.position);
         float distance_left = target_radius - current_radius;
@@ -216,7 +210,7 @@ void Four::shoot_ring(
           b.velocity = dir * stage1_max_speed;
         }
       }
-      // --- 状态 1：在圆周上停顿蓄力（保持静止不转，等待爆发） ---
+      // 1：在圆周上停顿
       else if (stage == 1) {
         b.velocity = Vector2(0, 0); 
 
@@ -227,13 +221,13 @@ void Four::shoot_ring(
             stage = 2;
         }
       }
-      // --- 状态 2：解除封印，向外扩散（扩散与公转双重加速） ---
+      // 2：向外扩散
       else if (stage == 2) {
         int frames_since_resume = b.lifetime - stop_start_frame - stop_duration_frames;
         
         float t = 1.0f;
         if (frames_since_resume < stage2_accel_frames) {
-            t = (float)frames_since_resume / stage2_accel_frames;
+          t = (float)frames_since_resume / stage2_accel_frames;
         }
         
         float current_spread_speed = stage2_max_speed * t;
@@ -252,7 +246,7 @@ void Four::shoot_ring(
         b.velocity = (out_dir * current_spread_speed) + (tangent_dir * current_orbit_linear_speed);
       }
 
-      // --- 刷新子弹自转与贴图朝向 ---
+      // 刷新子弹自转与贴图朝向 ---
       if (b.lifetime == 0) {
         b.rotation = b.velocity.angle() + ellipse_rotation_offset;
       } else {
@@ -260,18 +254,15 @@ void Four::shoot_ring(
       }
     };
 
-    // ==========================================
-    // 🚀 压入对象池
-    // ==========================================
     pool->spawn(
-        center_pos, 
-        orbit_behavior, 
-        ellipse_tex, 
-        "normal",
-        ellipse_radius,
-        1,
-        10,
-        Vector2(1,1) * ellipse_scale
+      center_pos, 
+      orbit_behavior, 
+      ellipse_tex, 
+      "normal",
+      ellipse_radius,
+      1,
+      10,
+      Vector2(1,1) * ellipse_scale
     );
   }
 }

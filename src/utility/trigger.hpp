@@ -31,4 +31,4 @@ public:
   Trigger();
   ~Trigger();
 };
-} // namespace utility
+}

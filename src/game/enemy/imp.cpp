@@ -1,9 +1,6 @@
 #include "imp.hpp"
-#include "../bullet/player_bullet.hpp"
-#include "../bullet_manager.hpp"
 #include "../../conf/bullet.hpp"
 
-#include "godot_cpp/classes/collision_object2d.hpp"
 #include <godot_cpp/classes/texture2d.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>

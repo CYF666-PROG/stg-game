@@ -42,15 +42,11 @@ void NiToRi::_ready(){
   // 设置默认动画
   anima->play("normal", 1.0, true);
   // 设置碰撞
-  // 1. 创建 CollisionShape2D 子节点
   CollisionShape2D* collision_shape = memnew(CollisionShape2D);
-  // 2. 创建具体的几何形状资源（比如一个 20x20 的矩形）
   Ref<RectangleShape2D> rect_shape;
   rect_shape.instantiate();
   rect_shape->set_size(godot::Vector2(64, 38)); // 设置宽高
-  // 3. 将形状资源赋值给碰撞节点
   collision_shape->set_shape(rect_shape);
-  // 4. 将碰撞节点添加为 Area2D 的子节点
   add_child(collision_shape);
 }
 

@@ -1,8 +1,6 @@
 #pragma once
 
 #include "../entity.hpp"
-#include "../audio_manager.hpp"
-
 
 namespace game{
 
@@ -21,11 +19,10 @@ private:
   int hp = 40;
   /// 5个为一张符卡
   int card = 40;
-  void hited();
   void hit_bullet() override;
   void move();
   void shoot();
-  void check_orb();
+  void check_orb(); // 检查阴阳玉
   void skill();
 
   void update_animation() override;

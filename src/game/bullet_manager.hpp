@@ -1,6 +1,5 @@
 #pragma once
 
-#include "bullet.hpp"
 #include "bullet_pool.hpp"
 #include "audio_manager.hpp"
 #include "player/player.hpp"
@@ -9,12 +8,9 @@
 #include "godot_cpp/classes/sprite_frames.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 
-
-#include <vector>
-
 namespace game{
 
-/// 用于发射弹幕
+// 弹幕发射器
 class BulletManager : public godot::Node2D {
   GDCLASS(BulletManager, godot::Node2D)
 private:
@@ -70,6 +66,6 @@ public:
   BulletManager();
   virtual ~BulletManager();
 };
-} // namespace game
+}
 
 VARIANT_ENUM_CAST(game::BulletManager::bull_Typ);

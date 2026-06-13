@@ -12,9 +12,7 @@ Three::Three() {
   frame_counter = 0;
   time_accumulator = 0.0;
   // 加载炎弹
-  // 1. 获取资源加载器的单例
   ResourceLoader* loader = ResourceLoader::get_singleton();
-  // 2. 直接加载资源并进行安全强转
   fire_tex = loader->load("res://material/bullet/fire/blue.tres");
   if (fire_tex.is_null()){
     UtilityFunctions::print("not fond ","res://material/bullet/fire/blue.tres");
@@ -22,38 +20,34 @@ Three::Three() {
 }
 
 void Three::shoot() {
-  // 每一帧累加时间，用于让第一阶段的发 shè 角度产生平滑的摆动
+  // 每一帧累加时间，用于让第一阶段的发设 角度产生摆动
   time_accumulator += 0.016; 
 
   frame_counter++;
   if (frame_counter < interval_frames) {
-      return; 
+    return; 
   }
   frame_counter = 0;
 
   auto *pool = BulletPool::get_pool();
   if (!pool) {
-      UtilityFunctions::print("Three::shoot pool not found");
-      return;
+    UtilityFunctions::print("Three::shoot pool not found");
+    return;
   }
 
-  // ==========================================
-  // 📍 1. 参数化范围：屏幕顶部 y=0 随机生成位置
-  // ==========================================
+  //1. 范围 屏幕顶部 y=0 随机生成位置
   float random_x = UtilityFunctions::randf_range(spawn_min_x, spawn_max_x);
   Vector2 spawn_pos(random_x, 0.0f);
 
-  // ==========================================
-  // 📐 2. 角度计算（随时间左右摆动）与目标点随机
-  // ==========================================
+  // 计算角度与目标点随机
   // 第一阶段角度随时间摆动
   float current_swing_deg = stage1_base_deg + std::sin(time_accumulator * stage1_swing_speed) * stage1_swing_amp;
   double launch_rad = Math::deg_to_rad(current_swing_deg);
   
-  // 计算方向向量（两阶段相同，因此后续直接沿用此方向）
+  // 计算方向向量
   Vector2 move_direction = Vector2(std::cos(launch_rad), std::sin(launch_rad)).normalized();
 
-  // 每一颗子弹独一无二的停顿 Y 坐标（234 ± 30 范围内）
+  // 每一颗子弹随机的停顿 Y 坐标
   float bullet_target_y = target_y_base + UtilityFunctions::randf_range(-target_y_range, target_y_range);
 
   // ==========================================

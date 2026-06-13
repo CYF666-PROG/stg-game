@@ -50,14 +50,14 @@ void game::bullet_settings::Sunflower::inside(){
       shoot_rad = benchmark_rad + j * rad;
 
       auto linear_behavior = [rad,j,spead,shoot_rad,min,rotation_offset,end,stop,plus](BulletPool::Bullet& b){
-        if(b.lifetime < plus){
+        if(b.lifetime < plus){  // 初始展开
           b.velocity = Vector2(cos(shoot_rad), sin(shoot_rad)) * spead;
-        }else if(b.lifetime > stop + plus) {
+        }else if(b.lifetime > stop + plus) {  // 静止停留
           b.velocity = Vector2(cos(shoot_rad), sin(shoot_rad)) * end;
-        }else{
+        }else{  // 最终速度
           b.velocity = Vector2(0,0);
         }
-        if (!b.velocity.is_zero_approx()){
+        if (!b.velocity.is_zero_approx()){  // 更新朝向
           b.rotation = rotation_offset + b.velocity.angle();
         }
       };
@@ -78,7 +78,6 @@ void game::bullet_settings::Sunflower::inside(){
 }
 
 void game::bullet_settings::Sunflower::outside(){
-  
   double direction_count = 14; // 发射方向个数
   double count = 10; // 发射轮数
   double degree = 1; // 每轮间隔多少度
@@ -98,14 +97,14 @@ void game::bullet_settings::Sunflower::outside(){
       shoot_rad = benchmark_rad + j * rad;
 
       auto linear_behavior = [rad,j,spead,shoot_rad,min,rotation_offset,end,stop,plus](BulletPool::Bullet& b){
-        if(b.lifetime < plus){
+        if(b.lifetime < plus){  // 初始展开
           b.velocity = Vector2(cos(shoot_rad), sin(shoot_rad)) * spead;
-        }else if(b.lifetime > stop + plus) {
+        }else if(b.lifetime > stop + plus) {  // 静止停留
           b.velocity = Vector2(cos(shoot_rad), sin(shoot_rad)) * end;
-        }else{
+        }else{  //最终速度
           b.velocity = Vector2(0,0);
         }
-        if (!b.velocity.is_zero_approx()){
+        if (!b.velocity.is_zero_approx()){  // 更新朝向
           b.rotation = rotation_offset + b.velocity.angle();
         }
       };

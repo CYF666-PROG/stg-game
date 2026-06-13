@@ -20,8 +20,6 @@
 #include "bullet_settings/nitori/two.hpp"
 #include "bullet_settings/nitori/three.hpp"
 #include "bullet_settings/nitori/four.hpp"
-#include "game/bullet/player_bullet.hpp"
-#include "game/bullet/round_bullet.hpp"
 #include "ui/boss_health.hpp"
 #include "ui/card_name.hpp"
 #include "utility/trigger.hpp"
@@ -49,15 +47,12 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(game::Entity);
   GDREGISTER_CLASS(game::Player);
   GDREGISTER_CLASS(input::KeyBoard);
-  GDREGISTER_CLASS(game::Bullet);
   GDREGISTER_CLASS(game::LevelManager);
   GDREGISTER_CLASS(game::Enemy)
   GDREGISTER_CLASS(game::enemy::Minion)
   GDREGISTER_CLASS(game::enemy::Imp)
   GDREGISTER_CLASS(game::BulletManager);
   GDREGISTER_CLASS(game::bullet_settings::FlowerBullet);
-  GDREGISTER_CLASS(game::bullet::PlayerBullet);
-  GDREGISTER_CLASS(game::bullet::RoundBullet);
   GDREGISTER_CLASS(utility::Trigger);
   GDREGISTER_CLASS(utility::Gearbox);
   GDREGISTER_CLASS(game::BulletPool);

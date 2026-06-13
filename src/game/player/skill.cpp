@@ -19,7 +19,6 @@ void Skill::check_collisions(){
 }
 
 void Skill::_bind_methods(){
-  // 注册 _on_area_entered
   godot::ClassDB::bind_method(godot::D_METHOD("_on_area_entered", "other_area"), &game::player::Skill::_on_area_entered);
 }
 
@@ -62,34 +61,18 @@ void Skill::_physics_process(double delta){
       return;
     }
 
-    // 1. 获取当前子弹的全局坐标
+    // 跟踪最近的敌人
     godot::Vector2 bullet_pos = get_global_position();
-
-    // 2. 寻找最近的敌人
     godot::Node2D* enemy = ene_man->get_closest_enemy(bullet_pos, 10000);
-
     if (enemy != nullptr) {
-      // 3. 计算子弹当前的绝对速度大小（像素/帧），并保存下来
       double speed_length = vector_speed.length();
-
-      // 4. 计算指向敌人的目标单位方向向量
       godot::Vector2 target_pos = enemy->get_global_position();
       godot::Vector2 ideal_direction = (target_pos - bullet_pos).normalized();
-
-      // 5. 获取子弹当前的飞行单位方向向量
       godot::Vector2 current_direction = vector_speed / speed_length;
-
-      // 6. ✨ 关键：用向量 Lerp 引入物理惯性 ✨
-      // 这里的 0.2 是一个每帧固定的转向拉力系数。
-      // 子弹不会瞬间对准敌人，而是让原有方向（惯性）每帧只被往敌人方向“拉动” 3.5%。
-      // 数值越小（如 0.01），前一阶段的惯性越强，甩尾漂移半径越大；数值越大（如 0.1），转向越急。
       godot::Vector2 new_direction = current_direction.lerp(ideal_direction, 0.2).normalized();
 
-      // 7. 保持原本的速度大小，仅将新方向赋值回 vector_speed
       vector_speed = new_direction * speed_length;
-
     }
-    // 8. 严格按照当前的 vector_speed（像素/帧）进行位移更新，保留其完美惯性
     set_global_position(get_global_position() + vector_speed);
     set_global_rotation(vector_speed.angle());
   }
@@ -110,22 +93,18 @@ void game::player::Skill::_ready(){
   String path = String(conf::player::skill_1::path.c_str());
   double scale = conf::player::skill_1::scale;
   double radius = conf::player::skill_1::radius;
-    // 1. 获取资源加载器的单例
+  // 设置技能贴图
   ResourceLoader* loader = ResourceLoader::get_singleton();
-  // 2. 直接加载资源并进行安全强转
   Ref<AtlasTexture> texture = loader->load(path);
-  // 3. 检查是否加载成功
   if (!texture.is_valid()) {
     godot::UtilityFunctions::print(path, " load erro");
     return;
   }
-  // 设置贴图精灵
   spr = memnew(Sprite2D);
   spr->set_texture(texture);
   spr->set_scale(Vector2(1,1)*scale);
   add_child(spr);
-
-  // 设置碰撞半径
+  // 设置碰撞
   Ref<CircleShape2D> circle_shape = memnew(godot::CircleShape2D);
   circle_shape->set_radius(radius);
   auto coll = memnew(CollisionShape2D);
@@ -133,14 +112,8 @@ void game::player::Skill::_ready(){
   add_child(coll);
 }
 
-void Skill::chek_coll(){
-
-}
-
 Skill::Skill(){}
 
 Skill::Skill(double angle) : angle(angle) {}
 
-Skill::~Skill()
-{
-}
+Skill::~Skill(){}

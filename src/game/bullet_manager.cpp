@@ -15,11 +15,9 @@ using namespace game;
 void game::BulletManager::shoot() {}
 
 void game::BulletManager::shoot_effects(){
-    // 1. 获取资源加载器的单例
+  // 加载发弹特效
   godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
-  // 2. 直接加载资源并进行安全强转
   godot::Ref<SpriteFrames> texture = loader->load("res://material/special_effects/bullet/white_creat.tres");
-  // 3. 检查是否加载成功
   if (!texture.is_valid()) {
     godot::UtilityFunctions::print("res://material/special_effects/bullet/white_creat.tres", " load erro");
     return;
@@ -34,20 +32,15 @@ void game::BulletManager::shoot_effects(){
     "normal", 
     0.5,
     [](EffectManager::EffectInstance &inst, int elapsed_ticks) -> bool {
-      // --- 只专注于修改数值，非常简便 ---
-      // 1. 每帧旋转 0.1 弧度
       if (elapsed_ticks < 3){
         inst.modulate.a = 1;
         inst.scale.x = 2 ;
       }
-      // 2. 每帧缩小 2%，直到缩小到零
       inst.scale.x = Math::max(0.0, inst.scale.x - 0.2);
       inst.scale.y = inst.scale.x;
-      // 3. 同时逐渐变不透明
       inst.modulate.a = Math::min(1.0, inst.modulate.a - 0.1);
-
       if (inst.scale.x == 0) {
-          return false;
+        return false;
       }
       return true; // 继续存活
     }
@@ -71,9 +64,9 @@ void game::BulletManager::_physics_process(double delta){
 
 void game::BulletManager::_ready(){
   load_bullet_infor();
-  // 1. 禁用物理帧更新（对应 _physics_process）
+  // 禁用物理帧
   set_physics_process(false);
-  // 2. 禁用闲置帧更新（对应 _process）
+  // 禁用闲置帧更新
   set_process(false);
   pool = BulletPool::get_pool();
   if (!pool) {
@@ -90,9 +83,9 @@ void game::BulletManager::_ready(){
 }
 
 void BulletManager::start_shoot(){
-  // 物理帧更新（对应 _physics_process）
+  // 物理帧更新
   set_physics_process(true);
-  // 闲置帧更新（对应 _process）
+  // 闲置帧更新
   set_process(true);
 }
 
@@ -122,9 +115,6 @@ void BulletManager::load_bullet_infor(){
 }
 
 void game::BulletManager::_bind_methods(){
-  // ==========================================
-  // 1. 注册所有方法 (注意 D_METHOD 的参数名字)
-  // ==========================================
   ClassDB::bind_method(D_METHOD("set_fire_count", "p_count"), &BulletManager::set_fire_count);
   ClassDB::bind_method(D_METHOD("get_fire_count"), &BulletManager::get_fire_count);
 
@@ -137,11 +127,7 @@ void game::BulletManager::_bind_methods(){
   ClassDB::bind_method(D_METHOD("set_fire_delay", "fire_delay"), &BulletManager::set_fire_delay);
   ClassDB::bind_method(D_METHOD("get_fire_delay"), &BulletManager::get_fire_delay);
 
-  // ==========================================
-  // 2. 暴露属性到 Godot 检查器 (Inspector)
-  // ==========================================
-
-  // 暴露 int: 发射次数
+  // int: 发射次数
   ClassDB::add_property(get_class_static(),
   PropertyInfo(Variant::INT, "fire_count"),
   "set_fire_count",
@@ -154,27 +140,21 @@ void game::BulletManager::_bind_methods(){
   "get_fire_interval"
   );
 
-  // 暴露 资源对象 (对应 Variant::OBJECT): 弹幕贴图
-  // 极其重要：第三个参数必须是 PROPERTY_HINT_RESOURCE_TYPE，第四个参数写明引擎中的类名 "SpriteFrames"
   ClassDB::add_property(get_class_static(),
   PropertyInfo(Variant::OBJECT, "to_launch_texture", PROPERTY_HINT_RESOURCE_TYPE, "SpriteFrames"),
   "set_to_launch_texture",
   "get_to_launch_texture"
   );
 
-    // 1. 快速绑定方法
   ClassDB::bind_method(D_METHOD("set_fire_type", "p_type"), &BulletManager::set_fire_type);
   ClassDB::bind_method(D_METHOD("get_fire_type"), &BulletManager::get_fire_type);
 
-  // 2. 【最简暴露】使用以逗号分隔的字符串，直接决定 Godot 编辑器下拉菜单里显示什么文字
-  // 这里的顺序 "Normal,Shotgun,Laser" 严格对应枚举中 0, 1, 2 的顺序
   ClassDB::add_property(get_class_static(),
       PropertyInfo(godot::Variant::INT, "fire_type", godot::PROPERTY_HINT_ENUM, "pointed,ring,circle,fire"),
       "set_fire_type",
       "get_fire_type"
   );
 
-  // 暴露 延迟
   ClassDB::add_property(get_class_static(),
   PropertyInfo(Variant::INT, "fire_delay"),
   "set_fire_delay",

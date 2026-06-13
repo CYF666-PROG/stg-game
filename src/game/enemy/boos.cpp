@@ -16,18 +16,15 @@ using namespace godot;
 
 bool Boos::move(Vector2 p_target){
   godot::Vector2 current_pos = get_global_position();
-  // -------------------------------------------------------------
-  // ⚙️ 纯帧硬核物理参数配置（单位皆为：像素/帧）
-  // -------------------------------------------------------------
-  float max_speed = 6.0f;       // 最高巡航速度（每帧最多走 6 像素）
-  float accel = 0.2f;           // 每帧的加速度（数值越小，启动越平滑越慢）
-  float brake_distance = 30.0f; // 刹车距离（离终点还剩 90 像素时开始减速缓动）
+  float max_speed = 6.0f;       // 最大速度
+  float accel = 0.2f;           // 每帧加速度
+  float brake_distance = 30.0f; // 刹车距离
 
-  // 1. 计算当前位置指向终点的绝对方向和总剩余距离
+  // 当前位置指向终点的绝对方向和总剩余距离
   godot::Vector2 to_target = p_target - current_pos;
   float distance_left = to_target.length();
 
-  // 安全检查：如果已经贴到目标点了，直接强行靠岸
+  // 如果已到达 则直接改变坐标
   if (distance_left <= 2) {
     set_global_position(p_target);
     current_velocity = godot::Vector2(0, 0); // 速度清零
@@ -36,43 +33,33 @@ bool Boos::move(Vector2 p_target){
 
   godot::Vector2 move_dir = to_target.normalized();
 
-  // -------------------------------------------------------------
-  // 🌀 2. 动态速度计算（核心算法）
-  // -------------------------------------------------------------
   float target_speed = max_speed;
 
-  // 🛑 减速区判断：如果进入了刹车距离
+  // 进入刹车距离
   if (distance_left < brake_distance) {
-    // 计算减速因子 (从 1.0 渐变到 0.0)
+    // 减速因子
     float brake_factor = distance_left / brake_distance;
-    
-    // 【高级视觉优化】使用二次方缓动曲线，让减速动作“先快后慢”，靠岸更优雅
-    brake_factor = brake_factor * brake_factor; 
-    
+    // 二次方缓动曲线
+    brake_factor = brake_factor * brake_factor;
     target_speed = max_speed * brake_factor;
   }
 
-  // 🚀 加速与平滑过渡：让当前速度向目标速度匀速逼近
-  // 使用 move_toward 的标量版本（或者手动逼近），防止速度突变导致的画面抖动
+  // 加速与过渡 当前速度向目标速度匀速逼近
   float current_speed_length = current_velocity.length();
   float next_speed_length = godot::Math::move_toward(current_speed_length, target_speed, accel);
-
-  // 重新组合成最新的速度向量
+  // 组合成最新的速度向量
   current_velocity = move_dir * next_speed_length;
 
-  // -------------------------------------------------------------
-  // 🚚 3. 应用位移与绝对靠岸保护
-  // -------------------------------------------------------------
-  // 如果这一帧走完就会冲过头，或者剩余距离已经极其微小，直接拉到终点
+  // 应用位移与到达保护
   if (current_velocity.length() >= distance_left) {
     set_global_position(p_target);
     current_velocity = godot::Vector2(0, 0); // 刹车稳住
     
-    // 🛑 移动完成，平滑切换状态
+    // 移动完成
     return true;
   } 
   else {
-    // 正常物理推进
+    // 正常前进
     set_global_position(current_pos + current_velocity);
   }
   return false;
@@ -126,11 +113,9 @@ void Boos::dead(){
   // 特效
   audio->play("boos_end");
 
-  // 1. 获取资源加载器的单例
+  // 死亡特效
   ResourceLoader* loader = ResourceLoader::get_singleton();
-  // 2. 直接加载资源并进行安全强转
   Ref<SpriteFrames> texture = loader->load("res://material/special_effects/entity_dead.tres");
-  // 3. 检查是否加载成功
   if (!texture.is_valid()) {
     UtilityFunctions::print("res://material/special_effects/entity_dead.tres", " load erro");
     return;
@@ -152,9 +137,8 @@ void Boos::dead(){
         inst.scale.x = inst.scale.x + 0.2;
         inst.scale.y = inst.scale.x;
       }
-      // 同时逐渐变透明
+      // 逐渐变透明
       inst.modulate.a = Math::max(0.0, inst.modulate.a - 0.01);
-
       // 变透明时销毁
       if (inst.modulate.a == 0) {
         return false;
@@ -185,7 +169,7 @@ void Boos::update_animation(){
   godot::StringName current_anim = anima->get_animation();
 
   if (is_moving) {
-    // 移动状态：正向播放 move
+    // 移动状态 正向播放 move
     if (current_anim != StringName("move")) {
       // 如果从其他动画切过来，从第 0 帧正向播放 move
       anima->play("move", 1.0, false);
@@ -193,16 +177,15 @@ void Boos::update_animation(){
       // 如果已经在播 move，但由于不循环它会停在最后一帧。
     }
   } else {
-    // 停止状态：倒放 move 直至回到 normal
+    // 停止状态 倒放 move 直至回到 normal
     if (current_anim == StringName("move")) {
-      // 检查当前播放速度（is_backward 判定）
+      // 检查当前播放速度
       if (anima->get_speed_scale() > 0.0) {
-        // 刚停下来，立刻让 move 动画“原地倒放”
-        // 参数说明：动画名, 播放速度(-1.0代表倒放), from_end=true(如果是倒放则从最后一帧或当前帧往回走)
+        // 刚停下来，让 move 动画倒放
+        //动画名, 播放速度(-1.0代表倒放), from_end=true(如果是倒放则从最后一帧或当前帧往回走)
         anima->play("move", -1.0, true);
       }
-      
-      // 检查倒放是否已经到头（回到了第 0 帧）
+      // 检查倒放是否已经到头 回到了第 0 帧
       if (anima->get_frame() == 0) {
         anima->play("normal");
       }
@@ -231,6 +214,7 @@ void Boos::entity_physics_process(double delta){
   }else if (status == waiting && wait_l) {
     wait_l(this);
   }
+
   befor_hp = hp;
   frame_status++;
   if(invincible_frame > 0) invincible_frame--;
@@ -240,7 +224,7 @@ void Boos::_ready(){
   hp = 5000;
   // 调用父类的准备
   Enemy::_ready();
-  // 获取关卡管理器单例
+  // 暂停关卡管理器
   level_manager = game::LevelManager::get_singleton();
   if (!level_manager) {
     UtilityFunctions::print("Boos::_ready level_manager not foud");

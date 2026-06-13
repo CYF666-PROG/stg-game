@@ -26,8 +26,6 @@ private:
   double angle_speed = 0;
 public:
   virtual void _on_area_entered(godot::Area2D *other_area);
-  /// 检查碰撞
-  void chek_coll();
   static void _bind_methods();
   void _physics_process(double delta) override;
   void _ready() override;

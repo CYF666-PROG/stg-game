@@ -1,17 +1,13 @@
 #include "levelmanager.hpp"
 #include "../utility/move.hpp"
-#include "../utility/move/circle.hpp"
-#include "enemy/boos.hpp"
 #include "enemy/boos/nitori.hpp"
 #include "enemy/imp.hpp"
 #include "enemy/minion.hpp"
 #include "enemy/rotate.hpp"
 #include "godot_cpp/classes/global_constants.hpp"
-#include "godot_cpp/core/math_defs.hpp"
 #include "godot_cpp/core/memory.hpp"
 #include "godot_cpp/variant/string.hpp"
 
-#include <cstdint>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
@@ -386,16 +382,13 @@ if (singleton == this) {
 }
 
 godot::Path2D *game::LevelManager::get_path2d(godot::String path){
-  // 3. 根据相对路径寻找 Path2D
-  // 假设在你的关卡场景里，Path2D 节点的名字叫 "EnemyPath"
-  // 如果它在更深的层级，可以用 "Map/Paths/EnemyPath"
+  // 根据相对路径寻找 Path2D
   godot::Node* target_node = current_scene->get_node_or_null("move/" + path);
   if (!target_node) {
     godot::UtilityFunctions::print("not found", path);
     return nullptr;
   }
-  // 4. 安全类型转换
-  godot::Path2D* path_obj = godot::Object::cast_to<godot::Path2D>(target_node);
+  auto* path_obj = godot::Object::cast_to<godot::Path2D>(target_node);
   if (!path_obj){
     godot::UtilityFunctions::print("not found", path);
   } 
@@ -404,11 +397,8 @@ godot::Path2D *game::LevelManager::get_path2d(godot::String path){
 
 enemy::Minion* LevelManager::get_minion(enemy_typ typ, Color color){
   game::enemy::Minion* spawn_enemy = nullptr;
-  // --- 1. 处理 IMP (妖精小怪) 类型 ---
-  if (typ == IMP) { // 核心修复：= 改为 ==
+  if (typ == IMP) {
     auto imp = memnew(game::enemy::Imp);
-    
-    // 根据传入的颜色，加载对应的 SpriteFrames 动画资源
     switch (color) {
       case blue:
         imp->set_animation("res://material/enemy/imp/hat/blue.tres");
@@ -456,7 +446,6 @@ enemy::Minion* LevelManager::get_minion(enemy_typ typ, Color color){
     }
     spawn_enemy = rot;
   }
-  // --- 3. 安全防御与返回 ---
   if (spawn_enemy == nullptr) {
     godot::UtilityFunctions::print("LevelManager: Unknown enemy type requested!");
   }
@@ -464,88 +453,67 @@ enemy::Minion* LevelManager::get_minion(enemy_typ typ, Color color){
 }
 
 void LevelManager::set_all_children_visible(){
-  // 1. 获取全局场景树
   Engine* engine = Engine::get_singleton();
   if (!engine) return;
-
-  SceneTree* tree = Object::cast_to<SceneTree>(engine->get_main_loop());
+  auto* tree = Object::cast_to<SceneTree>(engine->get_main_loop());
   if (!tree) return;
 
-  // 2. 直接精确定位到你想操作的关卡父节点（以图片中的 level2 为例）
-  // 起点是 /root，相对路径写 "play/move/level2"
   Node* level_node = tree->get_root()->get_node_or_null(NodePath("play/move/level2"));
   if (!level_node) {
-      UtilityFunctions::print("错误: 找不到路径 /root/play/move/level3");
-      return;
+    UtilityFunctions::print("not find /root/play/move/level3");
+    return;
   }
 
-  // 确保 level2 自身是可见的
-  CanvasItem* level_item = Object::cast_to<CanvasItem>(level_node);
+  auto* level_item = Object::cast_to<CanvasItem>(level_node);
   if (level_item) {
-      level_item->set_visible(true);
+    level_item->set_visible(true);
   }
 
-  // 3. 遍历 level2 下的所有 Path2D 节点并让它们可见
   int child_count = level_node->get_child_count();
   for (int i = 0; i < child_count; ++i) {
-      Node* child = level_node->get_child(i);
-      if (!child) continue;
+    Node* child = level_node->get_child(i);
+    if (!child) continue;
 
-      // Path2D 继承自 Node2D，Node2D 继承自 CanvasItem
-      // 转换为 CanvasItem 即可安全调用 set_visible
-      CanvasItem* path_item = Object::cast_to<CanvasItem>(child);
-      if (path_item) {
-          path_item->set_visible(true);
-      }
+    auto* path_item = Object::cast_to<CanvasItem>(child);
+    if (path_item) {
+      path_item->set_visible(true);
+    }
   }
 }
 
 void LevelManager::process_game_over_fade(double delta, godot::String target_scene, float fade_speed) {
-    // 标记进入淡出状态（供 _draw 函数判断使用）
-    is_game_over_fading = true;
+  is_game_over_fading = true;
 
-    // 1. 每帧根据 delta 递增透明度
-    fade_alpha += fade_speed * static_cast<float>(delta);
+  fade_alpha += fade_speed * static_cast<float>(delta);
 
-    // 2. 限制最大值为 1.0（全黑）
-    if (fade_alpha >= 1.0f) {
-        fade_alpha = 1.0f;
-        
-        // 3. 透明度达到 100%，执行场景切换
-        godot::SceneTree* tree = get_tree();
-        if (tree != nullptr) {
-            tree->change_scene_to_file(target_scene);
-        }
-        return; // 切换场景后当前节点会被销毁
+  if (fade_alpha >= 1.0f) {
+    fade_alpha = 1.0f;
+    
+    godot::SceneTree* tree = get_tree();
+    if (tree != nullptr) {
+      tree->change_scene_to_file(target_scene);
     }
+    return; // 切换场景后当前节点会被销毁！！！！！！！！
+  }
 
-    // 4. 关键：每帧通知 Godot 重新绘制当前节点（触发 _draw）
-    queue_redraw();
+  queue_redraw();
 }
 
 void LevelManager::_draw() {
-    // 只有在游戏结束淡出时才绘制，避免平时消耗性能
-    if (is_game_over_fading && fade_alpha > 0.0f) {
-        // 获取当前视口（屏幕）的分辨率大小
-        godot::Vector2 screen_size = get_viewport_rect().size;
-        
-        // 创建一个覆盖全屏的矩形（假设 LevelManager 在 Canvas 的原点 0,0）
-        godot::Rect2 rect = godot::Rect2(godot::Vector2(0, 0), screen_size);
-        
-        // 创建黑色，Alpha 透明度由变量控制
-        godot::Color fade_color = godot::Color(0.0f, 0.0f, 0.0f, fade_alpha);
-        
-        // 调用 Godot 2D 渲染 API 绘制实心矩形
-        draw_rect(rect, fade_color);
-    }
+  if (is_game_over_fading && fade_alpha > 0.0f) {
+    godot::Vector2 screen_size = get_viewport_rect().size;
+    godot::Rect2 rect = godot::Rect2(godot::Vector2(0, 0), screen_size);
+    godot::Color fade_color = godot::Color(0.0f, 0.0f, 0.0f, fade_alpha);
+    draw_rect(rect, fade_color);
+  }
 }
 
 void game::LevelManager::make_enemy(
     double time,
     enemy_typ typ,
     godot::Path2D *path,
-    std::vector<std::unique_ptr<utility::Move>> moves)
-{
+    std::vector<std::unique_ptr<utility::Move>> moves
+) {
   enemy senemy ;
   senemy.moves = std::move(moves) ;
   senemy.path = path;

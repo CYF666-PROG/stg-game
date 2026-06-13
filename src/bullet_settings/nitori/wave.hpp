@@ -1,20 +1,19 @@
-#include "../../game/bullet_manager.hpp"
 #include "../../conf/bullet.hpp"
+#include "../../game/bullet_manager.hpp"
 
 #include "godot_cpp/classes/ref.hpp"
 #include "godot_cpp/classes/sprite_frames.hpp"
-#include "godot_cpp/classes/wrapped.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 
 namespace game::bullet_settings::nitori{
 class Wave{
 private:
-
+  // (漂溺 "水底粼光，心中痛伤") 符卡单个发射点的发射器
   game::BulletPool* pool = nullptr;
   int frame_counter = 0; //帧计数器
   
-  godot::Ref<godot::SpriteFrames> fire_tex; // 炎弹贴图
   // 炎弹数据
+  godot::Ref<godot::SpriteFrames> fire_tex;
   double fire_scale = conf::bullet::fire::scale;
   double fire_radius = conf::bullet::fire::radius;
   double fire_rotation_offset = conf::bullet::fire::rotation_offset;

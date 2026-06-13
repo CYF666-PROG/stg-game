@@ -2,7 +2,6 @@
 #include "../input/keyboard.hpp"
 
 #include "godot_cpp/classes/engine.hpp"
-#include "godot_cpp/classes/label.hpp"
 #include "godot_cpp/classes/object.hpp"
 
 using namespace ui;

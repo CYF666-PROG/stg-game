@@ -2,25 +2,20 @@
 #include "audio_manager.hpp"
 #include "bullet_pool.hpp"
 #include "effect_manager.hpp"
-#include "godot_cpp/classes/animated_sprite2d.hpp"
 #include "godot_cpp/classes/label.hpp"
 #include "godot_cpp/classes/node2d.hpp"
 #include "godot_cpp/classes/sprite2d.hpp"
-#include "godot_cpp/core/memory.hpp"
 #include "godot_cpp/variant/string.hpp"
-#include "godot_cpp/variant/typed_array.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include "levelmanager.hpp"
 #include "player/player.hpp"
 #include "../conf/bullet.hpp"
 
-#include "godot_cpp/classes/atlas_texture.hpp"
 #include "godot_cpp/classes/ref.hpp"
 #include "godot_cpp/classes/resource_loader.hpp"
 #include "godot_cpp/variant/color.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 #include <godot_cpp/classes/scene_tree.hpp>
-#include <cstdint>
 
 using namespace godot;
 using namespace game;
@@ -79,7 +74,6 @@ void UiManager::check_player(){
 }
 
 bool UiManager::load_status_ui(){
-
   player = get_node<Player>("/root/play/Player");
   if (!player) {
     UtilityFunctions::print("UiManager::check_player not found /root/play/Player");

@@ -12,7 +12,6 @@ class Imp : public Minion{
 private:
 
 public:
-
   static void _bind_methods(){}
   void _ready() override ;
   Imp();

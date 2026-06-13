@@ -10,12 +10,8 @@ using namespace godot;
 using namespace game::player;
 
 void game::player::Transmitter_1::_ready(){
-  // 获取子弹贴图
-  // 1. 获取资源加载器的单例
   godot::ResourceLoader* loader = godot::ResourceLoader::get_singleton();
-  // 2. 直接加载资源并进行安全强转
   texture = loader->load(bullet_path);
-  // 3. 检查是否加载成功
   if (!texture.is_valid()) {
     godot::UtilityFunctions::print(bullet_path, " load erro");
     return;
@@ -49,6 +45,7 @@ void Transmitter_1::shoot(){
   if (player && player->invincible_frame > 40) {
     return;
   }
+  // 添加子弹
   if (!pool){
     UtilityFunctions::print("Transmitter_1: pool not found");
     pool = game::BulletPool::get_pool();
@@ -115,13 +112,8 @@ game::player::Transmitter_1::Transmitter_1(orb_Typ orb_typ, bullet_Typ bullet_ty
     bullet_scale = conf::bullet::player_3::scale;
     bullet_radius = conf::bullet::player_3::radius;
   }
-  
 }
 
-Transmitter_1::~Transmitter_1()
-{
-}
+Transmitter_1::~Transmitter_1(){}
 
-void game::player::Transmitter_1::_bind_methods()
-{
-}
+void Transmitter_1::_bind_methods(){}

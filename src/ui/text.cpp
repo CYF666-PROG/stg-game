@@ -61,10 +61,10 @@ void Text::update_animation(){
   if (is_selected) {
     double speed_multiplier = 0.05; 
     double factor = (std::sin(frame * speed_multiplier) + 1.0f) * 0.5f;
-    godot::Color normal_color = godot::Color(1.0f, 1.0f, 1.0f); // 默认白色
-    godot::Color red_color = godot::Color(1.0f, 0.0f, 0.0f); // 警示红色
+    godot::Color normal_color = godot::Color(1.0f, 1.0f, 1.0f); // 白色
+    godot::Color red_color = godot::Color(1.0f, 0.0f, 0.0f); // 红色
     godot::Color current_color = normal_color.lerp(red_color, factor);
-    // 6. 每一帧实时更新 Label 的颜色
+    // 更新 Label 的颜色
     add_theme_color_override("font_color", current_color);
   }else {
     godot::Color normal_color = godot::Color(1.0f, 1.0f, 1.0f); // 默认白色
@@ -98,16 +98,14 @@ void Text::_ready(){
   }
 };
 void Text::_bind_methods(){
-  // 1. 必须先绑定 Getter 和 Setter 方法
   ClassDB::bind_method(D_METHOD("get_godot_typ"), &Text::get_godot_typ);
   ClassDB::bind_method(D_METHOD("set_godot_typ", "typ"), &Text::set_godot_typ);
 
-  // 2. 绑定属性
-  // 参数：类名、PropertyInfo(类型, 属性在Godot中的变量名)、Setter名字、Getter名字
-  ClassDB::add_property(get_class_static(), 
-      PropertyInfo(Variant::FLOAT, "typ"), 
-      "set_godot_typ", 
-      "get_godot_typ"
+  ClassDB::add_property(
+    get_class_static(), 
+    PropertyInfo(Variant::FLOAT, "typ"), 
+    "set_godot_typ", 
+    "get_godot_typ"
   );
 };
 

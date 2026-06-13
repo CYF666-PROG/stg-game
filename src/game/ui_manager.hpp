@@ -1,7 +1,6 @@
 #pragma once
 
 #include "audio_manager.hpp"
-#include "godot_cpp/classes/animated_sprite2d.hpp"
 #include "godot_cpp/classes/atlas_texture.hpp"
 #include "godot_cpp/classes/color_rect.hpp"
 #include "godot_cpp/classes/label.hpp"
@@ -9,7 +8,6 @@
 #include "player/player.hpp"
 
 #include "godot_cpp/classes/wrapped.hpp"
-#include "godot_cpp/variant/color.hpp"
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/core/class_db.hpp>
 

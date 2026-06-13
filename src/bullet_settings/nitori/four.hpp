@@ -1,12 +1,9 @@
 #include "../../game/bullet_manager.hpp"
 #include "../../conf/bullet.hpp"
 
-#include "godot_cpp/classes/node2d.hpp"
 #include "godot_cpp/classes/ref.hpp"
 #include "godot_cpp/classes/sprite_frames.hpp"
 #include "godot_cpp/classes/wrapped.hpp"
-#include "godot_cpp/variant/vector2.hpp"
-#include <vector>
 
 namespace game::bullet_settings::nitori{
   // 河童 "水皿旋轮"
@@ -24,7 +21,7 @@ private:
   const double rotation_speed_deg = 5 ; // 自转速度
   
   int ring_frame_count = 0; // 射击环时的计时器
-  // 向玩家射击参数
+  // 是否向玩家射击
   bool run_shoot_player = false;
   // 椭圆弹数据
   godot::Ref<godot::SpriteFrames> ellipse_tex; // 椭圆弹贴图

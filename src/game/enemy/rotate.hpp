@@ -1,7 +1,7 @@
 #include "minion.hpp"
 
 namespace game::enemy {
-  /// @brief 旋转
+  /// @brief 旋转的小妖精~~~
 class Rotate : public Minion{
   GDCLASS(Rotate, Minion)
 private:
