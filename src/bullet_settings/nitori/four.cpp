@@ -8,9 +8,7 @@ using namespace godot;
 
 Four::Four(){
   // 加载炎弹
-  // 1. 获取资源加载器的单例
   ResourceLoader* loader = ResourceLoader::get_singleton();
-  // 加载炎弹
   ellipse_tex = loader->load("res://material/bullet/ellipse/green.tres");
   if (ellipse_tex.is_null()){
     UtilityFunctions::print("not fond ","res://material/bullet/ellipse/green.tres");
@@ -50,13 +48,13 @@ void Four::shoot_player(){
   // 音效
   audio_manager->play("fast");
   
-  double max_offset_deg = 8;    // 🌟 最大随机偏移角度（例如 10.0f，表示在玩家方向左右 ±10度内晃动）
-  double bullet_speed = 2;       // 子弹发射的速度
+  double max_offset_deg = 8;    //  最大随机偏移角度
+  double bullet_speed = 2;       // 子弹速度
 
-  // 2. 🎯 动态计算指向玩家的绝对角度
+  // 计算指向玩家的绝对角度
   double to_player_angle = get_global_position().angle_to_point(player->get_global_position());
 
-  // 3. 注入随机偏角，得到最终的子弹发射角度
+  // 加入随机偏角，得到最终子弹发射角度
   float rand_offset_deg = UtilityFunctions::randf_range(-max_offset_deg, max_offset_deg);
   double final_angle = to_player_angle + godot::Math::deg_to_rad(rand_offset_deg);
 
@@ -65,18 +63,18 @@ void Four::shoot_player(){
   velocity_vector *= bullet_speed;
 
   Vector2 spawn_pos = get_global_position(); // 当前发射源位置
-  int jia = 10;                              // 完全加速帧数（推背感）
+  int jia = 10;                              // 完全加速帧数
 
   // 6. 绑定线性推背加速行为
   auto linear_behavior = [
     velocity_vector, 
     jia
   ](BulletPool::Bullet& b) {
-      if (b.lifetime < jia) {
-          b.velocity = velocity_vector * (double(b.lifetime) / double(jia));
-      } else {
-          b.velocity = velocity_vector;
-      }
+    if (b.lifetime < jia) {
+      b.velocity = velocity_vector * (double(b.lifetime) / double(jia));
+    } else {
+      b.velocity = velocity_vector;
+    }
   };
 
   // 7. 直接压入弹幕池（没有循环，只生一颗）

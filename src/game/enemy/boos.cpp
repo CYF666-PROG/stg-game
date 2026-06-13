@@ -237,6 +237,7 @@ void Boos::entity_physics_process(double delta){
 }
 
 void Boos::_ready(){
+  hp = 5000;
   // 调用父类的准备
   Enemy::_ready();
   // 获取关卡管理器单例

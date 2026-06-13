@@ -321,6 +321,8 @@ void UiManager::dead(){
   if (!pause || !dead) {
     return;
   }
+  // 暂停BGM
+  audio->pause_bgm();
   pause->set_visible(false);
   dead->set_visible(true);
   // 暂停场景根节点
@@ -336,6 +338,8 @@ void UiManager::dead(){
 
 void UiManager::quit(){
   status_typ = TITLE;
+  // 暂停BGM
+  audio->pause_bgm();
   // 1. 获取当前节点的 SceneTree
   SceneTree *tree = get_tree();
   if (tree) {
