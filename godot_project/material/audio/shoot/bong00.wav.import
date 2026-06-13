@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cveryk2yr4x61"
-path="res://.godot/imported/se_tan00.wav-8874989055d4a91f2fc48caf998708e8.sample"
+path="res://.godot/imported/bong00.wav-5aa3aaac62faa4d2317861976d098707.sample"
 
 [deps]
 
-source_file="res://material/audio/shoot/se_tan00.wav"
-dest_files=["res://.godot/imported/se_tan00.wav-8874989055d4a91f2fc48caf998708e8.sample"]
+source_file="res://material/audio/shoot/bong00.wav"
+dest_files=["res://.godot/imported/bong00.wav-5aa3aaac62faa4d2317861976d098707.sample"]
 
 [params]
 

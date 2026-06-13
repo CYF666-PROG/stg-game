@@ -472,9 +472,12 @@ metadata/_edit_horizontal_guides_ = [36.0, 1044.0, 1024.0, 919.0]
 
 [node name="EnemyManager" type="EnemyManager" parent="." unique_id=1240991516]
 
-[node name="EffectManager" type="EffectManager" parent="." unique_id=1477197276]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=92944677]
+layer = 200
 
-[node name="LevelManager" type="LevelManager" parent="." unique_id=261955755]
+[node name="LevelManager" type="LevelManager" parent="CanvasLayer" unique_id=261955755]
+
+[node name="EffectManager" type="EffectManager" parent="." unique_id=1477197276]
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1572236081]
 offset_left = -460.0
@@ -548,7 +551,6 @@ texture = SubResource("AtlasTexture_drt2y")
 shape = SubResource("CircleShape2D_462ap")
 
 [node name="StatusUi" type="ColorRect" parent="." unique_id=1057809944]
-visible = false
 z_index = 100
 offset_left = 936.0
 offset_right = 1440.0

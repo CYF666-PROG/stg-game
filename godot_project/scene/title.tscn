@@ -8,6 +8,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=583506989]
+layout_mode = 0
+offset_left = -8.0
+offset_top = -13.0
+offset_right = 1450.0
+offset_bottom = 1091.0
+color = Color(0, 0, 0, 1)
+
 [node name="Column" type="Column" parent="." unique_id=107484935]
 layout_mode = 0
 offset_right = 40.0

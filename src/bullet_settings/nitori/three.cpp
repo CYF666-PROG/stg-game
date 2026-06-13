@@ -120,10 +120,8 @@ void Three::shoot() {
       b.rotation = b.velocity.angle() + fire_rotation_offset;
     }
   };
-
-  // ==========================================
-  // 🚀 4. 发射子弹
-  // ==========================================
+  // 音效
+  audio_manager->play("fast");
   pool->spawn(
     spawn_pos, 
     stop_and_go_behavior, 

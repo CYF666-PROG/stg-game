@@ -1,6 +1,7 @@
 #include "register_types.hpp"
 #include "game/enemy/boos.hpp"
 #include "game/enemy/boos/nitori.hpp"
+#include "game/enemy/boss_magic.hpp"
 #include "game/entity.hpp"
 #include "game/player/player.hpp"
 #include "input/keyboard.hpp"
@@ -82,6 +83,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
   GDREGISTER_CLASS(ui::BossHealth)
   GDREGISTER_CLASS(ui::CardName)
   GDREGISTER_CLASS(game::enemy::Rotate)
+  GDREGISTER_CLASS(game::enemy::BossMagic)
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {

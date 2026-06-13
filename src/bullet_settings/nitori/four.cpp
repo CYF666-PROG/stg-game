@@ -46,7 +46,10 @@ void Four::disabled(){
 void Four::shoot_player(){
   if (!run_shoot_player) return;
   // 每几帧发射
-  if (frame % 5 != 0) return;
+  if (frame % 3 != 0) return;
+  // 音效
+  audio_manager->play("fast");
+  
   double max_offset_deg = 8;    // 🌟 最大随机偏移角度（例如 10.0f，表示在玩家方向左右 ±10度内晃动）
   double bullet_speed = 2;       // 子弹发射的速度
 
@@ -153,7 +156,9 @@ void Four::shoot_ring(
   double target_radius, // 停下时的半径
   double stage2_max_speed, // 停顿后扩散的速度
   int stop_duration_frames  // 停顿的帧数
-){  
+){ 
+  // 音效
+  audio_manager->play("bong00");
   // 发射中心点
   Vector2 center_pos = get_global_position();
 

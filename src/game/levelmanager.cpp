@@ -32,6 +32,9 @@ void game::LevelManager::_physics_process(double delta){
   if (is_pause) {
     return;
   }
+  if (is_end) {
+    process_game_over_fade(delta, "res://scene/thanks.tscn", 0.2f);
+  }
   // 检查关卡
   if (level_frame >= level_2_time * 60) {
     level_2();
@@ -66,6 +69,9 @@ void game::LevelManager::_physics_process(double delta){
       min->hp = it->second.hp;
       pf->add_child(min);
     }
+  }
+  if (level_frame >= 7200) {
+    is_end = true;
   }
   if(!is_pause) level_frame += 1;
 }
@@ -494,6 +500,45 @@ void LevelManager::set_all_children_visible(){
   }
 }
 
+void LevelManager::process_game_over_fade(double delta, godot::String target_scene, float fade_speed) {
+    // 标记进入淡出状态（供 _draw 函数判断使用）
+    is_game_over_fading = true;
+
+    // 1. 每帧根据 delta 递增透明度
+    fade_alpha += fade_speed * static_cast<float>(delta);
+
+    // 2. 限制最大值为 1.0（全黑）
+    if (fade_alpha >= 1.0f) {
+        fade_alpha = 1.0f;
+        
+        // 3. 透明度达到 100%，执行场景切换
+        godot::SceneTree* tree = get_tree();
+        if (tree != nullptr) {
+            tree->change_scene_to_file(target_scene);
+        }
+        return; // 切换场景后当前节点会被销毁
+    }
+
+    // 4. 关键：每帧通知 Godot 重新绘制当前节点（触发 _draw）
+    queue_redraw();
+}
+
+void LevelManager::_draw() {
+    // 只有在游戏结束淡出时才绘制，避免平时消耗性能
+    if (is_game_over_fading && fade_alpha > 0.0f) {
+        // 获取当前视口（屏幕）的分辨率大小
+        godot::Vector2 screen_size = get_viewport_rect().size;
+        
+        // 创建一个覆盖全屏的矩形（假设 LevelManager 在 Canvas 的原点 0,0）
+        godot::Rect2 rect = godot::Rect2(godot::Vector2(0, 0), screen_size);
+        
+        // 创建黑色，Alpha 透明度由变量控制
+        godot::Color fade_color = godot::Color(0.0f, 0.0f, 0.0f, fade_alpha);
+        
+        // 调用 Godot 2D 渲染 API 绘制实心矩形
+        draw_rect(rect, fade_color);
+    }
+}
 
 void game::LevelManager::make_enemy(
     double time,

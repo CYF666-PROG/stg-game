@@ -80,7 +80,7 @@ void NitoriZero::pointed(){
     }
     pointed_burst_counter++;
     // 特效
-    audio_manager->fire_bullet();
+    audio_manager->play("fast");
     shoot_effects();
 
     godot::Vector2 center_pos = get_global_position(); 
@@ -154,7 +154,6 @@ void NitoriZero::pointed(){
             }
             if (b.velocity != godot::Vector2(0, 0)) b.rotation = rotation_offset + b.velocity.angle();
         };
-
         new_pool->spawn(center_pos, right_behavior, pointed_tex, "normal", pointed_radius, 1, 10, Vector2(1,1) * pointed_scale);
     }
 }
@@ -214,7 +213,8 @@ void NitoriZero::fire(){
   
   shoot_effects();
   godot::Vector2 center_pos = get_global_position(); 
-
+  // 特效
+  // audio_manager->play("bong00");
   // ==========================================
   // 🚀 弹幕发射双层循环
   // ==========================================

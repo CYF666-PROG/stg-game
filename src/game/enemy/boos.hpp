@@ -1,5 +1,6 @@
 #pragma once
 
+#include "boss_magic.hpp"
 #include "enemy.hpp"
 #include "../../ui/boss_health.hpp"
 #include "../../ui/card_name.hpp"
@@ -15,7 +16,9 @@ class Boos : public Enemy {
   GDCLASS(Boos, Enemy);
 
 private:
+  double befor_hp = 100;
 public:
+  game::enemy::BossMagic* boss_magic = nullptr;
   game::LevelManager* level_manager = nullptr;
   ui::CardName* card_name = nullptr;
   ui::BossHealth* health = nullptr;
@@ -30,6 +33,7 @@ public:
     shooting,
     waiting,
   };
+  // boos当前状态
   Status status = moveing;
   Status befor_status = moveing;
   // 用于标识某个动作持续的帧数 配合live_frame使用
@@ -59,6 +63,7 @@ public:
   virtual void start_5(){};
   virtual void start_6(){};
 public:
+  void update_animation() override;
   void set_level(int level);
   void entity_physics_process(double delta) override;
   virtual void hit_bullet() override;

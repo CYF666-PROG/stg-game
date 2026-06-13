@@ -10,6 +10,7 @@ Two::~Two(){
 }
 
 void Two::_ready(){
+    game::BulletManager::_ready();
     left.resize(8);
     right.resize(8);
     
@@ -19,6 +20,9 @@ void Two::_ready(){
         
         left[i]->direction = 1;   // 向左
         right[i]->direction = -1; // 向右
+
+        left[i]->audio = audio_manager;   // 向左
+        right[i]->audio = audio_manager; // 向右
     }
     re_set(); 
 }
@@ -72,6 +76,10 @@ void Two::_physics_process(double delta){
     ///检查是否处于编辑器
     if (godot::Engine::get_singleton()->is_editor_hint()){
       return;
+    }
+    //  音效
+    if (global_frame_counter % 30 == 0) {
+      audio_manager->play("bong00");
     }
     global_frame_counter++;
 

@@ -39,6 +39,8 @@ void NiToRi::_ready(){
   anima->set_sprite_frames(spr);
   anima->set_scale(Vector2(1,1) * scale);
   add_child(anima);
+  // 设置默认动画
+  anima->play("normal", 1.0, true);
   // 设置碰撞
   // 1. 创建 CollisionShape2D 子节点
   CollisionShape2D* collision_shape = memnew(CollisionShape2D);
@@ -55,12 +57,37 @@ void NiToRi::_ready(){
 void NiToRi::start_0(){
   level = 0;
   hp = 100;
+  // 特效
+  audio->play("card_start");
+  boss_magic->deploy();
   // 添加card_name
   card_name = memnew(ui::CardName);
   get_tree()->get_current_scene()->add_child(card_name);
   card_name->setup_and_play(String::utf8(u8"光学'水相伪装'"));
   auto nitori_zero = memnew(game::bullet_settings::NitoriZero);
   add_child(nitori_zero);
+  // 先设置等待
+  status = waiting;
+  wait_l = [
+    status = 0  // 等候阶段
+  ](Boos* b) mutable{
+    if (b->frame_status == 0) {
+      status++;
+    }
+    if (status == 1) {  // 符卡开始时等待
+      if (b->frame_status >= 60) {
+        b->status = shooting;
+        return;
+      }
+    }else if (status == 2) { // 非符结束等待
+      if (b->frame_status >= 60) {
+        b->status = moveing;
+        return;
+      }
+    }else {
+      b->status = shooting;
+    }
+  };
   shoot_l = [nitori_zero](Boos* b){
     if(b->frame_status == 0) {
       nitori_zero->start_shoot();
@@ -75,6 +102,7 @@ void NiToRi::start_0(){
   poss.push_back(Vector2(577,154));
   poss.push_back(Vector2(428,124));
   poss.push_back(Vector2(435,166));
+  poss.push_back(Vector2(411,204));
   move_l = [
     poss, // 位置数组
     pos_index = 0
@@ -84,9 +112,7 @@ void NiToRi::start_0(){
       b->status = shooting;
       return;
     }
-    b->frame_status++;
   };
-  status = shooting;
 }
 
 void NiToRi::start_1(){
@@ -94,6 +120,23 @@ void NiToRi::start_1(){
   hp = 100;
   auto nitori_one = memnew(game::bullet_settings::NitoriOne);
   add_child(nitori_one);
+  // 先设置等待
+  status = waiting;
+  wait_l = [
+    status = 0  // 等候阶段
+  ](Boos* b) mutable{
+    if (b->frame_status == 0) {
+      status++;
+    }
+    if (status == 1) {  // 符卡开始时等待
+      if (b->frame_status >= 60) {
+        b->status = shooting;
+        return;
+      }
+    }else {
+      b->status = shooting;
+    }
+  };
   shoot_l = [nitori_one](Boos* b){
     if(b->frame_status == 0) {
       nitori_one->start_shoot();
@@ -119,7 +162,6 @@ void NiToRi::start_1(){
     }
     b->frame_status++;
   };
-  status = shooting;
 };
 
 void NiToRi::start_2(){
@@ -128,10 +170,29 @@ void NiToRi::start_2(){
   card_name = memnew(ui::CardName);
   get_tree()->get_current_scene()->add_child(card_name);
   card_name->setup_and_play(String::utf8(u8"漂溺 '水底粼光，心中痛伤'"));
+  // 特效
+  audio->play("card_start");
+  boss_magic->deploy();
   auto nitori_two = memnew(game::bullet_settings::nitori::Two);
   add_child(nitori_two);
   nitori_two->start_shoot();
-  status = moveing;
+  // 先设置等待
+  status = waiting;
+  wait_l = [
+    status = 0  // 等候阶段
+  ](Boos* b) mutable{
+    if (b->frame_status == 0) {
+      status++;
+    }
+    if (status == 1) {  // 符卡开始时等待
+      if (b->frame_status >= 60) {
+        b->status = moveing;
+        return;
+      }
+    }else {
+      b->status = moveing;
+    }
+  };
   shoot_l = [](Boos* b){
     if (b->frame_status > 60) {
       b->status = moveing;
@@ -153,6 +214,8 @@ void NiToRi::start_2(){
 };
 
 void NiToRi::start_3(){
+  // 处理上一张卡结束音效
+  audio->play("bong00");
   level = 3;
   hp = 100;
   auto nitori_one = memnew(game::bullet_settings::NitoriOne);
@@ -203,10 +266,29 @@ void NiToRi::start_4(){
   card_name = memnew(ui::CardName);
   get_tree()->get_current_scene()->add_child(card_name);
   card_name->setup_and_play(String::utf8(u8"水符 '河童的幻想大瀑布'"));
+  // 特效
+  audio->play("card_start");
+  boss_magic->deploy();
   auto nitori_three = memnew(game::bullet_settings::nitori::Three);
   add_child(nitori_three);
   nitori_three->start_shoot();
-  status = moveing;
+  // 先设置等待
+  status = waiting;
+  wait_l = [
+    status = 0  // 等候阶段
+  ](Boos* b) mutable{
+    if (b->frame_status == 0) {
+      status++;
+    }
+    if (status == 1) {  // 符卡开始时等待
+      if (b->frame_status >= 60) {
+        b->status = moveing;
+        return;
+      }
+    }else {
+      b->status = moveing;
+    }
+  };
   shoot_l = [](Boos* b){
     if (b->frame_status > 60) {
       b->status = moveing;
@@ -228,6 +310,8 @@ void NiToRi::start_4(){
 };
 
 void NiToRi::start_5(){
+  // 处理上一张卡结束音效
+  audio->play("bong00");
   level = 5;
   hp = 100;
   auto nitori_one = memnew(game::bullet_settings::NitoriOne);
@@ -277,11 +361,37 @@ void NiToRi::start_6(){
   card_name = memnew(ui::CardName);
   get_tree()->get_current_scene()->add_child(card_name);
   card_name->setup_and_play(String::utf8(u8"河童 '水皿旋轮'"));
+  // 设置弹设
   auto nitori_four = memnew(game::bullet_settings::nitori::Four);
   add_child(nitori_four);
   nitori_four->start_shoot();
   nitori_four->disabled();
-  status = moveing;
+  // 特效
+  audio->play("card_start");
+  boss_magic->deploy();
+  // 先设置等待
+  status = waiting;
+  wait_l = [
+    status = 0  // 等候阶段
+  ](Boos* b) mutable{
+    if (b->frame_status == 0) {
+      status++;
+    }
+    if (status == 1) {  // 符卡开始时等待
+      if (b->frame_status >= 60) {
+        b->status = moveing;
+        return;
+      }
+    }else if (status == 2) { // 结束时等待
+      if (b->frame_status >= 80) {
+        b->audio->play("boos_end");
+        b->queue_free();
+        return;
+      }
+    }else {
+      b->status = moveing;
+    }
+  };
   shoot_l = [
     nitori_four,
     a = 0 // 当前将要第几轮射击 用于控制在第1轮射击后 开始向玩家射击

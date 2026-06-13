@@ -9,9 +9,11 @@ class Clear : public godot::Area2D{
 public:
   godot::CollisionShape2D* collision_shape = nullptr;
   godot::Ref<godot::CircleShape2D> circle_shape;
+
+  virtual void _on_area_entered(godot::Area2D *other_area);
   void _ready() override;
   void _physics_process(double delta) override;
-  static void _bind_methods(){};
+  static void _bind_methods();
   Clear() = default;
   ~Clear() = default;
 };

@@ -20,6 +20,7 @@ CardName::~CardName() {}
 void CardName::_ready() {
   label_node = memnew(Label);
   add_child(label_node);
+  set_z_index(100);
 }
 
 void CardName::setup_and_play(const String &p_text) {

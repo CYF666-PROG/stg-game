@@ -1,5 +1,6 @@
 #include "wave.hpp"
 #include "godot_cpp/classes/resource_loader.hpp"
+#include "godot_cpp/variant/utility_functions.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 
 using namespace game::bullet_settings::nitori;
@@ -67,7 +68,6 @@ void Wave::shoot(){
     b.velocity = velocity;
     b.rotation = pian + b.velocity.angle();
   };
-
   pool->spawn(
     spawn_pos, 
     wave_behavior_down, 

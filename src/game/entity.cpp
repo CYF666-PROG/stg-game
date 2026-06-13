@@ -84,6 +84,11 @@ void game::Entity::_physics_process(double delta)
   if (godot::Engine::get_singleton()->is_editor_hint()){
     return;
   }
+  // 计算这一帧 Area2D 的实际移动速度
+  Vector2 current_position = get_global_position();
+  // 速度 = 位移 / 时间
+  speed = (current_position - last_position); 
+  last_position = current_position; // 更新历史坐标
   entity_physics_process(delta);
 }
 

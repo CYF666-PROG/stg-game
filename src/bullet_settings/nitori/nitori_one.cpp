@@ -91,6 +91,7 @@ void game::bullet_settings::NitoriOne::sector(){
     b.velocity = Vector2(cos(shoot_rad),sin(shoot_rad)) * speed;
     b.rotation = rotation_offset + b.velocity.angle();
     };
+    audio_manager->play("fast");
     pool->spawn(
       get_global_position(),     
       linear_behavior,  

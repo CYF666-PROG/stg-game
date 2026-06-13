@@ -9,6 +9,7 @@
 namespace game::bullet_settings::nitori{
 class Wave{
 private:
+
   game::BulletPool* pool = nullptr;
   int frame_counter = 0; //帧计数器
   
@@ -18,6 +19,7 @@ private:
   double fire_radius = conf::bullet::fire::radius;
   double fire_rotation_offset = conf::bullet::fire::rotation_offset;
 public:
+  game::AudioManager* audio = nullptr;
   godot::Vector2 shoot_pos = godot::Vector2(1,1); // 发射位置
   int direction = 1; // 1向左 -1向右
   bool is_enabled = false;  // 是否启用

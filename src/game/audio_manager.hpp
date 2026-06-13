@@ -15,6 +15,7 @@ namespace game {
 struct SoundSetting {
     godot::Ref<godot::AudioStream> stream;
     double default_volume_db = 0.0; // 每个音效专属的初始音量
+    uint64_t cooldown_ms = 30; // 该音效专属的限流冷却时间（毫秒），默认 30ms 即可有效防破音
 };
 
 class AudioManager : public godot::Node {
@@ -22,7 +23,8 @@ class AudioManager : public godot::Node {
 
 private:
     static AudioManager *singleton;
-    
+    // 🌟 新增：记录每个音效最后一次分配给哪一个播放器
+    godot::Dictionary last_assigned_player;
     godot::Vector<godot::AudioStreamPlayer*> player_pool;
     int pool_size = 32;
     int current_index = 0;

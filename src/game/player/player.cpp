@@ -24,7 +24,6 @@ void game::Player::update_animation(){
     UtilityFunctions::print("not fond animation");
     return;
   }
-  float speed_x = spead.x;
   String current_anim = animation->get_animation();
 
   // 1. 核心自动接续逻辑：当非循环动画（正向或反向）播放完毕时

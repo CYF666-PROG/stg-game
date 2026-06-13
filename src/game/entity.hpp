@@ -17,13 +17,16 @@ class Entity : public godot::Area2D {
   GDCLASS(Entity, godot::Area2D)
 private:
 protected:
-  // 音频总管
-  AudioManager* audio = nullptr;
+
   /// @brief 已存活帧数
   int live_frame = 0;
   input::KeyBoard* keyboard = nullptr;
-  godot::Vector2 spead = godot::Vector2(0, 0);
+  // 计算每帧速度的变量
+  godot::Vector2 last_position;
+  godot::Vector2 speed = godot::Vector2(0, 0);
 public:
+  // 音频总管
+  AudioManager* audio = nullptr;
   double hp = 100;
   virtual void entity_physics_process(double delta);
   virtual void hit_bullet();
