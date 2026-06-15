@@ -1,7 +1,14 @@
 #include "minion.hpp"
 #include "../effect_manager.hpp"
 #include "../bullet_manager.hpp"
+#include "../../conf/bullet.hpp"
+#include "../ui_manager.hpp"
 
+#include "godot_cpp/classes/node.hpp"
+#include "godot_cpp/classes/object.hpp"
+#include "godot_cpp/variant/string.hpp"
+#include "godot_cpp/variant/utility_functions.hpp"
+#include "godot_cpp/variant/vector2.hpp"
 #include <godot_cpp/classes/animated_sprite2d.hpp>
 #include <godot_cpp/classes/path_follow2d.hpp>
 #include <godot_cpp/classes/sprite_frames.hpp> 
@@ -45,6 +52,8 @@ void game::enemy::Minion::dead(){
   );
   // 播放死亡音效
   audio->play("imp_dead");
+  // 掉落掉落物
+  add_dropped_items();
   queue_free();
 }
 
@@ -91,6 +100,125 @@ void game::enemy::Minion::update_animation(){
     }
   }
 }
+
+void Minion::add_dropped_items(){
+  double hp_up = this->hp_up+1;
+  double star_up = this->star_up+1;
+  double power_up = this->power_up+1;
+  // 获取自机
+  if (!ui) return;
+  auto player = ui->get_player();
+  if (!player) return;
+  // 加载掉落物贴图
+  ResourceLoader* loader = ResourceLoader::get_singleton();
+  Ref<SpriteFrames> spr_hp = loader->load(String(conf::power::path_hp.c_str()));
+  Ref<SpriteFrames> spr_star = loader->load(String(conf::power::path_star.c_str()));
+  Ref<SpriteFrames> spr_power = loader->load(String(conf::power::path_p.c_str()));
+  if (spr_hp.is_null()|| spr_star.is_null()|| spr_power.is_null() ){
+    UtilityFunctions::print("Minion::add_dropped_items not fond spr");
+  }
+  auto linear_behavior = [player](BulletPool::Bullet& b){
+    const float ATTRACT_RADIUS = 150.0f;
+    const float ATTRACT_SPEED = 10.0; 
+    if (!player || !player->is_inside_tree()) {
+      b.velocity = Vector2(0, 3);
+      return;
+    }
+    // 当前位置到玩家位置的向量
+    Vector2 to_player = player->get_global_position() - b.position; 
+    float distance = to_player.length(); // 获取当前距离
+    if (distance <= ATTRACT_RADIUS) {
+      // to_player.normalized() 获取方向，再乘以设定的速度
+      b.velocity = to_player.normalized() * ATTRACT_SPEED;
+    } else {
+      b.velocity = Vector2(0, 3); 
+    }
+  };
+  auto power_up_fn  = [](Node* n) -> bool {
+    auto player = Object::cast_to<game::Player>(n);
+    if (!player) return false;
+    player->add_power(0.005);
+    return true;
+  };
+  auto hp_up_fn  = [](Node* n) -> bool {
+    auto player = Object::cast_to<game::Player>(n);
+    if (!player) return false;
+    player->add_hp(3);
+    return true;
+  };
+  auto star_up_fn  = [](Node* n) -> bool {
+    auto player = Object::cast_to<game::Player>(n);
+    if (!player) return false;
+    player->add_star(3);
+    return true;
+  };
+
+  double spawn_radius = 50.0; // 随机掉落半径大小
+  // 掉落p点
+  for (int i = 0; i < int(power_up); i++) {
+    float random_angle = UtilityFunctions::randf() * Math_TAU; 
+    float random_distance = UtilityFunctions::sqrt(UtilityFunctions::randf()) * spawn_radius;
+    Vector2 offset = Vector2(
+      std::cos(random_angle) * random_distance,
+      std::sin(random_angle) * random_distance
+    );
+    Vector2 spawn_pos = get_global_position() + offset;
+    pool->spawn(
+      spawn_pos, 
+      linear_behavior, 
+      spr_power, 
+      "normal", 
+      5, 1, 10, 
+      Vector2(1,1) * conf::power::scale, 
+      Vector2(0.5,0.5), 
+      0, 
+      power_up_fn 
+    );
+  }
+  // 掉落星
+  for (int i = 0; i < int(star_up); i++) {
+    float random_angle = UtilityFunctions::randf() * Math_TAU; 
+    float random_distance = UtilityFunctions::sqrt(UtilityFunctions::randf()) * spawn_radius;
+    Vector2 offset = Vector2(
+      std::cos(random_angle) * random_distance,
+      std::sin(random_angle) * random_distance
+    );
+    Vector2 spawn_pos = get_global_position() + offset;
+    pool->spawn(
+      spawn_pos, 
+      linear_behavior, 
+      spr_star, 
+      "normal", 
+      5, 1, 10, 
+      Vector2(1,1) * conf::power::scale, 
+      Vector2(0.5,0.5), 
+      0, 
+      star_up_fn 
+    );
+  }
+  // 掉落心
+  for (int i = 0; i < int(power_up); i++) {
+    float random_angle = UtilityFunctions::randf() * Math_TAU; 
+    float random_distance = UtilityFunctions::sqrt(UtilityFunctions::randf()) * spawn_radius;
+    Vector2 offset = Vector2(
+      std::cos(random_angle) * random_distance,
+      std::sin(random_angle) * random_distance
+    );
+    Vector2 spawn_pos = get_global_position() + offset;
+    pool->spawn(
+      spawn_pos, 
+      linear_behavior, 
+      spr_hp, 
+      "normal", 
+      5, 1, 10, 
+      Vector2(1,1) * conf::power::scale, 
+      Vector2(0.5,0.5), 
+      0, 
+      hp_up_fn 
+    );
+  }
+}
+
 
 void Minion::set_animation(godot::String path){
   animation_path = path;
@@ -151,6 +279,10 @@ void Minion::_on_area_entered(godot::Area2D *other_area){
 
 void Minion::_ready(){
   Enemy::_ready();
+  pool = BulletPool::get_pool();
+  if (!pool) {
+    UtilityFunctions::print("Minion::_ready pool not foud");
+  }
 }
 
 void game::enemy::Minion::entity_physics_process(double delta) {

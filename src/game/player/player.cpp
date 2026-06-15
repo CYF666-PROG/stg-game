@@ -167,6 +167,7 @@ void Player::move(){
 void game::Player::shoot(){}
 
 void game::Player::check_orb(){
+  int orb_count = int(power);
   // 先删掉所有阴阳玉
   auto arr = get_children();
   for (auto it : arr){
@@ -176,12 +177,12 @@ void game::Player::check_orb(){
   }
   // 创建阴阳玉
   if (keyboard->is_slow){
-    if (orb_count == 1){
+    if (orb_count == 0){
       auto* tran = memnew(game::player::Transmitter_1);
       tran->player = this;
       tran->set_position(Vector2(0,-80));
       add_child(tran);
-    }else if (orb_count == 2){
+    }else if (orb_count == 1){
       auto* tran = memnew(game::player::Transmitter_1);
       tran->set_position(Vector2(28,-80));
       tran->player = this;
@@ -191,7 +192,7 @@ void game::Player::check_orb(){
       tran->player = this;
       tran->set_position(Vector2(-28,-80));
       add_child(tran);
-    }else if (orb_count == 3){
+    }else if (orb_count == 2){
       auto* tran = memnew(game::player::Transmitter_1);
       tran->player = this;
       tran->set_position(Vector2(0,-80));
@@ -228,11 +229,11 @@ void game::Player::check_orb(){
       add_child(tran);
     }
   }else{
-    if (orb_count == 1){
+    if (orb_count == 0){
       auto* tran = memnew(game::player::Transmitter_1);
       tran->set_position(Vector2(0,-80));
       add_child(tran);
-    }else if (orb_count == 2){
+    }else if (orb_count == 1){
       auto* tran = memnew(game::player::Transmitter_1);
       tran->set_position(Vector2(-60,0));
       add_child(tran);
@@ -240,7 +241,7 @@ void game::Player::check_orb(){
       tran = memnew(game::player::Transmitter_1);
       tran->set_position(Vector2(60,0));
       add_child(tran);
-    }else if (orb_count == 3){
+    }else if (orb_count == 2){
       auto* tran = memnew(game::player::Transmitter_1);
       tran->set_position(Vector2(0,-80));
       add_child(tran);
@@ -275,7 +276,6 @@ void game::Player::check_orb(){
 void Player::skill(){
   if (card < 5) return;
   card -= 5;
-  auto ui = game::UiManager::get_ui_manager();
   if (ui) {
     ui->check_player();
   }
@@ -292,7 +292,6 @@ void Player::hit_bullet(){
   if (invincible_frame) return;
   invincible_frame = 120;
   hp -= 5;
-  auto ui = UiManager::get_ui_manager();
   if (ui){
     ui->check_player();
   }
@@ -322,12 +321,24 @@ void Player::hit_bullet(){
     1.0,
     lam
   );
-  if (hp < 0) {
+  if (hp < 0 && ui) {
     ui->dead();
   }
   // 添加音效
   audio->play("player_dead");
 }
+
+void Player::add_star(int star){
+  this->card+=star;
+  if(ui) ui->check_player();
+};
+void Player::add_hp(int hp){
+  this->hp+=hp;
+  if(ui) ui->check_player();
+};
+void Player::add_power(double power){
+  this->power+=power;
+};
 
 void Player::_bind_methods(){
   godot::ClassDB::bind_method(godot::D_METHOD("set_bullet_texture", "tex"), &game::Player::set_bullet_texture);
@@ -346,18 +357,22 @@ void Player::_ready(){
   set_collision_mask_value(6, true);
   // 检查一下阴阳玉状态
   check_orb();
-  auto ui = UiManager::get_ui_manager();
-  if (ui) {
-    ui->check_player();
-  }
   // 获取音频管理器
   audio = AudioManager::get_audio();
   if (!audio) {
     UtilityFunctions::print("Player::_ready AudioManager not foud");
+  }
+  if (ui) {
+    ui->register_player(this);
+    ui->check_player();
+  }else {
+    UtilityFunctions::print("Player::_ready UiManager not find");
   }
 }
 
 game::Player::Player(){
   godot::UtilityFunctions::print("Player::Player()",keyboard);
 }
-game::Player::~Player(){}
+game::Player::~Player(){
+  if (ui) ui->logout_player();
+}

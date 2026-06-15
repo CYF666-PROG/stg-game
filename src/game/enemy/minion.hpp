@@ -3,6 +3,7 @@
 #include "enemy.hpp"
 #include "../../utility/move.hpp"
 #include "../../utility/trigger.hpp"
+#include "../bullet_pool.hpp"
 
 #include <godot_cpp/variant/vector2.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -18,10 +19,15 @@ class Minion : public game::Enemy {
 private:
 protected:
   static void _bind_methods(){}
+  game::BulletPool* pool = nullptr;
   godot::Vector2 last_global_pos = godot::Vector2(0,0);
   /// @brief 当前帧的全局速度，像素/帧
   godot::Vector2 global_speed = godot::Vector2(0,0);
 public:
+  // 死亡后的掉落
+  double power_up = 0;
+  double hp_up = 0;
+  double star_up = 0;
   godot::PathFollow2D* path_follow = nullptr;
   /// @brief 每秒多少像素
   double speed = 200;
@@ -32,6 +38,8 @@ public:
   /// 弹幕发射器
 
   // BulletManager transmitter; // 千万不能包含其他注册节点！!!!!!!!! 否则godot内存管理河cpp冲突导致崩溃
+  // 掉落物
+  void add_dropped_items();
   virtual void set_animation(godot::String path);
   virtual void dead() override;
   /// 更新动画

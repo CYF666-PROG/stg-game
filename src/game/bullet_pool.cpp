@@ -1,5 +1,6 @@
 #include "bullet_pool.hpp"
 #include "entity.hpp"
+#include "godot_cpp/classes/node.hpp"
 
 #include <godot_cpp/classes/physics_server2d.hpp>
 #include <godot_cpp/classes/rendering_server.hpp>
@@ -62,7 +63,8 @@ void BulletPool::spawn(
   int z_index,
   godot::Vector2 p_scale,
   godot::Vector2 p_anchor,
-  float p_rot
+  float p_rot,
+  std::function<bool(godot::Node*)> collision_behavior
 ) {
   if (p_sprite_frames.is_null() || !p_sprite_frames->has_animation(p_anim_name)) return;
 
@@ -80,6 +82,7 @@ void BulletPool::spawn(
       /// 设置z轴索引
       rs->canvas_item_set_z_index(b.canvas_item_rid, z_index);
       // 绑定lambda
+      b.collision_behavior = collision_behavior;
       b.behavior_fn = p_behavior;
       if (b.behavior_fn) {
         b.behavior_fn(b);
@@ -221,16 +224,24 @@ void BulletPool::_physics_process(double delta){
 
       TypedArray<Dictionary> results = space_state->intersect_shape(query, 32);
       if (results.size() > 0){
+        bool is_tu_dead = false;
         for (int i = 0; i < results.size(); ++i) {
           Dictionary collision = results[i];
           ObjectID obj_id = collision["collider_id"];
           Object *enemy = ObjectDB::get_instance(obj_id);
-          auto entity = Object::cast_to<game::Entity>(enemy);
-          if (entity != nullptr) {
-            entity->hit_bullet(); 
+          if (b.collision_behavior) {
+            auto node = Object::cast_to<Node>(enemy);
+            if (!node) continue;
+            is_tu_dead = b.collision_behavior(node);
+          }else {
+            auto entity = Object::cast_to<game::Entity>(enemy);
+            if (entity != nullptr) {
+              entity->hit_bullet(); 
+            }
+            is_tu_dead = true;
           }
         }
-        recycle_bullet(b);
+        if(is_tu_dead) recycle_bullet(b);
       }
     }
   }

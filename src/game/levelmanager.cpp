@@ -62,7 +62,11 @@ void game::LevelManager::_physics_process(double delta){
       it->second.path->add_child(pf);
       auto min = get_minion(it->second.typ,it->second.coler);
       min->path_follow = pf;
+      //  设置血量 掉落物
       min->hp = it->second.hp;
+      min->hp_up = it->second.hp_up;
+      min->power_up = it->second.power_up;
+      min->star_up = it->second.star_up;
       pf->add_child(min);
     }
   }

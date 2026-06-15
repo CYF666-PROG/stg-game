@@ -178,4 +178,15 @@ namespace imp {
   constexpr double radius = 20;
 }
 }
+namespace power {
+  inline const std::string path_p = "res://material/power/p.tres";
+  inline const std::string path_power = "res://material/power/point.tres";
+  inline const std::string path_star = "res://material/power/star.tres";
+  inline const std::string path_hp = "res://material/power/hp_up.tres";
+  /// 锚点
+  constexpr double anchor_x = 0.5;
+  constexpr double anchor_y = 0.5;
+  /// 贴图缩放
+  constexpr double scale = 2;
+}
 } // namespace conf

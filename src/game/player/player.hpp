@@ -4,11 +4,12 @@
 
 namespace game{
 
+class UiManager;
+
 class Player : public Entity{
   GDCLASS(Player, game::Entity)
 private:
   godot::Ref<godot::Texture2D> bullet_texture ;
-  int orb_count = 4;
   bool is_slow = false;
   /// 技能冷却时间 帧
   int cooldown = 0;
@@ -19,11 +20,16 @@ private:
   int hp = 40;
   /// 5个为一张符卡
   int card = 40;
+  /// 能量
+  double power = 0;
   void hit_bullet() override;
   void move();
   void shoot();
   void check_orb(); // 检查阴阳玉
   void skill();
+  void add_star(int star);
+  void add_hp(int hp);
+  void add_power(double power);
 
   void update_animation() override;
   void entity_physics_process(double delta) override ;

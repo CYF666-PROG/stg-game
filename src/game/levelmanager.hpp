@@ -40,6 +40,10 @@ private:
     double hp = 100;
     Color coler = blue;
     enemy_typ typ = IMP;
+    // 死亡后的掉落
+    double power_up = 0;
+    double hp_up = 0;
+    double star_up = 0;
     /// 轨迹对象
     godot::Path2D* path = nullptr;
     /// 轨迹组

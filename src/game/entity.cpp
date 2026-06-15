@@ -1,5 +1,6 @@
 #include "entity.hpp"
 #include "audio_manager.hpp"
+#include "ui_manager.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -35,9 +36,11 @@ void game::Entity::_physics_process(double delta){
   entity_physics_process(delta);
 }
 
-void game::Entity::_ready(){}
+void Entity::_ready(){
+}
 
 Entity::Entity(){
+  ui = game::UiManager::get_ui_manager();
   this->keyboard = input::KeyBoard::get_singleton();
   audio = AudioManager::get_audio();
   if (!audio) {
