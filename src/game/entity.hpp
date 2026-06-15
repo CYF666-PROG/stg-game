@@ -8,6 +8,9 @@
 #include <godot_cpp/classes/collision_shape2d.hpp>
 
 namespace game{
+
+class UiManager;
+
 /// @brief 实体
 class Entity : public godot::Area2D {
   GDCLASS(Entity, godot::Area2D)
@@ -20,6 +23,7 @@ protected:
   godot::Vector2 last_position;
   godot::Vector2 speed = godot::Vector2(0, 0);
 public:
+  UiManager* ui = nullptr;
   // 音频总管
   AudioManager* audio = nullptr;
   double hp = 100;

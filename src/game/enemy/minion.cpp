@@ -1,7 +1,14 @@
 #include "minion.hpp"
 #include "../effect_manager.hpp"
 #include "../bullet_manager.hpp"
+#include "../../conf/bullet.hpp"
+#include "../ui_manager.hpp"
 
+#include "godot_cpp/classes/node.hpp"
+#include "godot_cpp/classes/object.hpp"
+#include "godot_cpp/variant/string.hpp"
+#include "godot_cpp/variant/utility_functions.hpp"
+#include "godot_cpp/variant/vector2.hpp"
 #include <godot_cpp/classes/animated_sprite2d.hpp>
 #include <godot_cpp/classes/path_follow2d.hpp>
 #include <godot_cpp/classes/sprite_frames.hpp> 
@@ -45,6 +52,8 @@ void game::enemy::Minion::dead(){
   );
   // 播放死亡音效
   audio->play("imp_dead");
+  // 掉落掉落物
+  add_dropped_items(hp_up,star_up,power_up);
   queue_free();
 }
 
@@ -91,6 +100,8 @@ void game::enemy::Minion::update_animation(){
     }
   }
 }
+
+
 
 void Minion::set_animation(godot::String path){
   animation_path = path;
@@ -151,6 +162,10 @@ void Minion::_on_area_entered(godot::Area2D *other_area){
 
 void Minion::_ready(){
   Enemy::_ready();
+  pool = BulletPool::get_pool();
+  if (!pool) {
+    UtilityFunctions::print("Minion::_ready pool not foud");
+  }
 }
 
 void game::enemy::Minion::entity_physics_process(double delta) {

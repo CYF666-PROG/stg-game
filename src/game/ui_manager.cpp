@@ -24,6 +24,7 @@ using namespace conf::player;
 UiManager* UiManager::the_ui_manager = nullptr;
 
 void UiManager::check_player(){
+  if (!player) return;
   if (!load_status_ui()) return;
   // 先设为空心
   for (int i = 0; i < hearts.size(); ++i) {
@@ -38,6 +39,7 @@ void UiManager::check_player(){
   auto hp = player->hp;
   // 在根据残机修改
   for (int i = 0; i < hearts.size(); ++i) {
+    if (hearts[i] == nullptr) continue;
     if (hp - 5 >= 0) {
       hearts[i]->set_texture(hearts_tex[5]);
     }else if (hp - 4 >= 0) {
@@ -56,6 +58,7 @@ void UiManager::check_player(){
   auto card = player->card;
   // 在根据符卡数修改
   for (int i = 0; i < stars.size(); ++i) {
+    if (stars[i] == nullptr) continue;
     if (card - 5 >= 0) {
       stars[i]->set_texture(star_tex[5]);
     }else if (card - 4 >= 0) {
@@ -74,11 +77,6 @@ void UiManager::check_player(){
 }
 
 bool UiManager::load_status_ui(){
-  player = get_node<Player>("/root/play/Player");
-  if (!player) {
-    UtilityFunctions::print("UiManager::check_player not found /root/play/Player");
-    return false;
-  }
   status_ui = get_node<ColorRect>("/root/play/StatusUi");
   if (!status_ui) {
     UtilityFunctions::print("UiManager::check_player not found /root/play/StatusUi");
@@ -133,6 +131,12 @@ bool UiManager::load_status_ui(){
       return false;
     }
     stars[i] = star;
+  }
+  // 获取power数字
+  number = get_node<Label>("/root/play/StatusUi/power/number");
+  if (!number) {
+    UtilityFunctions::print("/root/play/StatusUi/power/number not foud");
+    return false;
   }
   return true;
 }
@@ -251,9 +255,20 @@ void UiManager::_physics_process(double delta){
       restart();
     }
   }
+
+  // 更新power
+  if(status_typ == PLAYING) updeat_power();
   was_esc_pressed = keyboard->is_esc;
   ++frame;
 }
+
+void UiManager::updeat_power(){
+  if (!number && !player) return;
+
+  godot::String formatted_text = godot::String::num(player->power, 2);
+  number->set_text(formatted_text);
+}
+
 
 void UiManager::update_menu(){
   auto keyboard = input::KeyBoard::get_singleton();
@@ -345,6 +360,11 @@ void UiManager::quit(){
   }
 };
 
+void UiManager::game_end(){
+  status_typ = TITLE;
+}
+
+
 void UiManager::restart(){
   auto level = game::LevelManager::get_singleton();
   if (!level) {
@@ -372,6 +392,16 @@ void UiManager::restart(){
   load_status_ui();
   load_menu();
 };
+
+void UiManager::register_player(game::Player* player){
+  if (this->player == nullptr) {
+    this->player = player;
+  }
+}
+void UiManager::logout_player(){
+  this->player = nullptr;
+}
+
 
 void UiManager::_ready(){
   the_ui_manager = this;

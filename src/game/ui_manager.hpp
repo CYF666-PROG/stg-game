@@ -22,6 +22,7 @@ private:
   game::Player* player = nullptr;
   godot::ColorRect* status_ui = nullptr;
   game::AudioManager* audio = nullptr;
+  godot::Label* number = nullptr;
   std::vector<godot::Ref<godot::AtlasTexture>> hearts_tex;
   std::vector<godot::Ref<godot::AtlasTexture>> star_tex;
   std::vector<godot::Sprite2D*> hearts;
@@ -51,6 +52,11 @@ private:
   void dead();
   void quit();
   void restart();
+  void updeat_power();
+  game::Player* get_player(){return player;};
+  void register_player(game::Player* player); // 注册自机
+  void logout_player(); // 取消注册自机
+  void game_end();
 
   void _physics_process(double delta) override;
   void _ready() override;

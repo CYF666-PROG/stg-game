@@ -40,6 +40,10 @@ private:
     double hp = 100;
     Color coler = blue;
     enemy_typ typ = IMP;
+    // 死亡后的掉落
+    double power_up = 0;
+    double hp_up = 0;
+    double star_up = 0;
     /// 轨迹对象
     godot::Path2D* path = nullptr;
     /// 轨迹组
@@ -75,23 +79,19 @@ public:
   /// @param time 出场时间
   /// @param typ 类型
   /// @param path 轨迹对象
-  /// @param moves 轨迹数组
-  void make_enemy(
-    double time,
-    enemy_typ typ, 
-    godot::Path2D* path, 
-    std::vector<std::unique_ptr<utility::Move>> moves
-  );
-  /// @brief 
-  /// @param time 出场时间
-  /// @param typ 类型
-  /// @param path 轨迹对象
+  /// @param hp 生命值
+  /// @param power_up 掉落p点
+  /// @param hp_up 掉落生命
+  /// @param star_up 掉落星
   void make_enemy(
     double time,
     enemy_typ typ,
     Color color,
     godot::Path2D* path,
-    double hp
+    double hp,
+    double power_up = 1,
+    double hp_up = 0,
+    double star_up = 0
   );
   void make_boos(double time, enemy_typ typ, int level);
   bool is_pause = false;

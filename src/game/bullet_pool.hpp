@@ -1,5 +1,6 @@
 #pragma once
 
+#include "godot_cpp/classes/node.hpp"
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/classes/texture2d.hpp>
 #include <godot_cpp/classes/sprite_frames.hpp> 
@@ -46,8 +47,10 @@ public:
     BulletConfig config;
     float anim_timer = 0.0f;
     int current_frame = -1; 
-
-    std::function<void(Bullet&)> behavior_fn;
+    // 运动函数
+    std::function<void(Bullet&)> behavior_fn = nullptr;
+    // 碰撞回调
+    std::function<bool(godot::Node*)> collision_behavior = nullptr;
   };
 
 private:
@@ -65,8 +68,7 @@ public:
   void _ready();
   void _physics_process(double delta);
 
-  // 修改后的 spawn 接口，追加了 p_scale 和 p_anchor
-  /// 初始坐标 运动函数 贴图 动画名称 判定点半径 碰撞层遮罩3为对第1,2层 z轴索引 缩放 锚点 初始角度rad 
+  /// 初始坐标 运动函数 贴图 动画名称 判定点半径 碰撞层遮罩3为对第1,2层 z轴索引 缩放 锚点 初始角度rad 碰撞回调
   void spawn( 
     godot::Vector2 p_pos, 
     std::function<void(Bullet&)> p_behavior, 
@@ -77,7 +79,8 @@ public:
     int z_index = 10,
     godot::Vector2 p_scale = godot::Vector2(1.0f, 1.0f),
     godot::Vector2 p_anchor = godot::Vector2(0.5f, 0.5f),
-    float p_rot = 0
+    float p_rot = 0,
+    std::function<bool(godot::Node*)> collision_behavior = nullptr
   );
   
   void recycle_bullet(Bullet &bullet);

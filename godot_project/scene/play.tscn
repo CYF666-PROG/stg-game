@@ -664,6 +664,28 @@ texture = ExtResource("4_0u7nf")
 position = Vector2(322, 251)
 texture = ExtResource("4_0u7nf")
 
+[node name="power" type="Node2D" parent="StatusUi" unique_id=448525640]
+
+[node name="power" type="Label" parent="StatusUi/power" unique_id=1846808545]
+offset_left = 11.0
+offset_top = 319.0
+offset_right = 87.0
+offset_bottom = 357.0
+theme_override_colors/font_color = Color(0.59442014, 0.00025846213, 0.59441596, 1)
+theme_override_font_sizes/font_size = 25
+text = "Power :"
+horizontal_alignment = 1
+
+[node name="number" type="Label" parent="StatusUi/power" unique_id=490241184]
+offset_left = 120.0
+offset_top = 319.0
+offset_right = 196.0
+offset_bottom = 357.0
+theme_override_colors/font_color = Color(0.59442014, 0.00025846213, 0.59441596, 1)
+theme_override_font_sizes/font_size = 25
+text = "114514"
+horizontal_alignment = 1
+
 [node name="ColorRect" type="ColorRect" parent="StatusUi" unique_id=529390725]
 layout_mode = 0
 offset_left = -935.0

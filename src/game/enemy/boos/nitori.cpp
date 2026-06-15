@@ -71,13 +71,14 @@ void NiToRi::start_0(){
     if (b->frame_status == 0) {
       status++;
     }
-    if (status == 1) {  // 符卡开始时等待
+    if (status == 1) {  // 非符开始时等待
       if (b->frame_status >= 60) {
         b->status = shooting;
         return;
       }
     }else if (status == 2) { // 非符结束等待
       if (b->frame_status >= 60) {
+        b->add_dropped_items(1, 1, 30);
         b->status = moveing;
         return;
       }
@@ -391,6 +392,7 @@ void NiToRi::start_6(){
     }else if (status == 2) { // 结束时等待
       if (b->frame_status >= 80) {
         b->audio->play("boos_end");
+        b->add_dropped_items(1, 1, 30);
         b->queue_free();
         return;
       }
