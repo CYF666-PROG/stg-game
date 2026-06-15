@@ -222,7 +222,7 @@ void BulletPool::_physics_process(double delta){
       query->set_shape_rid(b.shape_rid); 
       query->set_transform(xform); 
 
-      TypedArray<Dictionary> results = space_state->intersect_shape(query, 32);
+      TypedArray<Dictionary> results = space_state->intersect_shape(query, 1);
       if (results.size() > 0){
         bool is_tu_dead = false;
         for (int i = 0; i < results.size(); ++i) {

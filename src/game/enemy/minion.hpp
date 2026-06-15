@@ -38,8 +38,6 @@ public:
   /// 弹幕发射器
 
   // BulletManager transmitter; // 千万不能包含其他注册节点！!!!!!!!! 否则godot内存管理河cpp冲突导致崩溃
-  // 掉落物
-  void add_dropped_items();
   virtual void set_animation(godot::String path);
   virtual void dead() override;
   /// 更新动画

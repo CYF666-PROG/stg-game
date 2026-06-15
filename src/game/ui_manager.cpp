@@ -39,6 +39,7 @@ void UiManager::check_player(){
   auto hp = player->hp;
   // 在根据残机修改
   for (int i = 0; i < hearts.size(); ++i) {
+    if (hearts[i] == nullptr) continue;
     if (hp - 5 >= 0) {
       hearts[i]->set_texture(hearts_tex[5]);
     }else if (hp - 4 >= 0) {
@@ -57,6 +58,7 @@ void UiManager::check_player(){
   auto card = player->card;
   // 在根据符卡数修改
   for (int i = 0; i < stars.size(); ++i) {
+    if (stars[i] == nullptr) continue;
     if (card - 5 >= 0) {
       stars[i]->set_texture(star_tex[5]);
     }else if (card - 4 >= 0) {
@@ -357,6 +359,11 @@ void UiManager::quit(){
     }
   }
 };
+
+void UiManager::game_end(){
+  status_typ = TITLE;
+}
+
 
 void UiManager::restart(){
   auto level = game::LevelManager::get_singleton();

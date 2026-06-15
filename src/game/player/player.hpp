@@ -22,6 +22,7 @@ private:
   int card = 40;
   /// 能量
   double power = 0;
+  double befor_power = 0;
   void hit_bullet() override;
   void move();
   void shoot();

@@ -7,6 +7,7 @@
 #include "godot_cpp/classes/global_constants.hpp"
 #include "godot_cpp/core/memory.hpp"
 #include "godot_cpp/variant/string.hpp"
+#include "ui_manager.hpp"
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -30,6 +31,9 @@ void game::LevelManager::_physics_process(double delta){
   }
   if (is_end) {
     process_game_over_fade(delta, "res://scene/thanks.tscn", 0.2f);
+    auto ui = game::UiManager::get_ui_manager();
+    if(ui) ui->game_end();
+    return;
   }
   // 检查关卡
   if (level_frame >= level_2_time * 60) {
@@ -122,8 +126,8 @@ void LevelManager::level_2(){
   // level_2开始的秒
   double t = level_2_time;
 
-  make_enemy(t + 1, BIG_butterfly,red, get_path2d("level2/left_up"),100);
-  make_enemy(t + 1, BIG_butterfly,red, get_path2d("level2/right_up"),100);
+  make_enemy(t + 1, BIG_butterfly,red, get_path2d("level2/left_up"),100,20,0,0);
+  make_enemy(t + 1, BIG_butterfly,red, get_path2d("level2/right_up"),100,10,0,1);
 
   make_enemy(t + 4, IMP,red, get_path2d("level2/left_up_2"),20);
   make_enemy(t + 4.2, IMP,blue, get_path2d("level2/left_up_3"),20);
@@ -191,8 +195,8 @@ void LevelManager::level_2(){
       make_enemy(i + t, IMP,color, get_path2d(path),50);
     }
   }
-  make_enemy(t + 38, BIG_butterfly,red, get_path2d("level2/left_up"),100);
-  make_enemy(t + 38, BIG_butterfly,red, get_path2d("level2/right_up"),100);
+  make_enemy(t + 38, BIG_butterfly,red, get_path2d("level2/left_up"),100,20,0,0);
+  make_enemy(t + 38, BIG_butterfly,red, get_path2d("level2/right_up"),100,10,1,0);
   for (double i = 50; i <= 55; i += 0.2) {
     String path ;
     int a = UtilityFunctions::randi_range(1, 4);
@@ -227,7 +231,7 @@ void LevelManager::level_3(){
   double t = level_3_time;
   for (int i = 0;i < 2 ; i++) {
     double t = level_3_time + double(i) * 6 ;
-    make_enemy(t, BIG_butterfly,red, get_path2d("level3/left_up"),100);
+    make_enemy(t, BIG_butterfly,red, get_path2d("level3/left_up"),100,10,0,0);
     for (double j = t;j < t + 1.5 ; j += 0.2) {
       String path ;
       int a = UtilityFunctions::randi_range(1, 8);
@@ -246,7 +250,7 @@ void LevelManager::level_3(){
       if (a == 3) color = yellow;
       make_enemy(j, IMP,color, get_path2d(path),20);
     }
-    make_enemy(t + 3, BIG_butterfly,red, get_path2d("level3/right_up"),100);
+    make_enemy(t + 3, BIG_butterfly,red, get_path2d("level3/right_up"),100,10,0,0);
     for (double j = t+3;j < t + 1.5 + 3 ; j += 0.2) {
       String path ;
       int a = UtilityFunctions::randi_range(1, 8);
@@ -346,8 +350,8 @@ void LevelManager::level_3(){
     if (a == 4) color = brown;
     make_enemy(t1, Rotate, color, get_path2d("level3/up_1"),20);
   }// 37.5
-  make_enemy(t + 39.5, BIG_butterfly,red, get_path2d("level3/up_down"),100);
-  make_enemy(t + 39.5, BIG_butterfly,red, get_path2d("level3/up_down_2"),100);
+  make_enemy(t + 39.5, BIG_butterfly,red, get_path2d("level3/up_down"),100,20,0,0);
+  make_enemy(t + 39.5, BIG_butterfly,red, get_path2d("level3/up_down_2"),100,5,1,1);
 
   make_boos(t + 44.5, NITORI, 1);
 }
@@ -512,25 +516,24 @@ void LevelManager::_draw() {
   }
 }
 
-void game::LevelManager::make_enemy(
-    double time,
-    enemy_typ typ,
-    godot::Path2D *path,
-    std::vector<std::unique_ptr<utility::Move>> moves
-) {
-  enemy senemy ;
-  senemy.moves = std::move(moves) ;
-  senemy.path = path;
-  senemy.typ = typ ;
-  level_timeline.emplace(time, std::move(senemy));
-}
-
-void game::LevelManager::make_enemy(double time, enemy_typ typ, Color color, godot::Path2D *path, double hp){
+void game::LevelManager::make_enemy(    
+  double time,
+  enemy_typ typ,
+  Color color,
+  godot::Path2D* path,
+  double hp,
+  double power_up,
+  double hp_up,
+  double star_up
+){
   enemy senemy ;
   senemy.path = path;
   senemy.typ = typ ;
   senemy.coler = color;
   senemy.hp = hp;
+  senemy.power_up = power_up;
+  senemy.hp_up = hp_up;
+  senemy.star_up = star_up;
   level_timeline.emplace(time*60, std::move(senemy));
 }
 

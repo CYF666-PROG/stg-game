@@ -180,52 +180,52 @@ void game::Player::check_orb(){
     if (orb_count == 0){
       auto* tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(0,-80));
+      tran->set_position(Vector2(0,-50));
       add_child(tran);
     }else if (orb_count == 1){
       auto* tran = memnew(game::player::Transmitter_1);
-      tran->set_position(Vector2(28,-80));
+      tran->set_position(Vector2(16,-38));
       tran->player = this;
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(-28,-80));
+      tran->set_position(Vector2(-16,-38));
       add_child(tran);
     }else if (orb_count == 2){
       auto* tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(0,-80));
+      tran->set_position(Vector2(0,-40));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(72,-35));
+      tran->set_position(Vector2(35,38));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(-72,35));
+      tran->set_position(Vector2(-35,38));
       add_child(tran);
     }else{
       auto* tran = memnew(player::Transmitter_1(player::Transmitter_1::orb_Typ::Blue));
       tran->player = this;
-      tran->set_position(Vector2(64,-49));
+      tran->set_position(Vector2(60,-49));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(-64,-49));
+      tran->set_position(Vector2(-60,-49));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(25,-76));
+      tran->set_position(Vector2(20,-76));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
       tran->player = this;
-      tran->set_position(Vector2(-25,-76));
+      tran->set_position(Vector2(-20,-76));
       add_child(tran);
     }
   }else{
@@ -243,15 +243,15 @@ void game::Player::check_orb(){
       add_child(tran);
     }else if (orb_count == 2){
       auto* tran = memnew(game::player::Transmitter_1);
-      tran->set_position(Vector2(0,-80));
+      tran->set_position(Vector2(0,-50));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
-      tran->set_position(Vector2(-60,0));
+      tran->set_position(Vector2(55,38));
       add_child(tran);
 
       tran = memnew(game::player::Transmitter_1);
-      tran->set_position(Vector2(-60,0));
+      tran->set_position(Vector2(-55,38));
       add_child(tran);
     }else{
       auto* tran = memnew(player::Transmitter_1(player::Transmitter_1::orb_Typ::Blue));
@@ -324,20 +324,28 @@ void Player::hit_bullet(){
   if (hp < 0 && ui) {
     ui->dead();
   }
+  if (power >= 1.0) power -= 1;
   // 添加音效
   audio->play("player_dead");
 }
 
 void Player::add_star(int star){
+  if(this->card >= 40) return;
   this->card+=star;
   if(ui) ui->check_player();
 };
 void Player::add_hp(int hp){
+  if(this->hp >= 40) return;
   this->hp+=hp;
   if(ui) ui->check_player();
 };
 void Player::add_power(double power){
+  if(this->power >= 3.0) return;
   this->power+=power;
+  if (int(befor_power) != int(this->power)) {
+    check_orb();
+  }
+  befor_power = this->power;
 };
 
 void Player::_bind_methods(){

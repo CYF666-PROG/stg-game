@@ -56,6 +56,7 @@ private:
   game::Player* get_player(){return player;};
   void register_player(game::Player* player); // 注册自机
   void logout_player(); // 取消注册自机
+  void game_end();
 
   void _physics_process(double delta) override;
   void _ready() override;

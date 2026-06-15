@@ -1,5 +1,7 @@
 #include "enemy.hpp"
 #include "enemy_manager.hpp"
+#include "../ui_manager.hpp"
+#include "../../conf/bullet.hpp"
 
 #include "godot_cpp/classes/animated_sprite2d.hpp"
 #include "godot_cpp/classes/circle_shape2d.hpp"
@@ -52,6 +54,123 @@ void Enemy::set_coll_sprite_frames(godot::String path, double d, double scale){
   add_child(collision);
 }
 
+void Enemy::add_dropped_items(double hp_up, double star_up, double power_up){
+  // 获取自机
+  if (!ui) return;
+  auto player = ui->get_player();
+  if (!player) return;
+  // 加载掉落物贴图
+  ResourceLoader* loader = ResourceLoader::get_singleton();
+  Ref<SpriteFrames> spr_hp = loader->load(String(conf::power::path_hp.c_str()));
+  Ref<SpriteFrames> spr_star = loader->load(String(conf::power::path_star.c_str()));
+  Ref<SpriteFrames> spr_power = loader->load(String(conf::power::path_p.c_str()));
+  if (spr_hp.is_null()|| spr_star.is_null()|| spr_power.is_null() ){
+    UtilityFunctions::print("Minion::add_dropped_items not fond spr");
+  }
+  auto linear_behavior = [player, is_track = false](BulletPool::Bullet& b) mutable{
+    const float ATTRACT_RADIUS = 150.0f;
+    const float ATTRACT_SPEED = 10.0; 
+    if (!player || !player->is_inside_tree()) {
+      b.velocity = Vector2(0, 3);
+      return;
+    }
+    // 当前位置到玩家位置的向量
+    Vector2 to_player = player->get_global_position() - b.position; 
+    float distance = to_player.length(); // 获取当前距离
+    if (is_track) {
+      // to_player.normalized() 获取方向，再乘以设定的速度
+      b.velocity = to_player.normalized() * ATTRACT_SPEED;
+    } else {
+      b.velocity = Vector2(0, 3); 
+      // 离子机近或者自机在屏幕上方
+      is_track = (distance <= ATTRACT_RADIUS || player->get_global_position().y < 290);
+    }
+  };
+  auto power_up_fn  = [](Node* n) -> bool {
+    auto player = Object::cast_to<game::Player>(n);
+    if (!player) return false;
+    player->add_power(0.02);
+    return true;
+  };
+  auto hp_up_fn  = [](Node* n) -> bool {
+    auto player = Object::cast_to<game::Player>(n);
+    if (!player) return false;
+    player->add_hp(5);
+    return true;
+  };
+  auto star_up_fn  = [](Node* n) -> bool {
+    auto player = Object::cast_to<game::Player>(n);
+    if (!player) return false;
+    player->add_star(5);
+    return true;
+  };
+
+  double spawn_radius = 50.0; // 随机掉落半径大小
+  // 掉落p点
+  for (int i = 0; i < int(power_up); i++) {
+    float random_angle = UtilityFunctions::randf() * Math_TAU; 
+    float random_distance = UtilityFunctions::sqrt(UtilityFunctions::randf()) * spawn_radius;
+    Vector2 offset = Vector2(
+      std::cos(random_angle) * random_distance,
+      std::sin(random_angle) * random_distance
+    );
+    Vector2 spawn_pos = get_global_position() + offset;
+    pool->spawn(
+      spawn_pos, 
+      linear_behavior, 
+      spr_power, 
+      "normal", 
+      5, 1, 10, 
+      Vector2(1,1) * conf::power::scale, 
+      Vector2(0.5,0.5), 
+      0, 
+      power_up_fn 
+    );
+  }
+  // 掉落星
+  for (int i = 0; i < int(star_up); i++) {
+    float random_angle = UtilityFunctions::randf() * Math_TAU; 
+    float random_distance = UtilityFunctions::sqrt(UtilityFunctions::randf()) * spawn_radius;
+    Vector2 offset = Vector2(
+      std::cos(random_angle) * random_distance,
+      std::sin(random_angle) * random_distance
+    );
+    Vector2 spawn_pos = get_global_position() + offset;
+    pool->spawn(
+      spawn_pos, 
+      linear_behavior, 
+      spr_star, 
+      "normal", 
+      5, 1, 10, 
+      Vector2(1,1) * conf::power::scale, 
+      Vector2(0.5,0.5), 
+      0, 
+      star_up_fn 
+    );
+  }
+  // 掉落心
+  for (int i = 0; i < int(hp_up); i++) {
+    float random_angle = UtilityFunctions::randf() * Math_TAU; 
+    float random_distance = UtilityFunctions::sqrt(UtilityFunctions::randf()) * spawn_radius;
+    Vector2 offset = Vector2(
+      std::cos(random_angle) * random_distance,
+      std::sin(random_angle) * random_distance
+    );
+    Vector2 spawn_pos = get_global_position() + offset;
+    pool->spawn(
+      spawn_pos, 
+      linear_behavior, 
+      spr_hp, 
+      "normal", 
+      5, 1, 10, 
+      Vector2(1,1) * conf::power::scale, 
+      Vector2(0.5,0.5), 
+      0, 
+      hp_up_fn 
+    );
+  }
+}
+
 
 void game::Enemy::_ready(){
   // 清除所有碰撞层
@@ -71,6 +190,10 @@ void game::Enemy::_ready(){
     return;
   }
   enm_man->register_enemy(this);
+  pool = BulletPool::get_pool();
+  if (!pool) {
+    UtilityFunctions::print("Minion::_ready pool not foud");
+  }
 }
 
 Enemy::Enemy(){}
